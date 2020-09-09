@@ -95,6 +95,7 @@
 	ln -sv ~/.dotfiles/lutris/lutris.conf ~/.config/lutris
 	ln -sv ~/.dotfiles/smplayer/smplayer.ini ~/.config/smplayer
 	ln -sv ~/.dotfiles/termite/config ~/.config/termite
+	rm ~/.bashrc
 	ln -sv ~/.dotfiles/.bashrc ~/
 	ln -sv ~/.dotfiles/.Xresources ~/
 	ln -sv ~/.dotfiles/backup.sh ~/
