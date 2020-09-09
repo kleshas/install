@@ -85,8 +85,6 @@
 	sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 	sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 
-
-mkdir ~/.dotfiles
 git clone https://github.com/kleshas/install.git ~/.dotfiles
 ln -sv ~/.dotfiles/chatty/settings ~/.chatty
 ln -sv ~/.dotfiles/cherrytree/config.cfg ~/.config/cherrytree
