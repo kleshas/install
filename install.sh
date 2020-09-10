@@ -98,9 +98,6 @@
 	rm ~/.bashrc
 	ln -sv ~/.dotfiles/.bashrc ~/
 	ln -sv ~/.dotfiles/.Xresources ~/
-	ln -sv ~/.dotfiles/backup.sh ~/
-	ln -sv ~/.dotfiles/dotfiles.sh ~/
-	ln -sv ~/.dotfiles/install.sh ~/
 
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 	echo "kernel.dmesg_restrict = 1" | sudo tee -a /etc/sysctl.d/50-dmesg-restrict.conf
