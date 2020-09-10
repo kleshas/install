@@ -22,7 +22,7 @@
 	yay --noconfirm cups
 	yay --noconfirm deadbeef
 	yay --noconfirm dunst
-	yay --noconfirm electronmail and tutanota
+	yay --noconfirm electronmail
 	yay --noconfirm evince-light
 	yay --noconfirm file-roller
 	yay --noconfirm firefox
