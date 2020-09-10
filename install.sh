@@ -113,4 +113,4 @@
 	sudo systemctl daemon-reload
 	echo "--save /etc/pacman.d/mirrorlist --country 'United States' --protocol https --age 12 --sort rate --latest 5" |sudo tee -a /etc/xdg/reflector/reflector.conf
 	sudo systemctl enable reflector.timer
-	echo "alias multimc='vblank_mode=0 multimc" |sudo tee -a ~/.bashrc
+	echo "alias multimc='vblank_mode=0 multimc &'" |sudo tee -a ~/.bashrc
