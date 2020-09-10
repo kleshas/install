@@ -51,6 +51,7 @@
 	yay --noconfirm radeon-profile-daemon-git
 	yay --noconfirm redshift
 	yay --noconfirm rofi
+	mkdir ~/.config/rofi
 	touch ~/.config/rofi/config
 	yay --noconfirm smplayer
 	yay --noconfirm steam
