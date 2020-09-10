@@ -96,6 +96,7 @@
 	cd ~/.config
 	ln -sv ~/.dotfiles/i3 .
 	chmod +x ~/.config/i3/volume
+	mkdir ~/.config/lutris
 	ln -sv ~/.dotfiles/lutris/lutris.conf ~/.config/lutris
 	mkdir ~/.config/smplayer
 	ln -sv ~/.dotfiles/smplayer/smplayer.ini ~/.config/smplayer
