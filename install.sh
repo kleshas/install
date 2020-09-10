@@ -1,7 +1,7 @@
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
 	sudo pacman -S reflector
-	sudo relfector --country 'United States' --age 12 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
+	sudo reflector --country 'United States' --age 12 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
 	sudo pacman -S git
 	git clone https://aur.archlinux.org/yay.git
 	cd yay
