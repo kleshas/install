@@ -39,7 +39,6 @@
 	yay --noconfirm lutris
 	yay --noconfirm mlocate
 	sudo updatedb
-	yay --noconfirm mullvad-vpn-bin
 	yay --noconfirm multimc
 	yay --noconfirm noto-fonts-emoji
 	yay --noconfirm ntfs-3g
