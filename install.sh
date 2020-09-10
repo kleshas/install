@@ -47,7 +47,7 @@
 	yay --noconfirm pacman-contrib
 	yay --noconfirm pavucontrol
 	yay --noconfirm pcmanfm-gtk3
-	yay --noconfirm pulseaudio
+	sudo pacman -S pulseaudio
 	yay --noconfirm radeon-profile-daemon-git
 	sudo systemctl enable radeon-profile-daemon.service
 	yay --noconfirm redshift
