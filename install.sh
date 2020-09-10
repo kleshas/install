@@ -44,7 +44,7 @@
 	sudo pacman -S --noconfirm mlocate
 	sudo updatedb
 	sudo pacman -S --noconfirm mullvad-vpn-bin
-	sudo pacman -S --noconfirm ultimc
+	sudo pacman -S --noconfirm multimc
 	sudo pacman -S --noconfirm noto-fonts-emoji
 	sudo pacman -S --noconfirm ntfs-3g
 	sudo pacman -S --noconfirm numix-circle-arc
