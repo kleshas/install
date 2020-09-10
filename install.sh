@@ -45,6 +45,7 @@
 	yay --noconfirm numix-circle-arc
 	yay --noconfirm pacman-contrib
 	yay --noconfirm pavucontrol
+	yay --noconfirm picom
 	yay --noconfirm pcmanfm-gtk3
 	sudo pacman -S pulseaudio
 	yay --noconfirm radeon-profile-daemon-git
