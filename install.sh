@@ -86,14 +86,18 @@
 	sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 
 	git clone https://github.com/kleshas/install.git ~/.dotfiles
+	mkdir ~/.chatty
 	ln -sv ~/.dotfiles/chatty/settings ~/.chatty
+	mkdir ~/.config/cherrytree
 	ln -sv ~/.dotfiles/cherrytree/config.cfg ~/.config/cherrytree
+	mkdir ~/.config/dunst
 	ln -sv ~/.dotfiles/dunst/dunstrc ~/.config/dunst
 	cd ~/.config
 	ln -sv ~/.dotfiles/i3 .
 	chmod +x ./config/i3/volume
 	ln -sv ~/.dotfiles/lutris/lutris.conf ~/.config/lutris
 	ln -sv ~/.dotfiles/smplayer/smplayer.ini ~/.config/smplayer
+	mkdir ~/.config/termite
 	ln -sv ~/.dotfiles/termite/config ~/.config/termite
 	rm ~/.bashrc
 	ln -sv ~/.dotfiles/.bashrc ~/
