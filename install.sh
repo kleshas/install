@@ -53,6 +53,8 @@
 	yay --noconfirm rofi
 	mkdir ~/.config/rofi
 	touch ~/.config/rofi/config
+	wpg-install.sh -r
+	wpg-install.sh -d
 	yay --noconfirm smplayer
 	yay --noconfirm steam
 	yay --noconfirm streamlink-twitch-gui
