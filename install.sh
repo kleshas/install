@@ -2,10 +2,6 @@
 	sudo pacman -Syu
 	sudo pacman -S reflector
 	sudo reflector --country 'United States' --age 12 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
-	sudo pacman -S git
-	git clone https://aur.archlinux.org/yay.git
-	cd yay
-	makepkg -si
 
 	sudo pacman -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server
     	sudo pacman -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau
@@ -63,7 +59,7 @@
 	yay --noconfirm sysstat
 	yay --noconfirm thunderbird
 	yay --noconfirm transmission-gtk
-	yay --noconfirm ttd-dejavu
+	yay --noconfirm ttf-dejavu
 	yay --noconfirm ttf-droid
 	yay --noconfirm ttf-liberation
 	yay --noconfirm ttf-ms-fonts
@@ -76,7 +72,7 @@
 	sudo systemctl enable cups-browsed.service
 
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
-    sudo pacman -Sc --noconfirm
+    	sudo pacman -Sc --noconfirm
 
 	sudo systemctl enable fstrim.timer
 
