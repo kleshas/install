@@ -70,6 +70,7 @@
 	yay --noconfirm unrar
 	yay --noconfirm veracrypt
 	yay --noconfirm wget
+	yay --noconfirm winetricks
 	yay --noconfirm xdotool
 
 	sudo systemctl enable org.cups.cupsd.service
