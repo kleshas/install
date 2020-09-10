@@ -49,6 +49,7 @@
 	yay --noconfirm pcmanfm-gtk3
 	yay --noconfirm pulseaudio
 	yay --noconfirm radeon-profile-daemon-git
+	sudo systemctl enable radeon-profile-daemon.service
 	yay --noconfirm redshift
 	yay --noconfirm rofi
 	mkdir ~/.config/rofi
