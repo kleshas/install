@@ -8,69 +8,69 @@
 	makepkg -si
 
 	sudo pacman -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server
-    sudo pacman -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau
+    	sudo pacman -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau
 
-    yay -S i3-gaps
-    yay -S i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh wpgtk-git
+    	yay -S i3-gaps
+    	yay -S i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh wpgtk-git
 	yay -S lightdm lightdm-gtk-greeter
 	sudo systemctl enable lightdm.service
 
-	sudo pacman -S --noconfirm alsa-utils  
-	sudo pacman -S --noconfirm android-file-transfer
-	sudo pacman -S --noconfirm arc-gtk-theme
-	sudo pacman -S --noconfirm calibre-python3
+	yay --noconfirm alsa-utils  
+	yay --noconfirm android-file-transfer
+	yay --noconfirm arc-gtk-theme
+	yay --noconfirm calibre-python3
 	sudo calibre-alternatives set 3
-	sudo pacman -S --noconfirm chatty
-	sudo pacman -S --noconfirm cherrytree-bin
-	sudo pacman -S --noconfirm conky-git
-	sudo pacman -S --noconfirm cups
-	sudo pacman -S --noconfirm deadbeef
-	sudo pacman -S --noconfirm dunst
-	sudo pacman -S --noconfirm electronmail and tutanota
-	sudo pacman -S --noconfirm evince-light
-	sudo pacman -S --noconfirm file-roller
-	sudo pacman -S --noconfirm firefox
-	sudo pacman -S --noconfirm grsync
-	sudo pacman -S --noconfirm gvfs
-	sudo pacman -S --noconfirm hddtemp
-	sudo pacman -S --noconfirm hplip
-	sudo pacman -S --noconfirm htop
-	sudo pacman -S --noconfirm hunspell-en_CA
-	sudo pacman -S --noconfirm jdk8-openjdk
-	sudo pacman -S --noconfirm keepassxc
-	sudo pacman -S --noconfirm krita
-	sudo pacman -S --noconfirm libreoffice-fresh
-	sudo pacman -S --noconfirm lutris
-	sudo pacman -S --noconfirm mlocate
+	yay --noconfirm chatty
+	yay --noconfirm cherrytree-bin
+	yay --noconfirm conky-git
+	yay --noconfirm cups
+	yay --noconfirm deadbeef
+	yay --noconfirm dunst
+	yay --noconfirm electronmail and tutanota
+	yay --noconfirm evince-light
+	yay --noconfirm file-roller
+	yay --noconfirm firefox
+	yay --noconfirm grsync
+	yay --noconfirm gvfs
+	yay --noconfirm hddtemp
+	yay --noconfirm hplip
+	yay --noconfirm htop
+	yay --noconfirm hunspell-en_CA
+	yay --noconfirm jdk8-openjdk
+	yay --noconfirm keepassxc
+	yay --noconfirm krita
+	yay --noconfirm libreoffice-fresh
+	yay --noconfirm lutris
+	yay --noconfirm mlocate
 	sudo updatedb
-	sudo pacman -S --noconfirm mullvad-vpn-bin
-	sudo pacman -S --noconfirm multimc
-	sudo pacman -S --noconfirm noto-fonts-emoji
-	sudo pacman -S --noconfirm ntfs-3g
-	sudo pacman -S --noconfirm numix-circle-arc
-	sudo pacman -S --noconfirm pacman-contrib
-	sudo pacman -S --noconfirm pavucontrol
-	sudo pacman -S --noconfirm pcmanfm-gtk3
-	sudo pacman -S --noconfirm pulseaudio
-	sudo pacman -S --noconfirm radeon-profile-daemon-git
-	sudo pacman -S --noconfirm redshift
-	sudo pacman -S --noconfirm rofi
+	yay --noconfirm mullvad-vpn-bin
+	yay --noconfirm multimc
+	yay --noconfirm noto-fonts-emoji
+	yay --noconfirm ntfs-3g
+	yay --noconfirm numix-circle-arc
+	yay --noconfirm pacman-contrib
+	yay --noconfirm pavucontrol
+	yay --noconfirm pcmanfm-gtk3
+	yay --noconfirm pulseaudio
+	yay --noconfirm radeon-profile-daemon-git
+	yay --noconfirm redshift
+	yay --noconfirm rofi
 	touch ~/.config/rofi/config
-	sudo pacman -S --noconfirm smplayer
-	sudo pacman -S --noconfirm steam
-	sudo pacman -S --noconfirm streamlink-twitch-gui
-	sudo pacman -S --noconfirm sublime-text-dev
-	sudo pacman -S --noconfirm sysstat
-	sudo pacman -S --noconfirm thunderbird
-	sudo pacman -S --noconfirm transmission-gtk
-	sudo pacman -S --noconfirm ttd-dejavu
-	sudo pacman -S --noconfirm ttf-droid
-	sudo pacman -S --noconfirm ttf-liberation
-	sudo pacman -S --noconfirm ttf-ms-fonts
-	sudo pacman -S --noconfirm unrar
-	sudo pacman -S --noconfirm veracrypt
-	sudo pacman -S --noconfirm wget
-	sudo pacman -S --noconfirm xdotool
+	yay --noconfirm smplayer
+	yay --noconfirm steam
+	yay --noconfirm streamlink-twitch-gui
+	yay --noconfirm sublime-text-dev
+	yay --noconfirm sysstat
+	yay --noconfirm thunderbird
+	yay --noconfirm transmission-gtk
+	yay --noconfirm ttd-dejavu
+	yay --noconfirm ttf-droid
+	yay --noconfirm ttf-liberation
+	yay --noconfirm ttf-ms-fonts
+	yay --noconfirm unrar
+	yay --noconfirm veracrypt
+	yay --noconfirm wget
+	yay --noconfirm xdotool
 
 	sudo systemctl enable org.cups.cupsd.service
 	sudo systemctl enable cups-browsed.service
@@ -84,7 +84,8 @@
 	sudo ln -s /etc/fonts/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
 	sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 	sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
-
+	
+#dotfiles
 	git clone https://github.com/kleshas/install.git ~/.dotfiles
 	mkdir ~/.chatty
 	ln -sv ~/.dotfiles/chatty/settings ~/.chatty
@@ -102,7 +103,8 @@
 	rm ~/.bashrc
 	ln -sv ~/.dotfiles/.bashrc ~/
 	ln -sv ~/.dotfiles/.Xresources ~/
-
+	
+#system files
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 	echo "kernel.dmesg_restrict = 1" | sudo tee -a /etc/sysctl.d/50-dmesg-restrict.conf
 	echo "Storage=none" |sudo tee -a /etc/systemd/coredump.conf
