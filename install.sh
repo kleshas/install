@@ -14,8 +14,7 @@
 	yay --noconfirm alsa-utils  
 	yay --noconfirm android-file-transfer
 	yay --noconfirm arc-gtk-theme
-	yay --noconfirm calibre-python3
-	sudo calibre-alternatives set 3
+	yay --noconfirm calibre
 	yay --noconfirm chatty
 	yay --noconfirm cherrytree-bin
 	yay --noconfirm conky-git
