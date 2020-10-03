@@ -96,6 +96,7 @@
 	rm ~/.bashrc
 	ln -sv ~/.dotfiles/.bashrc ~/
 	ln -sv ~/.dotfiles/.Xresources ~/
+	chmod +x ~/.config/i3/ConkyMatic-master/conkymatic.sh
 #system files
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 	echo "kernel.dmesg_restrict = 1" | sudo tee -a /etc/sysctl.d/50-dmesg-restrict.conf
