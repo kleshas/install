@@ -2,15 +2,15 @@
 	sudo pacman -Syu
 	sudo pacman -S reflector
 	sudo reflector --country 'United States' --age 12 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
-
+pause
 	sudo pacman -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server
     	sudo pacman -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau
-
+pause
     	yay -S i3-gaps
     	yay -S i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh wpgtk-git
 	yay -S lightdm lightdm-gtk-greeter
 	sudo systemctl enable lightdm.service
-
+pause
 	yay --noconfirm alsa-utils  
 	yay --noconfirm android-file-transfer
 	yay --noconfirm arc-gtk-theme
@@ -19,6 +19,7 @@
 	yay --noconfirm cherrytree-bin
 	yay --noconfirm conky-git
 	yay --noconfirm cups
+	pause
 	yay --noconfirm deadbeef
 	yay --noconfirm dunst
 	yay --noconfirm electronmail
@@ -28,6 +29,7 @@
 	yay --noconfirm grsync
 	yay --noconfirm gvfs
 	yay --noconfirm hddtemp
+	pause
 	yay --noconfirm hplip
 	yay --noconfirm htop
 	yay --noconfirm hunspell-en_CA
@@ -38,6 +40,7 @@
 	yay --noconfirm lutris
 	yay --noconfirm mlocate
 	sudo updatedb
+	pause
 	yay --noconfirm multimc
 	yay --noconfirm noto-fonts-emoji
 	yay --noconfirm ntfs-3g
@@ -45,6 +48,7 @@
 	yay --noconfirm pacman-contrib
 	yay --noconfirm pavucontrol
 	yay --noconfirm pcmanfm-gtk3
+	pause
 	sudo pacman -S pulseaudio
 	yay --noconfirm radeon-profile-daemon-git
 	sudo systemctl enable radeon-profile-daemon.service
@@ -54,18 +58,21 @@
 	touch ~/.config/rofi/config
 	wpg-install.sh -r
 	wpg-install.sh -d
+	pause
 	yay --noconfirm smplayer
 	yay --noconfirm steam
 	yay --noconfirm streamlink-twitch-gui
 	yay --noconfirm sublime-text-dev
 	yay --noconfirm sysstat
 	yay --noconfirm thunderbird
+	pause
 	yay --noconfirm transmission-gtk
 	yay --noconfirm ttf-dejavu
 	yay --noconfirm ttf-droid
 	yay --noconfirm ttf-liberation
 	yay --noconfirm ttf-ms-fonts
 	yay --noconfirm unrar
+	pause
 	yay --noconfirm veracrypt
 	yay --noconfirm wget
 	yay --noconfirm winetricks
@@ -78,12 +85,12 @@
     	sudo pacman -Sc --noconfirm
 
 	sudo systemctl enable fstrim.timer
-
+pause
 #Font configuration
 	sudo ln -s /etc/fonts/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
 	sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 	sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
-	
+	pause
 #dotfiles
 	git clone https://github.com/kleshas/install.git ~/.dotfiles
 	mkdir ~/.chatty
@@ -104,7 +111,7 @@
 	rm ~/.bashrc
 	ln -sv ~/.dotfiles/.bashrc ~/
 	ln -sv ~/.dotfiles/.Xresources ~/
-	
+	pause
 #system files
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 	echo "kernel.dmesg_restrict = 1" | sudo tee -a /etc/sysctl.d/50-dmesg-restrict.conf
