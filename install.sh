@@ -1,3 +1,4 @@
+	exec 2>~/error.log
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
 	sudo pacman -S --noconfirm reflector
