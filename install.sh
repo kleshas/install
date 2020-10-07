@@ -74,6 +74,7 @@
     	yay --noconfirm digimend-kernel-drivers-dkms-git
 
     	sudo modprobe -r hid-kye hid-uclogic hid-polostar hid-viewsonic
+	xinput map-to-output ‘HID 256c:006e Pen Pen (0)’ DisplayPort-2
 
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
     	sudo pacman -Sc --noconfirm
