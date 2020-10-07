@@ -70,6 +70,10 @@
 	sudo pacman -S --noconfirm xdotool
 	sudo systemctl enable org.cups.cupsd.service
 	sudo systemctl enable cups-browsed.service
+	sudo pacman -S linux-headers
+    	yay --noconfirm digimend-kernel-drivers-dkms-git
+
+    	sudo modprobe -r hid-kye hid-uclogic hid-polostar hid-viewsonic
 
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
     	sudo pacman -Sc --noconfirm
