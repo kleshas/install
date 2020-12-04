@@ -1,0 +1,1 @@
+xinput map-to-output 'HID 256c:006e Pen (0)' DisplayPort-2
