@@ -91,7 +91,7 @@
 	mkdir ~/.config/dunst
 	ln -sv ~/.dotfiles/dunst/dunstrc ~/.config/dunst
 	cd ~/.config
-	ln -sv ~/.dotfiles/i3 .
+	ln -sv ~/.dotfiles/i3 ~/.config/i3
 	chmod +x ~/.config/i3/volume
 	mkdir ~/.config/lutris
 	ln -sv ~/.dotfiles/lutris/lutris.conf ~/.config/lutris
