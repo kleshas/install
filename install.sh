@@ -60,7 +60,7 @@
 	wpg-install.sh -d
 	sudo pacman -S smplayer
 	sudo pacman -S steam
-	sudo pacman -S streamlink-twitch-gui
+	yay streamlink-twitch-gui
 	yay sublime-text-dev
 	sudo pacman -S sysstat
 	sudo pacman -S thunderbird
