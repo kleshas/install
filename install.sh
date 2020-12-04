@@ -74,8 +74,6 @@
 	sudo pacman -S wget
 	sudo pacman -S winetricks
 	sudo pacman -S xdotool
-	sudo systemctl enable org.cups.cupsd.service
-	sudo systemctl enable cups-browsed.service
 	sudo pacman -S linux-headers
     	yay --noconfirm digimend-kernel-drivers-dkms-git
 
