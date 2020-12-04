@@ -14,7 +14,7 @@
 	sudo pacman -S arc-gtk-theme
 	sudo pacman -S calibre
 	yay chatty
-	yay cherrytree-bin
+	yay cherrytree
 	yay conky-git
 	sudo pacman -S cups
 	sudo pacman -S deadbeef
