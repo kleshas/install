@@ -6,7 +6,13 @@
 	sudo pacman -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server
     	sudo pacman -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau
     	sudo pacman -S i3-gaps
-    	yay i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh wpgtk-git
+    	yay i3blocks
+	yay i3lock-fancy-dualmonitors-git
+	yay xorg-xdpyinfo
+	yay lxappearance-gtk3
+	yay termite
+	yay feh
+	yay wpgtk-git
 	sudo pacman -S lightdm lightdm-gtk-greeter
 	sudo systemctl enable lightdm.service
 	sudo pacman -S alsa-utils  
