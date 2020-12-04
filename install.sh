@@ -1,80 +1,80 @@
 	exec 2>~/error.log
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
-	sudo pacman -S --noconfirm reflector
+	sudo pacman -S reflector
 	sudo reflector --country 'United States' --age 12 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
-	sudo pacman -S --noconfirm xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server
-    	sudo pacman -S --noconfirm lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau
-    	sudo pacman -S --noconfirm i3-gaps
+	sudo pacman -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server
+    	sudo pacman -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau
+    	sudo pacman -S i3-gaps
     	yay i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh wpgtk-git
-	sudo pacman -S --noconfirm lightdm lightdm-gtk-greeter
+	sudo pacman -S lightdm lightdm-gtk-greeter
 	sudo systemctl enable lightdm.service
-	sudo pacman -S --noconfirm alsa-utils  
-	sudo pacman -S --noconfirm android-file-transfer
-	sudo pacman -S --noconfirm arc-gtk-theme
-	sudo pacman -S --noconfirm calibre
+	sudo pacman -S alsa-utils  
+	sudo pacman -S android-file-transfer
+	sudo pacman -S arc-gtk-theme
+	sudo pacman -S calibre
 	yay chatty
 	yay cherrytree-bin
 	yay conky-git
-	sudo pacman -S --noconfirm cups
-	sudo pacman -S --noconfirm deadbeef
-	sudo pacman -S --noconfirm dunst
+	sudo pacman -S cups
+	sudo pacman -S deadbeef
+	sudo pacman -S dunst
 	yay electronmail
 	yay evince-light
-	sudo pacman -S --noconfirm file-roller
-	sudo pacman -S --noconfirm firefox
-	sudo pacman -S --noconfirm grsync
-	sudo pacman -S --noconfirm gvfs
-	sudo pacman -S --noconfirm hddtemp
-	sudo pacman -S --noconfirm hplip
-	sudo pacman -S --noconfirm htop
-	sudo pacman -S --noconfirm hunspell-en_CA
-	sudo pacman -S --noconfirm jdk8-openjdk
-	sudo pacman -S --noconfirm keepassxc
-	sudo pacman -S --noconfirm krita
-	sudo pacman -S --noconfirm libreoffice-fresh
-	sudo pacman -S --noconfirm lutris
-	sudo pacman -S --noconfirm mlocate
+	sudo pacman -S file-roller
+	sudo pacman -S firefox
+	sudo pacman -S grsync
+	sudo pacman -S gvfs
+	sudo pacman -S hddtemp
+	sudo pacman -S hplip
+	sudo pacman -S htop
+	sudo pacman -S hunspell-en_CA
+	sudo pacman -S jdk8-openjdk
+	sudo pacman -S keepassxc
+	sudo pacman -S krita
+	sudo pacman -S libreoffice-fresh
+	sudo pacman -S lutris
+	sudo pacman -S mlocate
 	sudo updatedb
 	yay multimc
-	sudo pacman -S --noconfirm noto-fonts-emoji
-	sudo pacman -S --noconfirm ntfs-3g
+	sudo pacman -S noto-fonts-emoji
+	sudo pacman -S ntfs-3g
 	yay numix-circle-arc
-	sudo pacman -S --noconfirm pacman-contrib
-	sudo pacman -S --noconfirm pavucontrol
-	sudo pacman -S --noconfirm pcmanfm-gtk3
-	sudo pacman -S --noconfirm pulseaudio
+	sudo pacman -S pacman-contrib
+	sudo pacman -S pavucontrol
+	sudo pacman -S pcmanfm-gtk3
+	sudo pacman -S pulseaudio
 	yay radeon-profile-daemon-git
 	sudo systemctl enable radeon-profile-daemon.service
-	sudo pacman -S --noconfirm redshift
-	sudo pacman -S --noconfirm rofi
+	sudo pacman -S redshift
+	sudo pacman -S rofi
 	mkdir ~/.config/rofi
 	touch ~/.config/rofi/config
 	wpg-install.sh -r
 	wpg-install.sh -d
-	sudo pacman -S --noconfirm smplayer
-	sudo pacman -S --noconfirm steam
-	sudo pacman -S --noconfirm streamlink-twitch-gui
+	sudo pacman -S smplayer
+	sudo pacman -S steam
+	sudo pacman -S streamlink-twitch-gui
 	yay sublime-text-dev
-	sudo pacman -S --noconfirm sysstat
-	sudo pacman -S --noconfirm thunderbird
-	sudo pacman -S --noconfirm transmission-gtk
-	sudo pacman -S --noconfirm ttf-dejavu
-	sudo pacman -S --noconfirm ttf-droid
-	sudo pacman -S --noconfirm ttf-liberation
+	sudo pacman -S sysstat
+	sudo pacman -S thunderbird
+	sudo pacman -S transmission-gtk
+	sudo pacman -S ttf-dejavu
+	sudo pacman -S ttf-droid
+	sudo pacman -S ttf-liberation
 	yay ttf-ms-fonts
-	sudo pacman -S --noconfirm unrar
-	sudo pacman -S --noconfirm veracrypt
-	sudo pacman -S --noconfirm wget
-	sudo pacman -S --noconfirm winetricks
-	sudo pacman -S --noconfirm xdotool
+	sudo pacman -S unrar
+	sudo pacman -S veracrypt
+	sudo pacman -S wget
+	sudo pacman -S winetricks
+	sudo pacman -S xdotool
 	sudo systemctl enable org.cups.cupsd.service
 	sudo systemctl enable cups-browsed.service
 	sudo pacman -S linux-headers
     	yay --noconfirm digimend-kernel-drivers-dkms-git
 
     	sudo modprobe -r hid-kye hid-uclogic hid-polostar hid-viewsonic
-	xinput map-to-output ‘HID 256c:006e Pen Pen (0)’ DisplayPort-2
+	xinput map-to-output 'HID 256c:006e Pen Pen (0)' DisplayPort-2
 
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
     	sudo pacman -Sc --noconfirm
