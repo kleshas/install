@@ -110,7 +110,7 @@ workspace $ws2 output DVI-D-0
 workspace $ws3 output DisplayPort-2
 workspace $ws4 output DisplayPort-2
 workspace $ws5 output DisplayPort-2
-workspace $ws6 output DisplayPort-2
+workspace $ws6 output HDMI-A-0
 workspace $ws7 output DisplayPort-2
 workspace $ws8 output DisplayPort-2
 workspace $ws9 output DisplayPort-2
@@ -199,7 +199,7 @@ hide_edge_borders none
 
 bindsym $mod+Shift+w exec wpg -m; exec "sh -c 'sleep 5; bash /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh'"
 bindsym $mod+Shift+s exec "bash /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh"
-bindsym $mod+Shift+x exec "bash /home/bhava/xinput.sh"
+bindsym $mod+Shift+x exec "bash /home/bhava/kamvas.sh"
 bindsym $mod+Shift+b exec termite -e "bash /home/bhava/backup.sh"
 
 # lock system
@@ -250,6 +250,7 @@ assign [class="Veracrypt"] $ws10
 assign [class="keepassxc"] $ws10
 
 # autostart applications
+exec_always --no-startup-id /home/bhava/kamvas.sh
 exec --no-startup-id electron-mail
 exec_always --no-startup-id xrdb -merge $HOME/.Xresources
 exec --no-startup-id dunst
@@ -258,6 +259,6 @@ exec --no-startup-id firefox
 exec --no-startup-id redshift-gtk -l 48.26:-123.21
 exec --no-startup-id nm-applet
 exec --no-startup-id "wpg -m"
-exec --no-startup-id "bash /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh"
+exec --no-startup-id /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh
 exec --no-startup-id "xdotool key --clearmodifiers Num_Lock"
 exec --no-startup-id picom -CGb --config /dev/null
