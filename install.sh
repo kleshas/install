@@ -30,6 +30,7 @@
 	sudo pacman -S file-roller
 	sudo pacman -S firefox
 	sudo pacman -S grsync
+	sudo pacman -S gthumb
 	sudo pacman -S gvfs
 	sudo pacman -S hddtemp
 	sudo pacman -S hplip
