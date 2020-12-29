@@ -50,6 +50,7 @@
 	sudo pacman -S pavucontrol
 	sudo pacman -S pcmanfm-gtk3
 	sudo pacman -S pulseaudio
+	sudo pacman -S qbittorrent
 	yay radeon-profile-daemon-git
 	sudo systemctl enable radeon-profile-daemon.service
 	sudo pacman -S redshift
@@ -64,7 +65,6 @@
 	yay sublime-text-dev
 	sudo pacman -S sysstat
 	sudo pacman -S thunderbird
-	sudo pacman -S transmission-gtk
 	sudo pacman -S ttf-dejavu
 	sudo pacman -S ttf-droid
 	sudo pacman -S ttf-liberation
