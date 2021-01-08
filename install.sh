@@ -76,6 +76,7 @@
 	sudo pacman -S winetricks
 	sudo pacman -S xdotool
 	sudo pacman -S linux-headers
+	yay xnconvert
     	yay digimend-kernel-drivers-dkms-git
 
     	sudo modprobe -r hid-kye hid-uclogic hid-polostar hid-viewsonic
