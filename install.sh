@@ -32,6 +32,7 @@
 	sudo pacman -S gvfs
 	sudo pacman -S hddtemp
 	sudo pacman -S hplip
+	sudo systemctl enable cups.service
 	sudo pacman -S htop
 	sudo pacman -S hunspell-en_CA
 	sudo pacman -S jdk8-openjdk
