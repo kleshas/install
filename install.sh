@@ -35,6 +35,7 @@
 	sudo systemctl enable cups.service
 	sudo pacman -S htop
 	sudo pacman -S hunspell-en_CA
+	yay input-wacom-dkms
 	sudo pacman -S jdk8-openjdk
 	sudo pacman -S keepassxc
 	sudo pacman -S krita
