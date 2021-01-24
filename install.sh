@@ -54,6 +54,7 @@
 	yay radeon-profile-daemon-git
 	sudo systemctl enable radeon-profile-daemon.service
 	sudo pacman -S redshift
+	yay reflector
 	sudo pacman -S rofi
 	mkdir ~/.config/rofi
 	touch ~/.config/rofi/config
