@@ -1,8 +1,6 @@
 	exec 2>~/error.log
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
-	sudo pacman -S reflector
-	sudo reflector --country 'United States' --age 12 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
 	sudo pacman -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server
     	sudo pacman -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau
     	sudo pacman -S i3-gaps
@@ -78,8 +76,6 @@
 	sudo pacman -S linux-headers
 	yay xnconvert
     	yay digimend-kernel-drivers-dkms-git
-
-    	sudo modprobe -r hid-kye hid-uclogic hid-polostar hid-viewsonic
 	
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
     	sudo pacman -Sc
