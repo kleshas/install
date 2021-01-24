@@ -40,9 +40,9 @@
 	sudo pacman -S keepassxc
 	sudo pacman -S krita
 	sudo pacman -S libreoffice-fresh
+	sudo pacman -S linux-headers
 	sudo pacman -S lutris
 	sudo pacman -S mlocate
-	sudo updatedb
 	yay multimc
 	sudo pacman -S noto-fonts-emoji
 	sudo pacman -S ntfs-3g
@@ -76,7 +76,7 @@
 	sudo pacman -S wget
 	sudo pacman -S winetricks
 	sudo pacman -S xdotool
-	sudo pacman -S linux-headers
+	sudo pacman -S xf86-wacom-list
 	yay xnconvert
 	
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
