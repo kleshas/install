@@ -77,7 +77,6 @@
 	sudo pacman -S xdotool
 	sudo pacman -S linux-headers
 	yay xnconvert
-    	yay digimend-kernel-drivers-dkms-git
 	
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
     	sudo pacman -Sc
