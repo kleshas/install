@@ -119,3 +119,4 @@
 	echo "--country 'United States' --protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist
 " |sudo tee /etc/xdg/reflector/reflector.conf
 	sudo systemctl enable reflector.service
+	sudo systemctl enable cups.service
