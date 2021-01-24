@@ -42,6 +42,7 @@
 	sudo pacman -S libreoffice-fresh
 	sudo pacman -S linux-headers
 	sudo pacman -S lutris
+	sudo pacman -S mcomix
 	sudo pacman -S mlocate
 	yay multimc
 	sudo pacman -S noto-fonts-emoji
