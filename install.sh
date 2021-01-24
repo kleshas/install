@@ -116,8 +116,6 @@
 	echo "kernel.dmesg_restrict = 1" | sudo tee -a /etc/sysctl.d/50-dmesg-restrict.conf
 	echo "Storage=none" |sudo tee -a /etc/systemd/coredump.conf
 	sudo systemctl daemon-reload
-	mkdir /etc/xdg/reflector
-	touch /etc/xdg/reflector/reflector.conf
 	echo "--country 'United States' --protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist
 " |sudo tee /etc/xdg/reflector/reflector.conf
 	sudo systemctl enable reflector.service
