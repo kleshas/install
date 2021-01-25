@@ -250,7 +250,6 @@ assign [class="Veracrypt"] $ws10
 assign [class="keepassxc"] $ws10
 
 # autostart applications
-exec_always --no-startup-id /home/bhava/kamvas.sh
 exec --no-startup-id electron-mail
 exec_always --no-startup-id xrdb -merge $HOME/.Xresources
 exec --no-startup-id dunst
