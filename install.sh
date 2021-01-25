@@ -121,3 +121,4 @@
 " |sudo tee /etc/xdg/reflector/reflector.conf
 	sudo systemctl enable reflector.service
 	sudo systemctl enable cups.service
+	hostnamectl set-hostname arch
