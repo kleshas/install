@@ -27,6 +27,8 @@
 	yay evince-light
 	sudo pacman -S file-roller
 	sudo pacman -S firefox
+	sudo pacman -S geany
+	yay geany-themes
 	sudo pacman -S grsync
 	sudo pacman -S gthumb
 	sudo pacman -S gvfs
@@ -65,7 +67,6 @@
 	sudo pacman -S smplayer
 	sudo pacman -S steam
 	yay streamlink-twitch-gui
-	yay sublime-text-dev
 	sudo pacman -S sysstat
 	sudo pacman -S thunderbird
 	sudo pacman -S ttf-dejavu
