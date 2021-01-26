@@ -37,6 +37,7 @@
 	sudo systemctl enable cups.service
 	sudo pacman -S htop
 	sudo pacman -S hunspell-en_CA
+	yay hyphen-en
 	yay input-wacom-dkms
 	sudo pacman -S jdk8-openjdk
 	sudo pacman -S keepassxc
