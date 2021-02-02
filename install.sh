@@ -24,7 +24,6 @@
 	sudo pacman -S deadbeef
 	sudo pacman -S dunst
 	yay electronmail
-	yay evince-light
 	sudo pacman -S file-roller
 	sudo pacman -S firefox
 	sudo pacman -S geany
@@ -82,6 +81,7 @@
 	sudo pacman -S xdotool
 	sudo pacman -S xf86-wacom-list
 	yay xnconvert
+	sudo pacman -S zathura
 	
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
     	sudo pacman -Sc
