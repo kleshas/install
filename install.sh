@@ -54,6 +54,7 @@
 	sudo pacman -S pacman-contrib
 	sudo pacman -S pavucontrol
 	sudo pacman -S pcmanfm-gtk3
+	sudo pacman -S picom	
 	sudo pacman -S pulseaudio
 	sudo pacman -S qbittorrent
 	yay radeon-profile-daemon-git
