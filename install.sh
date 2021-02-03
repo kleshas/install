@@ -28,6 +28,7 @@
 	sudo pacman -S firefox
 	sudo pacman -S geany
 	yay geany-themes
+	sudo pacman -S gnome-screenshot
 	sudo pacman -S grsync
 	sudo pacman -S gthumb
 	sudo pacman -S gvfs
