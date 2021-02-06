@@ -1,0 +1,136 @@
+#Notable difference between the 2 types of encryption this document deals with:
+	LVM ON LUKS - one passphrase for the single LUKS container, no matter how many OS partitions are on it
+	Simple partition on LUKS - one passphrase for every partition on luks
+
+#create the bootable USB key
+	sudo dd bs=4M if=/path/to/archlinux.img of=/path/to/USBkey && sync
+
+#First things first
+	timedatectl set-ntp true
+	ls /sys/firmware/efi #efivars folder present means you are in EFI mode
+    gdisk automatically aligns partitions
+	From now on, assumption is we want to install arch onto /dev/sda
+	NOTE:  do not delete any data partitions or GPT/MBR on disks which have data partitions like /dev/sda4
+	gdisk /dev/sda then x / z / y / y will erase GPT on /dev/sda
+	gdisk /dev/sda #sda being the disk we want to install arch onto
+	sda1 - 1024MiB EFI partition #Hex code ef00 (100MB recommended, 1024MiB so you can have multiple kernels)
+	sda2 - rest of disk for partition to be encrypted #Hex code 8300 
+	mkfs.fat -F32 /dev/sda1 #unless using existing ESP.  Must be F32 if using ESP
+
+#Set up the encryption
+	cryptsetup -y  -i 5000 -s 512 -h sha512 --use-random luksFormat /dev/sda2
+	cryptsetup luksDump /dev/sda2 #checks that encryption was successful
+	cryptsetup luksOpen /dev/sda2 luks #luks being the name for the encrypted partition
+
+#Create logical volumes - if Simple partition layout with LUKS, this is not needed
+	pvcreate /dev/mapper/luks #luks being the name chosen in previous step
+	vgcreate vg /dev/mapper/luks
+	lvcreate --size 25G vg --name root
+	lvcreate -l +100%FREE vg --name home
+	lvs #to check
+
+#EITHER:
+    #Create filesystems on encrypted partitions (LVM on LUKS)
+        mkfs.ext4 /dev/mapper/vg-root
+        mkfs.ext4 /dev/mapper/vg-home
+    OR:
+    #Create filesystems on encrypted partitions (Simple partition layout with LUKS)
+		mkfs.ext4 /dev/mapper/luks
+		#if separate partitions for /home and/or others, then more steps required, with large disadvantages
+
+#EITHER:
+    #mount the new system (LVM on LUKS)
+		mount /dev/mapper/vg-root /mnt
+		mkdir /mnt/home
+		mount /dev/mapper/vg-home /mnt/home
+		mkdir /mnt/boot
+		mount /dev/sda1 /mnt/boot
+    OR:
+    #mount the new system (Simple partition layout with LUKS)
+		mount /dev/mapper/luks /mnt
+		mkdir /mnt/boot
+		mount /dev/sda1 /mnt/boot
+
+#install the system
+	pacman -Sy
+	reflector --country 'United States' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+	pacman -S archlinux-keyring
+	pacstrap /mnt base base-devel linux e2fsprogs nano linux-firmware lvm2 cryptsetup
+	genfstab -pU /mnt >> /mnt/etc/fstab
+	change relatime on all non-boot partitions to noatime if SSD.  You don't want discard (continuous trim), rather use the fstrim timer below 
+
+#enter new system
+	arch-chroot /mnt /bin/bash
+
+#settings
+	ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
+	hwclock --systohc --utc #set the hw clock to UTC
+	echo SYSTEMNAME > /etc/hostname #choose a name for SYSTEMNAME
+    
+#update locale
+	nano /etc/locale.gen #to uncomment en_CA.UTF-8
+	locale-gen
+	echo LANG=en_CA.UTF-8 > /etc/locale.conf	#or locale > /etc/locale.conf
+
+#passwords and accounts
+	passwd #to change root password
+	useradd -m -g users -G wheel -s /bin/bash kleshas #kleshas being the new account name
+	passwd kleshas
+	EDITOR=nano visudo #and uncomment the %wheel ALL=(ALL) line.  Add Defaults rootpw to the bottom to prompt non-wheel users for root pw when using sudo
+	pacman -S intel-ucode   #if you have intel CPU
+	nano /etc/mkinitcpio.conf #add "keyboard encrypt lvm2" before "filesystems" in the HOOKS section #lvm2 not needed for Simple partition layout with LUKS
+	mkinitcpio -p linux
+
+#bootctl
+	bootctl install
+	nano /boot/loader/loader.conf #and edit: 
+		default arch
+		timeout 3
+		editor 0
+	nano /boot/loader/entries/arch.conf #add:
+		title Arch Linux
+		linux /vmlinuz-linux
+		initrd /intel-ucode.img
+		initrd /initramfs-linux.img
+    save and exit nano.
+    echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda2):luks:allow-discards root=/dev/mapper/luks rw" >> /boot/loader/entries/arch.conf
+    So, at the bottom of the file you'll have
+		    EITHER:
+			... root=/dev/mapper/vg-root if using LVM on LUKS
+		    OR:
+			... root=/dev/mapper/luks if using Simple partition layout with LUKS
+
+#install network, using systemd-networkd
+    sudo systemctl enable systemd-networkd.service
+    networkctl list gives the interfaces to use on the Name line
+    sudo nano /etc/systemd/network/20-wired.network
+        [Match]
+        Name=eno1
+        [Network]
+        DHCP=yes
+    save and exit
+    sudo systemctl enable systemd-resolved.service
+  
+#clean up install process
+	exit
+	umount -R /mnt
+	reboot
+
+#Log on as 'kleshas' #whatever account you created earlier
+	sudo nano /etc/pacman.conf #to uncomment the 2 multilib lines
+
+#tweak fstab 
+    sudo nano /etc/fstab #change any SSD entries to noatime and add on a new line:	tmpfs	/home/kleshas/.cache	tmpfs	rw,noatime,nodev,nosuid,size=10G 0 0
+ 
+#improve compilation speeds
+    sudo nano /etc/makepkg.conf #edit to read MAKEFLAGS="-j8" 8 is CPU threads in system, and edit COMPRESSXZ=(xz -c -z - --threads=0)
+
+#complete the installation of software packages etc.
+    mkdir ~/.dotfiles
+    sudo pacman -Syu
+    sudo pacman -S git
+    git clone https://github.com/kleshas/install.git ~/.dotfiles #This is the github password!
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si
+    bash ~/.dotfiles/install.sh
