@@ -94,8 +94,6 @@
 #dotfiles
 	mkdir ~/.chatty
 	ln -sv ~/.dotfiles/chatty/settings ~/.chatty
-	mkdir ~/.cache/keepassxc
-	ln -sv ~/.dotfiles/keepassxc/keepassxc.ini ~/.cache
 	mkdir ~/.config/cherrytree
 	ln -sv ~/.dotfiles/cherrytree/config.cfg ~/.config/cherrytree
 	mkdir ~/.config/dunst
