@@ -49,7 +49,6 @@
 	sudo pacman -S mlocate
 	yay multimc
 	sudo pacman -S noto-fonts-emoji
-	sudo pacman -S ntfs-3g
 	yay numix-circle-arc
 	sudo pacman -S pacman-contrib
 	sudo pacman -S pavucontrol
