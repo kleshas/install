@@ -34,7 +34,6 @@
 	sudo pacman -S gvfs
 	sudo pacman -S hddtemp
 	sudo pacman -S hplip
-	sudo systemctl enable cups.service
 	sudo pacman -S htop
 	sudo pacman -S hunspell-en_CA
 	yay hyphen-en
@@ -124,4 +123,3 @@
 " |sudo tee /etc/xdg/reflector/reflector.conf
 	sudo systemctl enable reflector.service
 	sudo systemctl enable cups.service
-	hostnamectl set-hostname arch
