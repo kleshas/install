@@ -22,6 +22,7 @@
 	yay conky-git
 	sudo pacman -S cups
 	sudo pacman -S deadbeef
+	yay downgrade
 	sudo pacman -S dunst
 	yay electronmail
 	sudo pacman -S file-roller
