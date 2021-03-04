@@ -1,4 +1,4 @@
-	exec 2>~/error.log
+	exec 2>&1 >~/error.log
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
 	sudo pacman -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server
