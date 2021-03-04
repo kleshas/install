@@ -79,6 +79,7 @@
 	sudo pacman -S wget
 	sudo pacman -S winetricks
 	sudo pacman -S xdotool
+	yay xf86-input-wacom
 	sudo pacman -S xf86-wacom-list
 	yay xnconvert
 	sudo pacman -S zathura
