@@ -46,9 +46,7 @@
 	ln -sv ~/.dotfiles/.bashrc ~/
 	ln -sv ~/.dotfiles/.Xresources ~/
 	chmod +x ~/.config/i3/ConkyMatic-master/conkymatic.sh
-	cp ~/.dotfiles/lock.sh ~/
 	cp ~/.dotfiles/backup.sh ~/
-	cp ~/.dotfiles/xinput.sh ~/
 	cp ~/.dotfiles/kamvas.sh ~/
 	chmod +x ~/kamvas.sh
 	echo -e "\nexport PATH=\"$HOME/.local/bin:\$PATH\"" >> "$HOME/.bashrc"
