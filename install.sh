@@ -62,5 +62,3 @@
 	sudo systemctl enable radeon-profile-daemon.service
 	sudo systemctl enable fstrim.timer
 	sudo systemctl enable lightdm.service
-	wpg-install.sh -r
-	wpg-install.sh -d
