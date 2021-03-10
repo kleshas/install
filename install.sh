@@ -27,6 +27,7 @@
 #dotfiles
 	mkdir ~/.config/rofi
 	touch ~/.config/rofi/config
+	ln -sv ~/.dotfiles/rofi/config ~/.config/rofi
 	mkdir ~/.chatty
 	ln -sv ~/.dotfiles/chatty/settings ~/.chatty
 	mkdir ~/.config/cherrytree
