@@ -1,80 +1,32 @@
 	exec 2>&1 >~/error.log
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
-	sudo pacman -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server
-    	sudo pacman -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau
-    	sudo pacman -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh
-	sudo pacman -S lightdm lightdm-gtk-greeter
-	sudo systemctl enable lightdm.service
-	sudo pacman -S alsa-utils  
-	sudo pacman -S android-file-transfer
-	sudo pacman -S arc-gtk-theme
-	sudo pacman -S calibre
-	yay cherrytree
-	yay conky-git
-	sudo pacman -S deadbeef
-	yay downgrade
-	sudo pacman -S dunst
-	yay electronmail
-	sudo pacman -S firefox
+	sudo yay -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau radeon-profile-daemon-git
+  	sudo yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh rofi lightdm lightdm-gtk-greeter
+	sudo yay -S alsa-utils pavucontrol pulseaudio deadbeef smplayer
+	sudo yay -S conky-git hddtemp wget
+	sudo yay -S downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib picom linux-headers
+	sudo yay -S electronmail thunderbird hunspell-en_CA hyphen-en firefox libreoffice-fresh zathura
 	sudo yay -S geany geany-themes
-	sudo pacman -S gnome-screenshot
-	sudo pacman -S grsync
-	sudo pacman -S gthumb
-	sudo pacman -S gvfs
-	sudo pacman -S hddtemp
 	sudo yay -S cups hplip
-	sudo pacman -S htop
-	sudo yay -S hunspell-en_CA hyphen-en
 	sudo yay -S input-wacom-dkms xf86-input-wacom xf86-wacom-list
-	sudo pacman -S keepassxc
-	sudo pacman -S krita
-	sudo pacman -S libreoffice-fresh
-	sudo pacman -S linux-headers
-	sudo pacman -S lutris
-	sudo pacman -S mcomix
-	sudo pacman -S mlocate
-	sudo yay -S multimc jdk8-openjdk
-	sudo pacman -S noto-fonts-emoji
-	yay numix-circle-arc
-	sudo pacman -S pacman-contrib
-	sudo pacman -S pavucontrol
-	sudo yay -S pcmanfm-gtk3 file-roller
-	sudo pacman -S picom	
-	sudo pacman -S pulseaudio
-	sudo pacman -S qbittorrent
-	yay radeon-profile-daemon-git
-	sudo systemctl enable radeon-profile-daemon.service
-	sudo pacman -S redshift
-	yay reflector
-	sudo pacman -S rofi
-	mkdir ~/.config/rofi
-	touch ~/.config/rofi/config
-	wpg-install.sh -r
-	wpg-install.sh -d
-	sudo pacman -S smplayer
-	sudo pacman -S steam
+	sudo yay -S lutris steam winetricks multimc jdk8-openjdk
+	sudo yay -S mcomix gthumb gnome-screenshot xnconvert calibre
+	sudo yay -S noto-fonts-emoji numix-circle-arc arc-gtk-theme
+	sudo yay -S pcmanfm-gtk3 file-roller gvfs unrar
 	sudo yay -S streamlink-twitch-gui chatty
-	sudo pacman -S sysstat
-	sudo pacman -S thunderbird
 	sudo yay -S ttf-dejavu -S ttf-droid ttf-liberation ttf-ms-fonts
-	sudo pacman -S unrar
-	sudo pacman -S veracrypt
-	sudo pacman -S wget
-	sudo pacman -S winetricks
-	yay wpgtk-git
-	sudo pacman -S xdotool
-	yay xnconvert
-	sudo pacman -S zathura
+	sudo yay -S veracrypt cherrytree android-file-transfer keepassxc qbittorrent wpgtk-git xdotool krita
 	
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
     	sudo pacman -Sc
-	sudo systemctl enable fstrim.timer
 #Font configuration
 	sudo ln -s /etc/fonts/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
 	sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 	sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 #dotfiles
+	mkdir ~/.config/rofi
+	touch ~/.config/rofi/config
 	mkdir ~/.chatty
 	ln -sv ~/.dotfiles/chatty/settings ~/.chatty
 	mkdir ~/.config/cherrytree
@@ -100,7 +52,7 @@
 	cp ~/.dotfiles/kamvas.sh ~/
 	chmod +x ~/kamvas.sh
 	echo -e "\nexport PATH=\"$HOME/.local/bin:\$PATH\"" >> "$HOME/.bashrc"
-#system files
+#system stuff
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 	echo "kernel.dmesg_restrict = 1" | sudo tee -a /etc/sysctl.d/50-dmesg-restrict.conf
 	echo "Storage=none" |sudo tee -a /etc/systemd/coredump.conf
@@ -109,3 +61,8 @@
 " |sudo tee /etc/xdg/reflector/reflector.conf
 	sudo systemctl enable reflector.service
 	sudo systemctl enable cups.service
+	sudo systemctl enable radeon-profile-daemon.service
+	sudo systemctl enable fstrim.timer
+	sudo systemctl enable lightdm.service
+	wpg-install.sh -r
+	wpg-install.sh -d
