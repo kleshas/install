@@ -5,7 +5,7 @@
   	sudo yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh rofi
 	sudo yay -S alsa-utils pavucontrol pulseaudio deadbeef smplayer
 	sudo yay -S conky-git hddtemp wget
-	sudo yay -S downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib picom linux-headers
+	sudo yay -S downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib picom linux-headers sddm
 	sudo yay -S electronmail thunderbird hunspell-en_CA hyphen-en firefox libreoffice-fresh zathura
 	sudo yay -S geany geany-themes
 	sudo yay -S cups hplip
@@ -64,3 +64,4 @@
 	sudo systemctl enable cups.service
 	sudo systemctl enable radeon-profile-daemon.service
 	sudo systemctl enable fstrim.timer
+	sudo systemctl enable sddm.service
