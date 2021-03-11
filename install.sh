@@ -16,7 +16,7 @@
 	sudo yay -S pcmanfm-gtk3 file-roller gvfs unrar
 	sudo yay -S streamlink-twitch-gui chatty
 	sudo yay -S ttf-dejavu -S ttf-droid ttf-liberation ttf-ms-fonts
-	sudo yay -S veracrypt cherrytree android-file-transfer keepassxc qbittorrent wpgtk-git xdotool krita
+	sudo yay -S veracrypt cherrytree android-file-transfer keepassxc qbittorrent wpgtk-git krita
 	
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
     	sudo pacman -Sc
