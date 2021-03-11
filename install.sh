@@ -44,7 +44,9 @@
 	mkdir ~/.config/termite
 	ln -sv ~/.dotfiles/termite/config ~/.config/termite
 	rm ~/.bashrc
+	rm ~/.bash_profile
 	ln -sv ~/.dotfiles/.bashrc ~/
+	ln -sv ~/.dotfiles/.bash_profile ~/
 	ln -sv ~/.dotfiles/.Xresources ~/
 	chmod +x ~/.config/i3/ConkyMatic-master/conkymatic.sh
 	cp ~/.dotfiles/backup.sh ~/
