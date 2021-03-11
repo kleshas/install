@@ -52,7 +52,6 @@
 	cp ~/.dotfiles/backup.sh ~/
 	cp ~/.dotfiles/kamvas.sh ~/
 	chmod +x ~/kamvas.sh
-	echo -e "\nexport PATH=\"$HOME/.local/bin:\$PATH\"" >> "$HOME/.bashrc"
 #system stuff
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 	echo "kernel.dmesg_restrict = 1" | sudo tee -a /etc/sysctl.d/50-dmesg-restrict.conf
