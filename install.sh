@@ -2,7 +2,7 @@
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
 	sudo yay -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau radeon-profile-daemon-git
-  	sudo yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh rofi lightdm lightdm-gtk-greeter
+  	sudo yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh rofi sddm
 	sudo yay -S alsa-utils pavucontrol pulseaudio deadbeef smplayer
 	sudo yay -S conky-git hddtemp wget
 	sudo yay -S downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib picom linux-headers
@@ -62,4 +62,4 @@
 	sudo systemctl enable cups.service
 	sudo systemctl enable radeon-profile-daemon.service
 	sudo systemctl enable fstrim.timer
-	sudo systemctl enable lightdm.service
+	sudo systemctl enable sddm.service
