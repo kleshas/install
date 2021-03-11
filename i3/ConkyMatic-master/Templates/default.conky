@@ -85,7 +85,7 @@ color7 = '_VAR:COLOR_HR_', -- Horizontal rules
 color8 = '_VAR:COLOR_BARS_NORM_', -- Data bars, normal state
 color9 = '_VAR:COLOR_BARS_WARN_', -- Data bars, warning state
 default_color = '_VAR:COLOR_BORDER_', -- Window border
-own_window_color = '_VAR:COLOR_BACKGROUND_', -- Window background color
+own_window_colour = '_VAR:COLOR_BACKGROUND_', -- Window background color
 
 };
 
