@@ -1,0 +1,157 @@
+--[[
+#----------------------------------------------------------------------------------------
+#
+# Default Conky Template for ConkyMatic
+#
+# Version 1.1.0
+#
+# by Rick Ellis
+# https://github.com/rickellis/conkymatic
+#
+# Font used: Roboto
+#
+# Conky documentation
+# http://conky.sourceforge.net/docs.html
+#
+# License: MIT
+#
+#----------------------------------------------------------------------------------------
+]]
+
+conky.config = {
+
+font = 'Roboto:size=9',
+background = false,
+cpu_avg_samples = 2,
+diskio_avg_samples = 10,
+double_buffer = true,
+if_up_strictness = 'address',
+net_avg_samples = 2,
+no_buffers = true,
+temperature_unit = 'celsius',
+text_buffer_size = 2048,
+update_interval = 1,
+imlib_cache_size = 0,
+alignment = 'top_left',
+gap_x = 0,
+gap_y = 0,
+minimum_height = 600,
+minimum_width = 350,
+maximum_width = 350,
+border_outer_margin = 1,
+border_width = 1,
+default_bar_width = 250,
+default_bar_height = 10,
+default_gauge_height = 25,
+default_gauge_width = 40,
+default_graph_height = 40,
+default_graph_width = 153,
+default_shade_color = '#000000',
+default_outline_color = '#000000',
+draw_borders = false,
+draw_graph_borders = true,
+draw_shades = false,
+draw_outline = false,
+stippled_borders = 0,
+extra_newline = false,
+format_human_readable = true,
+max_text_width = 0,
+max_user_text = 16384,
+short_units = true,
+top_name_width = 21,
+top_name_verbose = false,
+uppercase = false,
+use_spacer = 'none',
+use_xft = true,
+xftalpha = 1,
+own_window = true,
+own_window_argb_value =255,
+own_window_argb_visual = true,
+own_window_class = 'Conky',
+own_window_transparent = false,
+own_window_title = 'system_conky',
+own_window_type = 'normal',
+
+-- CONKYMATIC VARIABLES -------------------------------------------------------------
+
+color0 = '_VAR:COLOR_TIME_', -- Time
+color1 = '_VAR:COLOR_DATE_', -- Date
+color2 = '_VAR:COLOR_WEATHER_', -- Weather
+color3 = '_VAR:COLOR_HEADING_', -- Headings
+color4 = '_VAR:COLOR_SUBHEADING_', -- Sub-headings
+color5 = '_VAR:COLOR_TEXT_', -- Text (extra. Not used in default template)
+color6 = '_VAR:COLOR_DATA_', -- Data values
+color7 = '_VAR:COLOR_HR_', -- Horizontal rules
+color8 = '_VAR:COLOR_BARS_NORM_', -- Data bars, normal state
+color9 = '_VAR:COLOR_BARS_WARN_', -- Data bars, warning state
+default_color = '_VAR:COLOR_BORDER_', -- Window border
+own_window_colour = '_VAR:COLOR_BACKGROUND_', -- Window background color
+
+};
+
+conky.text = [[
+${color3}$nodename     ${color5}${alignc}$sysname $kernel ${alignr}${time %H:%M}
+${alignr}${color3}External IP ${color5}${execi 60 wget http://ipinfo.io/ip -qO -}
+${color3}Last packages updated:
+# ${color5}${execi 60 tail -n1000 /var/log/pacman.log|grep -e "upgraded"|tail -n4|cut -c 2-|cut -c1-16,34-}
+${color5}${execi 60 tail -n1000 /var/log/pacman.log|grep -e "upgraded"|tail -n4|cut -c 2-|cut -c1-16,42-}
+
+${color3}Uptime:${color5} $uptime ${color3} $alignr Load:${color5} $loadavg
+${color3}CPU:${color5} ${freq_g}GHz
+${color3}CPU:${color5} ${cpu}% ${color3}${cpubar 5,85} $alignr ${color3}Disk I/O: ${color5}${diskio}
+${color3}${cpugraph 32,155 ${color7} ${color5} -t}$alignr${color3}${diskiograph 32,155 ${color7} ${color5} -t}
+${color3}RAM Usage:${color5} $mem${color3}/${color5}$memmax - $memperc%
+${color3}${memgraph 32,155 ${color7} ${color5} -t}${color5}
+#${color3}Procs:${color5} $processes ${color3}Run:${color5} $running_processes
+#${color3}Entropy: ${color5}${entropy_avail}${color3}/${color}${entropy_poolsize} ${color3}${entropy_bar}
+${color3}Net Down:${color5} ${downspeedf eno1}kiB/s $alignr ${color3}Net Up:${color5} ${upspeedf eno1}kiB/s
+${color3}${downspeedgraph eno1 32,155 ${color7} ${color5} -t} $alignr${color3}${upspeedgraph eno1 32,155 ${color7} ${color5} -t}
+${color3}Total down:${color5}${totaldown eno1} $alignr ${color3}Total Up:${color5}${totalup eno1}
+
+${color3}File systems
+  /             $alignr ${color5}${fs_used /}/${fs_size /} ${alignr}${color3}${fs_bar 5,80 /}
+  veracrypt1    $alignr ${color5}${fs_used /mnt/veracrypt1}/${fs_size /mnt/veracrypt1} ${alignr}${color3}${fs_bar 5,80 /mnt/veracrypt1}
+  veracrypt2    $alignr ${color5}${fs_used /mnt/veracrypt2}/${fs_size /mnt/veracrypt2} ${alignr}${color3}${fs_bar 5,80 /mnt/veracrypt2}
+  veracrypt3    $alignr ${color5}${fs_used /mnt/veracrypt3}/${fs_size /mnt/veracrypt3} ${alignr}${color3}${fs_bar 5,80 /mnt/veracrypt3}
+  veracrypt4    $alignr ${color5}${fs_used /mnt/veracrypt4}/${fs_size /mnt/veracrypt4} ${alignr}${color3}${fs_bar 5,80 /mnt/veracrypt4}
+
+${color3}Top Processes
+  ${color3}CPU Usage $alignr PID   CPU%   MEM%
+  ${color5}${top name 1}$alignr${top pid 1}   ${top cpu 1}    ${top mem 1}
+  ${color5}${top name 2}$alignr${top pid 2}   ${top cpu 2}    ${top mem 2}
+  ${color5}${top name 3}$alignr${top pid 3}   ${top cpu 3}    ${top mem 3}
+  ${color3}Mem usage
+  ${color5}${top_mem name 1}$alignr${top_mem pid 1}  ${top_mem cpu 1}   ${top_mem mem_res 1}
+  ${color5}${top_mem name 2}$alignr${top_mem pid 2}  ${top_mem cpu 2}   ${top_mem mem_res 2}
+  ${color5}${top_mem name 3}$alignr${top_mem pid 3}  ${top_mem cpu 3}   ${top_mem mem_res 3}
+
+${color3}Port(s)${alignr}#Connections
+${color3}Inbound: ${color5}${tcp_portmon 1 32767 count}  ${color3}Outbound: ${color5}${tcp_portmon 32768 61000 count}${alignr}
+${color3}Inbound Connection ${alignr} Local Service/Port
+  ${color5}${tcp_portmon 1 32767 rhost 0} ${alignr} ${tcp_portmon 1 32767 lservice 0}
+  ${color5}${tcp_portmon 1 32767 rhost 1} ${alignr} ${tcp_portmon 1 32767 lservice 1}
+  ${color5}${tcp_portmon 1 32767 rhost 2} ${alignr} ${tcp_portmon 1 32767 lservice 2}
+  ${color5}${tcp_portmon 1 32767 rhost 3} ${alignr} ${tcp_portmon 1 32767 lservice 3}
+${color3}Outbound Connection ${alignr} Remote Service/Port
+  ${color5}${tcp_portmon 32768 61000 rhost 0} ${alignr} ${tcp_portmon 32768 61000 rservice 0}
+  ${color5}${tcp_portmon 32768 61000 rhost 1} ${alignr} ${tcp_portmon 32768 61000 rservice 1}
+  ${color5}${tcp_portmon 32768 61000 rhost 2} ${alignr} ${tcp_portmon 32768 61000 rservice 2}
+  ${color5}${tcp_portmon 32768 61000 rhost 3} ${alignr} ${tcp_portmon 32768 61000 rservice 3}
+
+${color3}Temperatures and fan speed
+  ${color3}GPU fan ${color5}${execi 5 sensors | grep fan1 |head -1 | cut -c 14-17}rpm ${color3}${alignr}GPU Temp ${alignr}${color5}${execi 5 sensors | grep edge | cut -c 16-17}°C
+  ${color3}Mobo Temp ${color5}${hwmon 0 temp 2}°C ${color3}${alignr}/dev/sda ${alignr}${color5}${hddtemp /dev/sda}°C
+  ${color3}CPU1 Temp ${color5}${hwmon 2 temp 3}°C ${color3}${alignr}/dev/sdb ${alignr}${color5}${hddtemp /dev/sdb}°C
+  ${color3}CPU2 Temp ${color5}${hwmon 2 temp 4}°C ${color3}${alignr}/dev/sdc ${alignr}${color5}${hddtemp /dev/sdc}°C
+  ${color3}CPU3 Temp ${color5}${hwmon 2 temp 5}°C ${color3}${alignr}/dev/sdd ${alignr}${color5}${hddtemp /dev/sdd}°C
+  ${color3}CPU4 Temp ${color5}${hwmon 2 temp 5}°C ${color3}${alignr}/dev/sde ${alignr}${color5}${hddtemp /dev/sde}°C
+
+#
+# COLOR PALETTE IMAGE
+# Note: Vertical offset controls the space UNDER the image.
+${image /home/bhava/.config/i3/ConkyMatic-master/Cache/colorpalette.png -p 80,920}\
+
+
+#${color3}GPU Temp  ${color5}${nvidia temp}°C (${execi 100 nvidia-settings -q GPUCurrentFanSpeedRPM -t | grep -m 1 ""} rpm)
+
+]]
