@@ -25,7 +25,7 @@
 	sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 	sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 #dotfiles
-	cp ~/.dotfiles/.config ~/.config
+	cp ~/.dotfiles/config/ ~/.config
 	chmod +x ~/.config/i3/volume
 	rm ~/.bashrc
 	rm ~/.bash_profile
