@@ -25,29 +25,13 @@
 	sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 	sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 #dotfiles
-	mkdir ~/.config/rofi
-	touch ~/.config/rofi/config
-	ln -sv ~/.dotfiles/rofi/config ~/.config/rofi
-	mkdir ~/.chatty
-	ln -sv ~/.dotfiles/chatty/settings ~/.chatty
-	mkdir ~/.config/cherrytree
-	ln -sv ~/.dotfiles/cherrytree/config.cfg ~/.config/cherrytree
-	mkdir ~/.config/dunst
-	ln -sv ~/.dotfiles/dunst/dunstrc ~/.config/dunst
-	cd ~/.config
-	ln -sv ~/.dotfiles/i3 ~/.config
+	cp ~/.dotfiles/.config ~/.config
 	chmod +x ~/.config/i3/volume
-	mkdir ~/.config/lutris
-	ln -sv ~/.dotfiles/lutris/lutris.conf ~/.config/lutris
-	mkdir ~/.config/smplayer
-	ln -sv ~/.dotfiles/smplayer/smplayer.ini ~/.config/smplayer
-	mkdir ~/.config/termite
-	ln -sv ~/.dotfiles/termite/config ~/.config/termite
 	rm ~/.bashrc
 	rm ~/.bash_profile
-	ln -sv ~/.dotfiles/.bashrc ~/
-	ln -sv ~/.dotfiles/.bash_profile ~/
-	ln -sv ~/.dotfiles/.Xresources ~/
+	cp ~/.dotfiles/.bashrc ~/
+	cp ~/.dotfiles/.bash_profile ~/
+	cp ~/.dotfiles/.Xresources ~/
 	chmod +x ~/.config/i3/ConkyMatic-master/conkymatic.sh
 	cp ~/.dotfiles/backup.sh ~/
 	cp ~/.dotfiles/kamvas.sh ~/
