@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VeraCrypt>
+	<favorites>
+		<volume mountpoint="/mnt/veracrypt1" readonly="0" slotnumber="1" system="0">/dev/sdc1</volume>
+		<volume mountpoint="/mnt/veracrypt2" readonly="0" slotnumber="2" system="0">/dev/sdd</volume>
+		<volume mountpoint="/mnt/veracrypt3" readonly="0" slotnumber="3" system="0">/dev/sde</volume>
+		<volume mountpoint="/mnt/veracrypt4" readonly="0" slotnumber="4" system="0">/dev/sda3</volume>
+	</favorites>
+</VeraCrypt>
