@@ -1,5 +1,5 @@
 	#!/bin/bash
-	exec 2>&1 >~/error.log
+	exec &> >(tee -a ~/error.log)
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
 	sudo yay -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau radeon-profile-daemon-git
