@@ -1,3 +1,4 @@
+	#!/bin/bash
 	exec 2>&1 >~/error.log
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
@@ -12,7 +13,7 @@
 	sudo yay -S input-wacom-dkms xf86-input-wacom xf86-wacom-list
 	sudo yay -S lutris steam winetricks multimc jdk8-openjdk
 	sudo yay -S mcomix gthumb gnome-screenshot xnconvert calibre
-	sudo yay -S noto-fonts-emoji numix-circle-arc arc-gtk-theme
+	sudo yay -S noto-fonts-emoji numix-circle-arc-icons-git arc-gtk-theme
 	sudo yay -S pcmanfm-gtk3 file-roller gvfs unrar
 	sudo yay -S streamlink-twitch-gui chatty
 	sudo yay -S ttf-dejavu -S ttf-droid ttf-liberation ttf-ms-fonts
