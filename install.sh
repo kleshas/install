@@ -32,9 +32,7 @@
 	rm -f ~/.config/chatty
 	chmod +x ~/.config/i3/volume
 	rm ~/.bashrc
-	rm ~/.bash_profile
 	cp ~/.dotfiles/.bashrc ~/
-	cp ~/.dotfiles/.bash_profile ~/
 	cp ~/.dotfiles/.Xresources ~/
 	chmod +x ~/.config/i3/ConkyMatic-master/conkymatic.sh
 	cp ~/.dotfiles/backup.sh ~/
