@@ -2,23 +2,22 @@
 	exec &> >(tee -a ~/error.log)
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
-	yay xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau radeon-profile-daemon-git
-  	yay i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh rofi
-	yay alsa-utils pavucontrol pulseaudio deadbeef smplayer
-	yay conky-git hddtemp wget
-	yay downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib picom linux-headers sddm
-	yay electronmail thunderbird hunspell-en_CA hyphen-en firefox libreoffice-fresh zathura
-	yay geany geany-themes
-	yay cups hplip
-	yay input-wacom-dkms xf86-input-wacom
-	yay xf86-wacom-list
-	yay lutris steam winetricks multimc jdk8-openjdk
-	yay mcomix gthumb gnome-screenshot xnconvert calibre
-	yay noto-fonts-emoji numix-circle-arc-icons-git arc-gtk-theme
-	yay pcmanfm-gtk3 file-roller gvfs unrar
-	yay streamlink-twitch-gui chatty
-	yay ttf-dejavu -S ttf-droid ttf-liberation ttf-ms-fonts
-	yay veracrypt cherrytree android-file-transfer keepassxc qbittorrent wpgtk-git krita
+	yay -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau radeon-profile-daemon-git
+  	yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 termite feh rofi
+	yay -S alsa-utils pavucontrol pulseaudio deadbeef smplayer
+	yay -S conky-git hddtemp wget
+	yay -S downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib picom linux-headers sddm
+	yay -S electronmail thunderbird hunspell-en_CA hyphen-en firefox libreoffice-fresh zathura
+	yay -S geany geany-themes
+	yay -S cups hplip
+	yay -S input-wacom-dkms xf86-input-wacom xf86-wacom-list
+	yay -S lutris steam winetricks multimc jdk8-openjdk
+	yay -S mcomix gthumb gnome-screenshot xnconvert calibre
+	yay -S noto-fonts-emoji numix-circle-arc-icons-git arc-gtk-theme
+	yay -S pcmanfm-gtk3 file-roller gvfs unrar
+	yay -S streamlink-twitch-gui chatty
+	yay -S ttf-dejavu -S ttf-droid ttf-liberation ttf-ms-fonts
+	yay -S veracrypt cherrytree android-file-transfer keepassxc qbittorrent wpgtk-git krita
 	
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
     	sudo pacman -Sc
