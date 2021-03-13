@@ -257,9 +257,8 @@ exec --no-startup-id dunst
 exec --no-startup-id mullvad-vpn
 exec --no-startup-id firefox
 exec --no-startup-id redshift-gtk -l 48.26:-123.21
-exec --no-startup-id "wpg -m"
-exec --no-startup-id /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh
-exec --no-startup-id "xdotool key --clearmodifiers Num_Lock"
+# exec --no-startup-id "wpg -m"
+# exec --no-startup-id /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh
 exec --no-startup-id picom -CGb --config /dev/null
 exec --no-startup-id /home/bhava/keepassxc.sh
 
