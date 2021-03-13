@@ -10,7 +10,8 @@
 	yay electronmail thunderbird hunspell-en_CA hyphen-en firefox libreoffice-fresh zathura
 	yay geany geany-themes
 	yay cups hplip
-	yay input-wacom-dkms xf86-input-wacom xf86-wacom-list
+	yay input-wacom-dkms xf86-input-wacom
+	yay xf86-wacom-list
 	yay lutris steam winetricks multimc jdk8-openjdk
 	yay mcomix gthumb gnome-screenshot xnconvert calibre
 	yay noto-fonts-emoji numix-circle-arc-icons-git arc-gtk-theme
