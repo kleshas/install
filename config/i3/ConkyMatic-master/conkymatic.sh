@@ -324,15 +324,15 @@ fi
 
 # CONSENT -------------------------------------------------------------------------------
 
-read -p " Hit ENTER to begin, or any other key to abort: " CONSENT
+#read -p " Hit ENTER to begin, or any other key to abort: " CONSENT
 
 # Validate consent
-if ! [ -z ${CONSENT} ]; then
-    echo
-    echo " Goodbye..."
-    echo
-    exit 1
-fi
+#if ! [ -z ${CONSENT} ]; then
+ #   echo
+ #   echo " Goodbye..."
+ #   echo
+ #   exit 1
+#fi
 
 # SELECT A TEMPLATE ---------------------------------------------------------------------
 
