@@ -27,6 +27,9 @@
 	sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 #dotfiles
 	cp -r ~/.dotfiles/config/ ~/.config
+	mkdir ~/.chatty
+	mv ~/.config/chatty/settings ~/.chatty/
+	rm -f ~/.config/chatty
 	chmod +x ~/.config/i3/volume
 	rm ~/.bashrc
 	rm ~/.bash_profile
