@@ -52,3 +52,4 @@
 	sudo systemctl enable radeon-profile-daemon.service
 	sudo systemctl enable fstrim.timer
 	sudo systemctl enable sddm.service
+	sudo modprobe -r hid-kye hid-uclogic hid-polostar hid-viewsonic
