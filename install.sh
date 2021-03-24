@@ -7,7 +7,7 @@
 	yay -S alsa-utils pavucontrol pulseaudio deadbeef smplayer
 	yay -S conky-git hddtemp wget
 	yay -S downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib picom linux-headers sddm ntfs-3g
-	yay -S electronmail thunderbird hunspell-en_CA hyphen-en firefox libreoffice-fresh zathura
+	yay -S electronmail thunderbird hunspell-en_ca hyphen-en firefox libreoffice-fresh zathura
 	yay -S geany geany-themes
 	yay -S cups hplip
 	yay -S input-wacom-dkms xf86-input-wacom
