@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-mkdir ~/.cache/keepassxc
+mkdir ~/.cache/keepassxc/
 ln -s ~/.dotfiles/keepassxc/keepassxc.ini ~/.cache/keepassxc
