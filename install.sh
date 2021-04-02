@@ -16,7 +16,7 @@
 	yay -S noto-fonts-emoji numix-circle-arc-icons-git arc-gtk-theme
 	yay -S pcmanfm-gtk3 file-roller gvfs unrar
 	yay -S streamlink-twitch-gui chatty
-	yay -S ttf-dejavu -S ttf-droid ttf-liberation ttf-ms-fonts
+	yay -S ttf-dejavu ttf-droid ttf-liberation ttf-ms-fonts
 	yay -S veracrypt cherrytree android-file-transfer keepassxc qbittorrent wpgtk-git krita
 	
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
