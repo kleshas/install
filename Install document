@@ -35,21 +35,21 @@
         mkfs.ext4 /dev/mapper/vg-home
     OR:
     #Create filesystems on encrypted partitions (Simple partition layout with LUKS)
-		mkfs.ext4 /dev/mapper/luks
-		#if separate partitions for /home and/or others, then more steps required, with large disadvantages
+	mkfs.ext4 /dev/mapper/luks
+	#if separate partitions for /home and/or others, then more steps required, with large disadvantages
 
 #EITHER:
     #mount the new system (LVM on LUKS)
-		mount /dev/mapper/vg-root /mnt
-		mkdir /mnt/home
-		mount /dev/mapper/vg-home /mnt/home
-		mkdir /mnt/boot
-		mount /dev/sda1 /mnt/boot
+	mount /dev/mapper/vg-root /mnt
+	mkdir /mnt/home
+	mount /dev/mapper/vg-home /mnt/home
+	mkdir /mnt/boot
+	mount /dev/sda1 /mnt/boot
     OR:
     #mount the new system (Simple partition layout with LUKS)
-		mount /dev/mapper/luks /mnt
-		mkdir /mnt/boot
-		mount /dev/sda1 /mnt/boot
+	mount /dev/mapper/luks /mnt
+	mkdir /mnt/boot
+	mount /dev/sda1 /mnt/boot
 
 #install the system
 	pacman -Sy
