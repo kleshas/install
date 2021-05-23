@@ -1,6 +1,6 @@
 #Notable difference between the 2 types of encryption this document deals with:
 	LVM ON LUKS - one passphrase for the single LUKS container, no matter how many OS partitions are on it
-	Simple partition on LUKS - one passphrase for every partition on luks
+	Simple partition on LUKS - one passphrase for every partition on luks, unless you use sd-encrypt instead of encrypt hook
 
 #create the bootable USB key
 	sudo dd bs=4M if=/path/to/archlinux.img of=/path/to/USBkey && sync
@@ -11,8 +11,8 @@
     gdisk automatically aligns partitions
 	From now on, assumption is we want to install arch onto /dev/sda
 	NOTE:  do not delete any data partitions or GPT/MBR on disks which have data partitions like /dev/sda4
-	gdisk /dev/sda then x / z / y / y will erase GPT on /dev/sda
-	gdisk /dev/sda #sda being the disk we want to install arch onto
+	    gdisk /dev/sda then x / z / y / y will erase GPT on /dev/sda
+	    gdisk /dev/sda #sda being the disk we want to install arch onto
 	sda1 - 1024MiB EFI partition #Hex code ef00 (100MB recommended, 1024MiB so you can have multiple kernels)
 	sda2 - rest of disk for partition to be encrypted #Hex code 8300 
 	mkfs.fat -F32 /dev/sda1 #unless using existing ESP.  Must be F32 if using ESP
@@ -35,21 +35,21 @@
         mkfs.ext4 /dev/mapper/vg-home
     OR:
     #Create filesystems on encrypted partitions (Simple partition layout with LUKS)
-	mkfs.ext4 /dev/mapper/luks
-	#if separate partitions for /home and/or others, then more steps required, with large disadvantages
+		mkfs.ext4 /dev/mapper/luks
+		#if separate partitions for /home and/or others, then more steps required, with large disadvantages
 
 #EITHER:
     #mount the new system (LVM on LUKS)
-	mount /dev/mapper/vg-root /mnt
-	mkdir /mnt/home
-	mount /dev/mapper/vg-home /mnt/home
-	mkdir /mnt/boot
-	mount /dev/sda1 /mnt/boot
+		mount /dev/mapper/vg-root /mnt
+		mkdir /mnt/home
+		mount /dev/mapper/vg-home /mnt/home
+		mkdir /mnt/boot
+		mount /dev/sda1 /mnt/boot
     OR:
     #mount the new system (Simple partition layout with LUKS)
-	mount /dev/mapper/luks /mnt
-	mkdir /mnt/boot
-	mount /dev/sda1 /mnt/boot
+		mount /dev/mapper/luks /mnt
+		mkdir /mnt/boot
+		mount /dev/sda1 /mnt/boot
 
 #install the system
 	pacman -Sy
@@ -65,7 +65,11 @@
 #settings
 	ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
 	hwclock --systohc --utc #set the hw clock to UTC
-	echo SYSTEMNAME > /etc/hostname #choose a name for SYSTEMNAME
+	echo <SYSTEMNAME> > /etc/hostname #choose a name for SYSTEMNAME
+	edit /etc/hosts to include:
+	    127.0.0.1   localhost
+        ::1         localhost
+        127.0.0.1   <systemname>.localdomain <systemname>
     
 #update locale
 	nano /etc/locale.gen #to uncomment en_CA.UTF-8
@@ -124,6 +128,9 @@
  
 #improve compilation speeds
     sudo nano /etc/makepkg.conf #edit to read MAKEFLAGS="-j8" 8 is CPU threads in system, and edit COMPRESSXZ=(xz -c -z - --threads=0)
+    GCC can automatically detect and enable safe architecture-specific optimizations. To use this feature, first remove any -march and -mtune flags, then add -march=native. For example: 
+        /etc/makepkg.confCFLAGS="-march=native -O2 -pipe -fno-plt"
+        CXXFLAGS="${CFLAGS}"
 
 #complete the installation of software packages etc.
     mkdir ~/.dotfiles
