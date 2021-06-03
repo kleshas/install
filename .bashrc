@@ -11,3 +11,4 @@ PS1='[\u@\h \W]\$ '
 (cat ~/.config/wpg/sequences &)
 alias multimc='vblank_mode=0 multimc &'
 export PATH="/home/bhava/.local/bin:$PATH"
+[ -d "$HOME/.scripts" ] && PATH="$HOME/.scripts:$PATH"
