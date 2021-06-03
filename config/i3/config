@@ -199,9 +199,9 @@ focus_follows_mouse Yes
 hide_edge_borders none
 
 bindsym $mod+Shift+w exec wpg -m; exec "sh -c 'sleep 5; bash /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh'"
-bindsym $mod+Shift+s exec "bash /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh"
-bindsym $mod+Shift+x exec "bash /home/bhava/.scripts/kamvas.sh"
-bindsym $mod+Shift+b exec kitty -e "bash /home/bhava/.scripts/backup.sh"
+bindsym $mod+Shift+s exec /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh
+bindsym $mod+Shift+x exec /home/bhava/.scripts/kamvas.sh
+bindsym $mod+Shift+b exec kitty bash /home/bhava/.scripts/backup.sh
 
 # lock system
 bindsym Control+Mod1+L exec i3lock-fancy-dualmonitor -p
