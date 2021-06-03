@@ -166,7 +166,6 @@ set_from_resource $color6 i3wm.color6 "#78879C"
 set_from_resource $color7 i3wm.color7 "#c1c4cc"
 set_from_resource $color8 i3wm.color8 "#062a5a"
 
-
 ######### COLORS ##########
 #
 # class                 border    backgr    text        indicator   child_border
@@ -216,7 +215,6 @@ bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -R
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
 
-
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
@@ -234,8 +232,6 @@ for_window [class="Lxappearance"] floating enable sticky enable
 for_window [class="(?i)virtualbox"] floating enable
 for_window [class="Nm-connection-editor"] floating enable
 for_window [class="streamlink-twitch-gui"] floating enable
-# for_window [class="Conky"] resize set 375 480 px
-
 
 # specify workspaces for applications
 assign [class="Conky"] $ws2
