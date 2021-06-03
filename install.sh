@@ -35,10 +35,11 @@
 	cp ~/.dotfiles/.bashrc ~/
 	cp ~/.dotfiles/.Xresources ~/
 	chmod +x ~/.config/i3/ConkyMatic-master/conkymatic.sh
-	cp ~/.dotfiles/backup.sh ~/
-	cp ~/.dotfiles/*.sh ~/
-	cp ~/.dotfiles/keepass* ~/
-	chmod +x ~/*.sh
+	mkdir ~/.scripts
+	cp ~/.dotfiles/backup.sh ~/.scripts
+	cp ~/.dotfiles/*.sh ~/.scripts
+	cp ~/.dotfiles/keepass* ~/.scripts
+	chmod +x ~/.scripts/*.sh
 #system stuff
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 	echo "kernel.dmesg_restrict = 1" | sudo tee -a /etc/sysctl.d/50-dmesg-restrict.conf
