@@ -30,7 +30,7 @@
 	mkdir ~/.chatty
 	mv ~/.config/chatty/settings ~/.chatty/
 	rm -f ~/.config/chatty
-	chmod +x ~/.config/i3/volume
+	chmod +x ~/.config/i3/pipewire-pulse
 	rm ~/.bashrc
 	cp ~/.dotfiles/.bashrc ~/
 	cp ~/.dotfiles/.Xresources ~/
@@ -53,3 +53,4 @@
 	sudo systemctl enable fstrim.timer
 	sudo systemctl enable sddm.service
 	sudo modprobe -r hid-kye hid-uclogic hid-polostar hid-viewsonic
+	systemctl --user enable --now pipewire-media-session.service
