@@ -16,10 +16,10 @@ AUDIO_MED_HIGH_THRESH=70
 AUDIO_MED_HIGH_SYMBOL=' '
 
 AUDIO_MED_THRESH=30
-AUDIO_MED_SYMBOL=' '
+AUDIO_MED_SYMBOL=''
 
 AUDIO_LOW_THRESH=0
-AUDIO_LOW_SYMBOL=' '
+AUDIO_LOW_SYMBOL=''
 
 AUDIO_MUTED_SYMBOL=' '
 
@@ -65,7 +65,7 @@ function move_sinks_to_new_default {
 function print_format {
 	[[ $USE_PERCENT == 0 ]] && PERCENT=""
 	case "$1" in
-		1) echo "$SYMBOL$VOL$PERCENT [$NAME]" ;;
+		1) echo "$SYMBOL$VOL$PERCENT" ;;
 		2) echo "$SYMBOL$VOL$PERCENT [$INDEX]";;
 		3) echo "$SYMBOL$VOL$PERCENT" ;;
 		*) echo "$SYMBOL$VOL$PERCENT [$INDEX:$NAME]" ;;
@@ -77,11 +77,11 @@ function print_block {
 		read $name
 	done < <(pactl info | grep 'Default Sink:')
 	NAME=$(echo "$NAME" | awk '{print $3}')
-	DESCRIPTION=$(pactl list sinks | grep -B2 -A1 "$NAME$" | grep Description | cut -f2- -d\ )
-	INDEX=$(pactl list sinks | grep -B2 -A1 "$NAME$" | grep Sink | cut -f2 -d\#)
+	DESCRIPTION=""
+	INDEX=""
 	
 	if [[ $USE_DESCRIPTION == 1 ]]; then
-		NAME="$DESCRIPTION"
+		NAME=""
 	fi
 
 	[[ $USE_PERCENT == 1 ]] && VOL="$(pamixer --get-volume-human)" || VOL=$(pamixer --get-volume)
@@ -101,11 +101,11 @@ function print_block {
 
 	if [[ $SUBSCRIBE == 1 ]] ; then
 		print_format "$LONG_FORMAT"
-		echo "$COLOR"
+
 	else
 		print_format "$LONG_FORMAT"
 		print_format "$SHORT_FORMAT"
-		echo "$COLOR"
+
 	fi
 }
 
