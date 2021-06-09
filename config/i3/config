@@ -257,4 +257,4 @@ exec --no-startup-id redshift-gtk -l 48.26:-123.21
 # exec --no-startup-id /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh
 # exec --no-startup-id picom -CGb --config /dev/null
 exec --no-startup-id /home/bhava/keepassxc.sh
-
+exec --no-startup-id systemctl start --user pipewire-pulse.service
