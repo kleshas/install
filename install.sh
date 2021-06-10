@@ -6,7 +6,7 @@
   	yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 kitty feh rofi
 	yay -S alsa-utils pavucontrol pipewire pipewire-pulse pipewire-alsa lib32-pipewire deadbeef smplayer
 	yay -S conky-git hddtemp wget
-	yay -S downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib picom linux-headers sddm ntfs-3g
+	yay -S downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib picom linux-headers sddm ntfs-3g man-db
 	yay -S electronmail thunderbird hunspell-en_ca hyphen-en firefox libreoffice-fresh zathura
 	yay -S geany geany-themes
 	yay -S cups hplip
