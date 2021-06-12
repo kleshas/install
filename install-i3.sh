@@ -34,18 +34,15 @@
 	rm ~/.bashrc
 	cp ~/.dotfiles/.bashrc ~/
 	cp ~/.dotfiles/.Xresources ~/
-	chmod +x ~/.config/i3/ConkyMatic-master/conkymatic.sh
 	mkdir ~/.scripts
-	cp ~/.dotfiles/backup.sh ~/.scripts
-	cp ~/.dotfiles/*.sh ~/.scripts
-	cp ~/.dotfiles/keepass* ~/.scripts
+	cp ~/.dotfiles/* ~/.scripts
 	chmod +x ~/.scripts/*.sh
+	chmod +x ~/.scripts/ConkyMatic-master/conkymatic.sh
 #system stuff
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 	echo "kernel.dmesg_restrict = 1" | sudo tee -a /etc/sysctl.d/50-dmesg-restrict.conf
 	echo "Storage=none" |sudo tee -a /etc/systemd/coredump.conf
-	echo "--country US --protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist
-" |sudo tee /etc/xdg/reflector/reflector.conf
+	echo "--country US --protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist" |sudo tee /etc/xdg/reflector/reflector.conf
 	sudo systemctl enable reflector.service
 	sudo systemctl enable reflector.timer
 	sudo systemctl enable cups.service
