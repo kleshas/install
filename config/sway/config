@@ -219,8 +219,8 @@ bar {
 
 
 bindsym $mod+Shift+w exec wpg -m
-bindsym $mod+Shift+s exec /home/bhava/.scripts/ConkyMatic-master/conkymatic.sh
-bindsym $mod+Shift+x exec /home/bhava/.scripts/kamvas.sh
+bindsym $mod+Shift+s exec ~/.scripts/ConkyMatic-master/conkymatic.sh
+bindsym $mod+Shift+x exec ~/.scripts/kamvas.sh
 bindsym $mod+Shift+b exec kitty ~/.scripts/backup.sh
 bindsym Control+Mod1+L exec swaylock-blur
 
