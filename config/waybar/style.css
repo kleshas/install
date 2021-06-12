@@ -1,0 +1,136 @@
+/* =============================================================================
+ *
+ * Waybar configuration
+ *
+ * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+ *
+ * =========================================================================== */
+
+/* -----------------------------------------------------------------------------
+ * Keyframes
+ * -------------------------------------------------------------------------- */
+
+@keyframes blink-warning {
+    70% {
+        color: white;
+    }
+
+    to {
+        color: white;
+        background-color: orange;
+    }
+}
+
+@keyframes blink-critical {
+    70% {
+      color: white;
+    }
+
+    to {
+        color: white;
+        background-color: red;
+    }
+}
+
+
+/* -----------------------------------------------------------------------------
+ * Base styles
+ * -------------------------------------------------------------------------- */
+
+/* Reset all styles */
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* The whole bar */
+#waybar {
+    background: #323232;
+    color: white;
+    font-family: Liberation Mono, Font Awesome Solid;
+    font-size: 13px;
+}
+
+/* Each module */
+#battery,
+#clock,
+#cpu,
+#custom-keyboard-layout,
+#memory,
+#mode,
+#network,
+#pulseaudio,
+#temperature,
+#tray {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+/* -----------------------------------------------------------------------------
+ * Module styles
+ * -------------------------------------------------------------------------- */
+
+
+
+#clock {
+}
+
+
+#mode {
+    background: #64727D;
+    border-top: 2px solid white;
+    /* To compensate for the top border and still have vertical centering */
+    padding-bottom: 2px;
+}
+
+#network {
+    /* No styles */
+}
+
+#network.disconnected {
+    color: orange;
+}
+
+#pulseaudio {
+    /* No styles */
+}
+
+#pulseaudio.muted {
+    /* No styles */
+}
+
+
+
+
+
+#tray {
+    /* No styles */
+}
+
+#window {
+    font-weight: bold;
+}
+
+#workspaces button {
+    border-top: 2px solid transparent;
+    /* To compensate for the top border and still have vertical centering */
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #888888;
+}
+
+#workspaces button.focused {
+    border-color: #4c7899;
+    color: white;
+    background-color: #285577;
+}
+
+#workspaces button.urgent {
+    border-color: #c9545d;
+    color: #c9545d;
+}
