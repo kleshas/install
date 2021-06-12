@@ -25,26 +25,24 @@
 	sudo ln -s /etc/fonts/conf.avail/10-sub-pixel-rgb.conf /etc/fonts/conf.d
 	sudo ln -s /etc/fonts/conf.avail/11-lcdfilter-default.conf /etc/fonts/conf.d
 #dotfiles
+	mkdir ~/.scripts
 	cp -r ~/.dotfiles/config/* ~/.config/
 	mkdir ~/.chatty
 	mv ~/.config/chatty/settings ~/.chatty/
 	rm -f ~/.config/chatty
-	chmod +x ~/.config/i3/pipewire-pulse
 	rm ~/.bashrc
 	cp ~/.dotfiles/.bashrc ~/
 	cp ~/.dotfiles/.Xresources ~/
 	chmod +x ~/.config/i3/ConkyMatic-master/conkymatic.sh
-	mkdir ~/.scripts
-	cp ~/.dotfiles/backup.sh ~/.scripts
-	cp ~/.dotfiles/*.sh ~/.scripts
+	cp -r ~/.dotfiles/* ~/.scripts
 	cp ~/.dotfiles/keepass* ~/.scripts
 	chmod +x ~/.scripts/*.sh
+	chmod +x ~/.scripts/Conkymatic-master/conkymatic.sh
 #system stuff
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
 	echo "kernel.dmesg_restrict = 1" | sudo tee -a /etc/sysctl.d/50-dmesg-restrict.conf
 	echo "Storage=none" |sudo tee -a /etc/systemd/coredump.conf
-	echo "--country US --protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist
-" |sudo tee /etc/xdg/reflector/reflector.conf
+	echo "--country US --protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist" |sudo tee /etc/xdg/reflector/reflector.conf
 	sudo systemctl enable reflector.service
 	sudo systemctl enable reflector.timer
 	sudo systemctl enable cups.service
