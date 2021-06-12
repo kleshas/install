@@ -13,10 +13,9 @@
 	yay -S digimend-kernel-drivers-dkms-git input-wacom-dkms xf86-input-wacom
 	yay -S lutris steam winetricks multimc jdk8-openjdk
 	yay -S mcomix gthumb gnome-screenshot xnconvert calibre
-	yay -S noto-fonts-emoji numix-circle-arc-icons-git arc-gtk-theme
+	yay -S noto-fonts-emoji numix-circle-arc-icons-git arc-gtk-theme ttf-dejavu ttf-droid ttf-liberation ttf-ms-fonts
 	yay -S pcmanfm-gtk3 file-roller gvfs unrar
 	yay -S streamlink-twitch-gui chatty
-	yay -S ttf-dejavu ttf-droid ttf-liberation ttf-ms-fonts
 	yay -S veracrypt cherrytree android-file-transfer keepassxc qbittorrent wpgtk-git krita
 	
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
