@@ -218,8 +218,8 @@ bar {
     }
 
 
-bindsym $mod+Shift+w exec wpg -m; exec "bash -c 'sleep 5; /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh'"
-bindsym $mod+Shift+s exec /home/bhava/.config/i3/ConkyMatic-master/conkymatic.sh
+bindsym $mod+Shift+w exec wpg -m
+bindsym $mod+Shift+s exec /home/bhava/.scripts/ConkyMatic-master/conkymatic.sh
 bindsym $mod+Shift+x exec /home/bhava/.scripts/kamvas.sh
 bindsym $mod+Shift+b exec kitty ~/.scripts/backup.sh
 bindsym Control+Mod1+L exec swaylock-blur
