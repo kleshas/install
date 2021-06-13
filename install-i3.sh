@@ -36,6 +36,7 @@
 	mkdir ~/.scripts
 	cp ~/.dotfiles/* ~/.scripts
 	chmod +x ~/.scripts/*.sh
+	chmod +x ~/.scripts/volume
 	chmod +x ~/.scripts/ConkyMatic-master/conkymatic.sh
 #system stuff
 	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
