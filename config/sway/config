@@ -208,15 +208,29 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-bar {
-	swaybar_command waybar
-	tray_padding 5
-    }
+# class                 border		backgr		text		indicator	child_border
+client.focused          #4C7899		#285577		#FFFFFF 	#2E9EF4		#285577
+client.focused_inactive #333333 	#5F676A 	#FFFFFF		#484E50		#5F676A
+client.unfocused        #333333 	#222222 	#888888 	#292D2E   	#222222
+client.urgent           #2F343A 	#900000 	#FFFFFF 	#900000   	#900000
+client.placeholder      #000000 	#0C0C0C 	#FFFFFF 	#000000   	#0C0C0C
+client.background       #FFFFFF
 
+bar {
+    status_command i3status
+    font pango:Liberation Mono 11
+    colors {
+		background #404552
+		statusline #FFFFFF
+		separator  #6495ed
+
+		focused_workspace  #4C7899 #285577 #FFFFFF
+		active_workspace   #333333 #222222 #FFFFFF
+		inactive_workspace #333333 #222222 #888888
+		urgent_workspace   #2F343A #ff0000 #FFFFFF
+		binding_mode       #2F343A #900000 #FFFFFF
+  }
+}
 
 bindsym $mod+Shift+w exec wpg -m
 bindsym $mod+Shift+s exec ~/.scripts/ConkyMatic-master/conkymatic.sh
@@ -224,8 +238,8 @@ bindsym $mod+Shift+x exec ~/.scripts/kamvas.sh
 bindsym $mod+Shift+b exec kitty ~/.scripts/backup.sh
 bindsym Control+Mod1+L exec swaylock-blur
 
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioPlay exec playerctl play-pause
 
