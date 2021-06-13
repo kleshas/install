@@ -224,6 +224,11 @@ bindsym $mod+Shift+x exec ~/.scripts/kamvas.sh
 bindsym $mod+Shift+b exec kitty ~/.scripts/backup.sh
 bindsym Control+Mod1+L exec swaylock-blur
 
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioPlay exec playerctl play-pause
+
 # Set Themes
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
