@@ -258,8 +258,7 @@ exec --no-startup-id electron-mail
 exec --no-startup-id dunst
 exec --no-startup-id mullvad-vpn
 exec --no-startup-id firefox
-exec --no-startup-id gammastep -l 48.26:-123.21
-exec --no-startup-id gammastep-indicator
+exec --no-startup-id gammastep-indicator -l 48.26:-123.21
 exec --no-startup-id ~/.scripts/keepassxc.sh
 exec --no-startup-id systemctl start --user pipewire-pulse.service
 exec --no-startup-id systemctl --user enable --now pipewire-media-session.service
