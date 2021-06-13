@@ -283,6 +283,6 @@ exec --no-startup-id systemctl start --user pipewire-pulse.service
 exec --no-startup-id systemctl --user enable --now pipewire-media-session.service
 gaps inner 4
 default_border pixel 3
-input * xkb_numlock enabled
+input "type:keyboard" xkb_numlock enabled
 
 include /etc/sway/config.d/*
