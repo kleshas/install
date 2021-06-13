@@ -1,0 +1,30 @@
+general {
+	output_format = "i3bar"
+    colors = true
+    interval = 5
+    color_good = "#00FF00"
+	color_degraded = "#FFFF00"
+	color_bad = "#FF0000"
+    }
+    
+order += "volume master"
+order += "time"
+order += "ethernet wg-mullvad"
+
+time {
+        format = "%a %Y-%m-%d %H:%M:%S"
+        separator_block_width = 20
+}
+
+volume master {
+        format = "♪ %volume"
+        format_muted = "♪ muted (%volume)"
+        device = "pulse"
+        separator_block_width = 20
+}
+
+ethernet wg-mullvad{
+		format_up = ""
+		format_down = ""
+		separator_block_width = 20
+}
