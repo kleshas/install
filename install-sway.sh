@@ -4,7 +4,7 @@
 	sudo pacman -Syu
 	yay -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau radeon-profile-daemon-git
   	yay -S sway kitty waybar wofi xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland wl-clipboard otf-font-awesome gammastep-indicator swaylock-blur-bin kitty feh
-	yay -S alsa-utils pavucontrol pipewire pipewire-pulse pipewire-alsa lib32-pipewire deadbeef smplayer
+	yay -S alsa-utils pavucontrol pipewire pipewire-pulse pipewire-alsa lib32-pipewire deadbeef smplayer vlc
 	yay -S conky-git hddtemp wget
 	yay -S downgrade sysstat mlocate dunst grsync htop reflector pacman-contrib linux-headers sddm ntfs-3g man-db
 	yay -S electronmail thunderbird hunspell-en_ca hyphen-en firefox libreoffice-fresh zathura
