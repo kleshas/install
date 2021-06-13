@@ -32,7 +32,6 @@
 	rm -f ~/.config/chatty
 	rm ~/.bashrc
 	cp ~/.dotfiles/.bashrc ~/
-	cp ~/.dotfiles/.Xresources ~/
 	chmod +x ~/.config/i3/ConkyMatic-master/conkymatic.sh
 	cp -r ~/.dotfiles/* ~/.scripts
 	cp ~/.dotfiles/keepass* ~/.scripts
