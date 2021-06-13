@@ -3,7 +3,7 @@
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
 	yay -S xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau radeon-profile-daemon-git
-  	yay -S i3-gaps i3status i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 kitty feh rofi
+  	yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 kitty feh rofi
 	yay -S alsa-utils pavucontrol pipewire pipewire-pulse pipewire-alsa lib32-pipewire deadbeef smplayer
 	yay -S conky-git hddtemp wget
 	yay -S downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib picom linux-headers sddm ntfs-3g man-db
