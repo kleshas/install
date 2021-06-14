@@ -46,7 +46,7 @@
 	cp ~/.dotfiles/.bashrc ~/
 	cp ~/.dotfiles/.Xresources ~/
 	mkdir ~/.scripts
-	cp ~/.dotfiles/* ~/.scripts
+	cp ~/.dotfiles/.scripts/* ~/.scripts
 	chmod +x ~/.scripts/*.sh
 	chmod +x ~/.scripts/ConkyMatic-master/conkymatic.sh
 	
