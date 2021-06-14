@@ -5,7 +5,7 @@
 	yay -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau radeon-profile-daemon-git kitty
   	yay -S alsa-utils pavucontrol pipewire pipewire-pulse pipewire-alsa lib32-pipewire deadbeef smplayer
 	yay -S conky-git hddtemp wget
-	yay -S downgrade sysstat mlocate dunst grsync htop reflector redshift pacman-contrib linux-headers sddm ntfs-3g man-db
+	yay -S downgrade sysstat mlocate dunst grsync htop reflector pacman-contrib linux-headers sddm ntfs-3g man-db
 	yay -S electronmail thunderbird hunspell-en_ca hyphen-en firefox libreoffice-fresh zathura
 	yay -S geany geany-themes
 	yay -S cups hplip
@@ -28,12 +28,12 @@
 #install i3 and/or sway	
 	read -p "install i3? (y/n)" RESP
 	if [ "$RESP" = "y" ]; then
-		yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 rofi picom xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server
+		yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 rofi picom xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server redshift
 	fi
 	
 	read -p "install sway? (y/n)" REPLY
 	if [ "$REPLY" = "y" ]; then
-		yay -S sway i3blocks lxappearance kitty wofi xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland wl-clipboard gammastep-indicator swaylock-blur-bin kitty feh vlc
+		yay -S sway i3blocks lxappearance wofi xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland wl-clipboard gammastep-indicator swaylock-blur-bin feh vlc
 	fi
 	
 #dotfiles
