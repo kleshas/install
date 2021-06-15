@@ -12,7 +12,7 @@
 	yay -S cups hplip
 	yay -S digimend-kernel-drivers-dkms-git input-wacom-dkms xf86-input-wacom
 	yay -S lutris steam winetricks multimc jdk8-openjdk
-	yay -S mcomix gthumb gnome-screenshot xnconvert calibre feh
+	yay -S mcomix gthumb gnome-screenshot xnconvert calibre feh rofi
 	yay -S noto-fonts-emoji numix-circle-arc-icons-git arc-gtk-theme ttf-dejavu ttf-droid ttf-liberation ttf-ms-fonts
 	yay -S pcmanfm-gtk3 file-roller gvfs unrar
 	yay -S streamlink-twitch-gui chatty
@@ -29,7 +29,7 @@
 #install i3 and/or sway	
 	read -p "install i3? (y/n)" RESP
 	if [ "$RESP" = "y" ]; then
-		yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 rofi picom xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server redshift
+		yay -S i3-gaps i3blocks i3lock-fancy-dualmonitors-git xorg-xdpyinfo lxappearance-gtk3 picom xorg-xinit xorg-xrandr xorg-xinput xterm xorg-server redshift
 	fi
 	
 	read -p "install sway? (y/n)" REPLY
