@@ -1,9 +1,3 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
-
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
@@ -15,50 +9,8 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term kitty
-# Your preferred application launcher
-# Note: pass the final command to swaymsg so that the resulting window can be opened
-# on the original workspace that the command was run on.
-# set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
 set $menu wofi --show=drun --lines=5 --prompt=""
-
-
-### Output configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
-
-### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
-
-### Input configuration
-#
-# Example configuration:
-#
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
 
 ### Key bindings
 #
@@ -110,41 +62,52 @@ set $menu wofi --show=drun --lines=5 --prompt=""
     bindsym $mod+Shift+Up move up
     bindsym $mod+Shift+Right move right
 
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "0"
+
 # switch to workspace
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
 
 # workspace default monitors
-workspace 1 output DP-3
-workspace 2 output DVI-D-1
-workspace 3 output DP-3
-workspace 4 output DP-3
-workspace 5 output DP-3
-workspace 6 output HDMI-A-1
-workspace 7 output DP-3
-workspace 8 output DP-3
-workspace 9 output DP-3
-workspace 10 output DP-3
+workspace $ws1 output DP-3
+workspace $ws2 output DVI-D-1
+workspace $ws3 output DP-3
+workspace $ws4 output DP-3
+workspace $ws5 output DP-3
+workspace $ws6 output HDMI-A-1
+workspace $ws7 output DP-3
+workspace $ws8 output DP-3
+workspace $ws9 output DP-3
+workspace $ws10 output DP-3
 
 #
 # Layout stuff:
@@ -217,19 +180,7 @@ client.placeholder      #000000 	#0C0C0C 	#FFFFFF 	#000000   	#0C0C0C
 client.background       #FFFFFF
 
 bar {
-    status_command i3status
-    font pango:Liberation Mono 11
-    colors {
-		background #404552
-		statusline #FFFFFF
-		separator  #6495ed
-
-		focused_workspace  #4C7899 #285577 #FFFFFF
-		active_workspace   #333333 #222222 #FFFFFF
-		inactive_workspace #333333 #222222 #888888
-		urgent_workspace   #2F343A #ff0000 #FFFFFF
-		binding_mode       #2F343A #900000 #FFFFFF
-  }
+    swaybar_command waybar
 }
 
 bindsym $mod+Shift+w exec wpg -m
@@ -238,10 +189,9 @@ bindsym $mod+Shift+x exec ~/.scripts/kamvas.sh
 bindsym $mod+Shift+b exec kitty ~/.scripts/backup.sh
 bindsym Control+Mod1+L exec swaylock-blur
 
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
-bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 1%+ && pkill -RTMIN+10 i3blocks 
+bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 1%- && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
 
 # Set Themes
 set $gnome-schema org.gnome.desktop.interface
@@ -253,16 +203,16 @@ exec_always {
 }
 
 # specify workspaces for applications
-assign [class="Conky"] workspace 2
-assign [class="Mullvad VPN"] workspace 3
-assign [app_id="cherrytree"] workspace 4
-assign [class="Steam"] workspace 5
-assign [class="krita"] workspace 6
-assign [app_id="org.qbittorrent.qBittorrent"] workspace 7
-assign [app_id="thunderbird"] workspace 9
-assign [class="electron-mail"] workspace 9
-assign [app_id="veracrypt"] workspace 10
-assign [app_id="org.keepassxc.KeePassXC"] workspace 10
+assign [class="Conky"] $ws2
+assign [class="Mullvad VPN"] $ws3
+assign [app_id="cherrytree"] $ws4
+assign [class="Steam"] $ws5
+assign [class="krita"] $ws6
+assign [app_id="org.qbittorrent.qBittorrent"] $ws7
+assign [app_id="thunderbird"] $ws9
+assign [class="electron-mail"] $ws9
+assign [app_id="veracrypt"] $ws10
+assign [app_id="org.keepassxc.KeePassXC"] $ws10
 
 # floating
 for_window [app_id="mpv"] floating enable
@@ -273,6 +223,7 @@ for_window [class="streamlink-twitch-gui"] floating enable
 output DP-3 mode 2560x1440@75Hz position 0,0
 output HDMI-A-1 mode 1920x1080 position 0,1440
 output DVI-D-1 mode 1920x1200 position 2560,0
+
 exec --no-startup-id electron-mail
 exec --no-startup-id dunst
 exec --no-startup-id mullvad-vpn
@@ -283,6 +234,6 @@ exec --no-startup-id systemctl start --user pipewire-pulse.service
 exec --no-startup-id systemctl --user enable --now pipewire-media-session.service
 gaps inner 4
 default_border pixel 3
-input "type:keyboard" xkb_numlock enabled
+input * xkb_numlock enabled
 
 include /etc/sway/config.d/*
