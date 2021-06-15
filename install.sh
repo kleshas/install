@@ -34,7 +34,7 @@
 	
 	read -p "install sway? (y/n)" REPLY
 	if [ "$REPLY" = "y" ]; then
-		yay -S sway otf-font-awesome waybar lxappearance wofi xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland wl-clipboard gammastep-indicator swaylock-blur-bin vlc
+		yay -S sway otf-font-awesome waybar clipman lxappearance wofi xorg-xwayland xorg-xlsclients qt5-wayland glfw-wayland wl-clipboard gammastep-indicator swaylock-blur-bin vlc
 	fi
 	
 #dotfiles
