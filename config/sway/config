@@ -10,7 +10,8 @@ set $right l
 # Your preferred terminal emulator
 set $term kitty
 
-set $menu wofi --show=drun --lines=5 --prompt=""
+set $menu rofi -show run --lines=5 --prompt=""
+#this changes colors as per wpgtk atm, and xlsclients does not list it.  Maybe related to lbonn-rofi being installed (and uninstalled) previously which is meant to have wayland support
 
 ### Key bindings
 #
