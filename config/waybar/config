@@ -1,6 +1,6 @@
 {
 	"position": "bottom", // Waybar position (top|bottom|left|right)
-    "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
+    "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-right": ["pulseaudio", "tray", "clock"],
     // Modules configuration
     // "sway/workspaces": {
@@ -40,8 +40,8 @@
         "spacing": 10
     },
     "clock": {
-    	"interval": 1,
-	"format": "{:%a %b %d  %H:%M:%S}",
+		"interval": 1,
+		"format": "{:%a %b %d  %H:%M:%S}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}"
     },
