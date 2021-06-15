@@ -2,7 +2,8 @@
 	exec 2> >(tee -a ~/error.log)
 	sudo timedatectl set-ntp true
 	sudo pacman -Syu
-	yay -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau radeon-profile-daemon-git kitty
+	yay -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau kitty
+	yay -S radeon-profile-daemon-git
   	yay -S alsa-utils pavucontrol pipewire pipewire-pulse pipewire-alsa lib32-pipewire deadbeef smplayer
 	yay -S conky-git hddtemp wget
 	yay -S downgrade sysstat mlocate dunst grsync htop reflector pacman-contrib linux-headers sddm ntfs-3g man-db
@@ -37,15 +38,15 @@
 	fi
 	
 #dotfiles
-	cp -r ~/.dotfiles/config/* ~/.config/
+	cp -a ~/.dotfiles/config/. ~/.config/
 	mkdir ~/.chatty
 	mv ~/.config/chatty/settings ~/.chatty/
-	rm -f ~/.config/chatty
+	rm -rf ~/.config/chatty
 	rm ~/.bashrc
 	cp ~/.dotfiles/.bashrc ~/
 	cp ~/.dotfiles/.Xresources ~/
 	mkdir ~/.scripts
-	cp ~/.dotfiles/.scripts/* ~/.scripts
+	cp -a ~/.dotfiles/.scripts/. ~/.scripts
 	chmod +x ~/.scripts/*.sh
 	chmod +x ~/.scripts/ConkyMatic-master/conkymatic.sh
 	
