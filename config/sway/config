@@ -226,6 +226,7 @@ output HDMI-A-1 mode 1920x1080 position 0,1440
 output DVI-D-1 mode 1920x1200 position 2560,0
 
 exec electron-mail
+exec wl-paste -t text --watch clipman store
 exec dunst
 exec mullvad-vpn
 exec firefox
