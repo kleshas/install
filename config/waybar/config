@@ -40,7 +40,8 @@
         "spacing": 10
     },
     "clock": {
-		"format": "{:%a %b %d  %H:%M:%S}",
+    	"interval": 1,
+	"format": "{:%a %b %d  %H:%M:%S}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}"
     },
