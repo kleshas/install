@@ -55,7 +55,6 @@
 	echo "Storage=none" |sudo tee -a /etc/systemd/coredump.conf
 	echo "--country US --protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist" |sudo tee /etc/xdg/reflector/reflector.conf
 	sudo systemctl enable reflector.service
-	sudo systemctl enable reflector.timer
 	sudo systemctl enable cups.service
 	sudo systemctl enable radeon-profile-daemon.service
 	sudo systemctl enable fstrim.timer
