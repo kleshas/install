@@ -149,7 +149,7 @@ ${color3}Temperatures and fan speed
 #
 # COLOR PALETTE IMAGE
 # Note: Vertical offset controls the space UNDER the image.
-${image /home/bhava/.config/i3/ConkyMatic-master/Cache/colorpalette.png -p 80,920}\
+${image /home/bhava/.scripts/ConkyMatic-master/Cache/colorpalette.png -p 80,920}\
 
 
 #${color3}GPU Temp  ${color5}${nvidia temp}°C (${execi 100 nvidia-settings -q GPUCurrentFanSpeedRPM -t | grep -m 1 ""} rpm)
