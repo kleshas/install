@@ -224,14 +224,14 @@ output DP-3 mode 2560x1440@75Hz position 0,0
 output HDMI-A-1 mode 1920x1080 position 0,1440
 output DVI-D-1 mode 1920x1200 position 2560,0
 
-exec --no-startup-id electron-mail
-exec --no-startup-id dunst
-exec --no-startup-id mullvad-vpn
-exec --no-startup-id firefox
-exec --no-startup-id gammastep-indicator -l 48.26:-123.21
-exec --no-startup-id ~/.scripts/keepassxc.sh
-exec --no-startup-id systemctl start --user pipewire-pulse.service
-exec --no-startup-id systemctl --user enable --now pipewire-media-session.service
+exec electron-mail
+exec dunst
+exec mullvad-vpn
+exec firefox
+exec gammastep-indicator -l 48.26:-123.21
+exec ~/.scripts/keepassxc.sh
+exec systemctl start --user pipewire-pulse.service
+exec systemctl --user enable --now pipewire-media-session.service
 gaps inner 4
 default_border pixel 3
 input * xkb_numlock enabled
