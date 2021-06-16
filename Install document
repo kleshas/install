@@ -67,7 +67,7 @@
 	hwclock --systohc --utc #set the hw clock to UTC
 	echo <SYSTEMNAME> > /etc/hostname #choose a name for SYSTEMNAME
 	edit /etc/hosts to include:
-	    127.0.0.1   localhost
+	127.0.0.1   localhost
         ::1         localhost
         127.0.1.1   <systemname>.localdomain <systemname>
     
