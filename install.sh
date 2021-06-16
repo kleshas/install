@@ -45,6 +45,7 @@
 	rm ~/.bashrc
 	cp ~/.dotfiles/.bashrc ~/
 	cp ~/.dotfiles/.Xresources ~/
+	cp ~/.dotfiles/.fehbg ~/
 	mkdir ~/.scripts
 	cp -a ~/.dotfiles/.scripts/. ~/.scripts
 	chmod +x ~/.scripts/*.sh
