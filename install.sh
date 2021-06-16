@@ -5,7 +5,7 @@
 	yay -S lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon mesa-vdpau lib32-mesa-vdpau kitty
 	yay -S radeon-profile-daemon-git
   	yay -S alsa-utils pavucontrol pipewire pipewire-pulse pipewire-alsa lib32-pipewire deadbeef smplayer
-	yay -S conky-git hddtemp wget
+	yay -S conky hddtemp wget
 	yay -S downgrade sysstat mlocate dunst grsync htop reflector pacman-contrib linux-headers sddm ntfs-3g man-db
 	yay -S electronmail thunderbird hunspell-en_ca hyphen-en firefox libreoffice-fresh zathura
 	yay -S geany geany-themes
