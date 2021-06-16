@@ -1,0 +1,2 @@
+#!/bin/sh
+feh --no-fehbg --bg-scale '/home/bhava/Pictures/wallhaven-76gpko_2560x1440.png' 
