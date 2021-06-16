@@ -19,7 +19,7 @@
 	yay -S veracrypt cherrytree android-file-transfer keepassxc qbittorrent wpgtk-git krita
 	
 #Pacman doesn't clean out the folder where it keeps downloaded packages. It's smart to run this command to clean it out from time to time.
-    sudo pacman -Sc
+   	sudo pacman -Sc
     	
 #Font configuration
 	sudo ln -s /etc/fonts/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
