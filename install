@@ -27,7 +27,7 @@ guipacs=(
 	mesa
 	vulkan-icd-loader
 	lib32-vulkan-icd-loader
-    lact
+    	lact
 	alsa-utils
 	pavucontrol
 	pipewire
@@ -153,6 +153,7 @@ genfstab -pU /mnt >> /mnt/etc/fstab
 sed -i 's/relatime/noatime/' /mnt/etc/fstab
 
 echo "Setting up environment..."
+echo "$hostname" > /mnt/etc/hostname
 arch-chroot /mnt hwclock --systohc --utc
 #set up locale/env
 #add our locale to locale.gen
@@ -160,17 +161,18 @@ sed -i -e "/^#"$locale"/s/^#//" /mnt/etc/locale.gen
 arch-chroot /mnt locale-gen
 echo LANG=${locale} > /mnt/etc/locale.conf
 ln -sf /mnt/usr/share/zoneinfo/America/Vancouver /mnt/etc/localtime
-arch-chroot /mnt locale-gen
 
 echo "Configuring for first boot..."
 #add the local user
 echo -e "[ * ]Adding user"
-read -p "Enter your desired username:" user_name
-echo "${user_name}:password" | chpasswd -R /mnt
+read -p "Username " username
+arch-chroot /mnt useradd -mG wheel "$username"
+arch-chroot /mnt passwd "$username"
+arch-chroot /mnt passwd root
 
 #uncomment the wheel group in the sudoers file
 sed -i -e '/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/s/^# //' /mnt/etc/sudoers
-echo "LANG="$username" ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme" |sudo tee -a /mnt/etc/sudoers
+echo "$username" ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme" |sudo tee -a /mnt/etc/sudoers
 
 #change the HOOKS in mkinitcpio.conf
 sed -i 's/keymap/keymap encrypt/g' /mnt/etc/mkinitcpio.conf
@@ -195,7 +197,7 @@ echo 127.0.1.1 "$hostname".localdomain "$hostname" >> /mnt/etc/hosts
 #improve compilation speeds
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /mnt/etc/pacman.conf
 sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /mnt/etc/makepkg.conf
-sed -i 's/^#MAKEFLAGS=-j2/MAKEFLAGS=-j$(nproc)/' /mnt/etc/makepkg.conf
+sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS=-"-j$(nproc)"/' /mnt/etc/makepkg.conf
 sed -i 's/^COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -z - --threads=0)/' /mnt/etc/makepkg.conf
 
 #install the systemd-boot bootloader
@@ -214,73 +216,3 @@ cat <<EOF > /mnt/boot/loader/entries/arch.conf
 EOF
 
 echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
-
-#install the gui packages
-echo "Installing GUI..."
-arch-chroot /mnt pacman -Sy --needed "${guipacs[@]}"
-
-#user-specific stuff
-arch-chroot -u ${user_name} /mnt bash -s <<-EOF
-	HOME=/home/${user_name}
-	cd HOME
-	
-	git clone https://aur.archlinux.org/yay-bin.git
-	cd yay-bin
-	makepkg -si
-	mkdir ~/.dotfiles
-	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
-	
-   	sudo pacman -Sc
-   	
-	read -p "install i3? (y/n)" i3
-	if [ "$i3" = "y" ]; then
-		yay -S i3-wm i3blocks gnome-screenshot rofi i3lock-fancy-dualmonitors-git xorg-apps lxappearance-gtk3 numlockx xorg-xinit xterm xorg-server redshift-qt pamixer
-	fi
-	read -p "install sway? (y/n)" sway
-	if [ "$sway" = "y" ]; then
-		yay -S sway swaytools slurp ydotool evtest otf-font-awesome waybar lxappearance wofi xorg-xwayland xorg-xlsclients qt5-wayland qt6-wayland glfw-wayland gammastep swaylock-effects-git swaybg xdg-desktop-portal-gtk
-	fi
-
-	cp -a ~/.dotfiles/.config/. ~/.config
-	cp -a ~/.dotfiles/.chatty ~/
-	rm ~/.bashrc
-	cp ~/.dotfiles/.profile ~/
-	cp ~/.dotfiles/.bashrc ~/
-	cp ~/.dotfiles/.bash_profile ~/
-	cp ~/.dotfiles/.Xresources ~/
-	cp ~/.dotfiles/.Xdefaults ~/
-	mkdir ~/.scripts
-	cp -a ~/.dotfiles/.scripts/. ~/.scripts
-	chmod +x ~/.scripts/*.sh
-	cd ~/.dotfiles
-	stow --adopt -vt ~ .
-	git config --global user.email "kleshas@mailbox.org"
-	git config --global user.name "kleshas"
-
-	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
-
-	echo "--protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist" |sudo tee /etc/xdg/reflector/reflector.conf
-	sudo systemctl enable reflector.service
-	sudo systemctl enable fstrim.timer
-
-	wget https://mullvad.net/media/mullvad-code-signing.asc
-	gpg2 --import mullvad-code-signing.asc
-	gpg2 --edit-key A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF
-	yay -S mullvad-vpn-bin
-	
-	sudo bash -c "cat ~/.dotfiles/crypttab > /etc/crypttab"
-	sudo bash -c "cat ~/.dotfiles/fstab >> /etc/fstab"
-EOF
-
-#lock the root account
-#arch-chroot /mnt usermod -L root
-#and we're done
-
-echo "-----------------------------------"
-echo "- Install complete. Rebooting.... -"
-echo "Log in as ${username} and run the apps installer"
-echo "-----------------------------------"
-sleep 10
-sync
-reboot
-
