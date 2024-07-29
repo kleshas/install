@@ -47,7 +47,7 @@ mount /dev/disk/by-partlabel/boot /mnt/boot
 
 #Update pacman mirrors and then pacstrap base install
 echo "Pacstrapping..."
-pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode nano cryptsetup 
+pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode nano cryptsetup git
 genfstab -pU /mnt >> /mnt/etc/fstab
 #Decrease writes to the USB by using the noatime option in fstab
 sed -i 's/relatime/noatime/' /mnt/etc/fstab
@@ -113,26 +113,16 @@ cat <<EOF > /mnt/boot/loader/entries/arch.conf
 	initrd /initramfs-linux.img
 EOF
 
-echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
-
-arch-chroot /mnt pacman -Syu
-arch-chroot /mnt pacman -S git
-arch-chroot /mnt git clone https://aur.archlinux.org/yay-bin.git
-cd /mnt/yay-bin
-arch-chroot /mnt makepkg -si
-mkdir /mnt/home/${username}/.dotfiles
-arch-chroot /mnt git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
-arch-chroot /mnt bash ~/.dotfiles/.scripts/install.sh
+echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
 #lock the root account
 #arch-chroot /mnt usermod -L root
 #and we're done
 
-
 echo "-----------------------------------"
 echo "- Install complete. Rebooting.... -"
+echo "Log in as ${username} and run the apps installer"
 echo "-----------------------------------"
 sleep 10
 sync
 reboot
-
