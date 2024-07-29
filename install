@@ -1,6 +1,6 @@
 #!/bin/bash
 # uncomment to view debugging information 
-#set -xeuo pipefail
+set -xeuo pipefail
 
 #check if we're root
 if [[ "$UID" -ne 0 ]]; then
@@ -9,28 +9,23 @@ if [[ "$UID" -ne 0 ]]; then
 fi
 
 ### Config options
-target="/dev/nvme0n1p3"
 locale="en_CA.UTF-8"
-keymap="us"
-timezone="America/Vancouver"
 hostname=$(date +%Y%b)
-username="bhava"
-#SHA512 hash of password. To generate, run 'mkpasswd -m sha-512', don't forget to prefix any $ symbols with \ . The entry below is the hash of 'password'
-#user_password="\$6\$/VBa6GuBiFiBmi6Q\$yNALrCViVtDDNjyGBsDG7IbnNR0Y/Tda5Uz8ToyxXXpw86XuCVAlhXlIvzy1M8O.DWFB6TRCia0hMuAJiXOZy/"
-user_password="\$6\$4HsM2SKYvvmIrYhC\$xffHDbqkJBpGN1ihmJ46PvPacgEztIVheUgYXc1jwZ6LzdPa9c5cuKk6jPeZEKjn2GNijK5SI/9vAuzQT/Rei0"
 
 # Partition
+lsblk
+read -p "what drive to install to? " target
 echo "Creating partitions..."
-#sgdisk -Z "$target"
-sgdisk -d 1 -d 2 "$target"
+#sgdisk -Z /dev/"$target"
+sgdisk -d 1 -d 2 /dev/"$target"
 sgdisk \
     -n1:0:+512M  -t1:ef00 -c1:boot \
     -N2          -t2:8304 -c2:linux \
-    "$target"
+    /dev/"$target"
     
 # Reload partition table
 sleep 2
-partprobe -s "$target"
+partprobe -s /dev/"$target"
 sleep 2
 echo "Encrypting root partition..."
 
@@ -51,7 +46,6 @@ mount /dev/disk/by-partlabel/boot /mnt/boot
 
 #Update pacman mirrors and then pacstrap base install
 echo "Pacstrapping..."
-reflector --country CA --age 24 --protocol http,https --sort rate --save /etc/pacman.d/mirrorlist
 pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode nano cryptsetup 
 genfstab -pU /mnt >> /mnt/etc/fstab
 
@@ -60,21 +54,16 @@ arch-chroot /mnt hwclock --systohc --utc
 #set up locale/env
 #add our locale to locale.gen
 sed -i -e "/^#"$locale"/s/^#//" /mnt/etc/locale.gen
-#remove any existing config files that may have been pacstrapped, systemd-firstboot will then regenerate them
-rm /mnt/etc/{machine-id,localtime,hostname,shadow,locale.conf} ||
-systemd-firstboot --root /mnt \
-	--keymap="$keymap" --locale="$locale" \
-	--locale-messages="$locale" --timezone="$timezone" \
-	--hostname="$hostname" --setup-machine-id \
-	--welcome=false
 arch-chroot /mnt locale-gen
-echo "Configuring for first boot..."
+echo LANG=${locale} > /mnt/etc/locale.conf
+ln -sf /mnt/usr/share/zoneinfo/America/Vancouver /mnt/etc/localtime
+arch-chroot /mnt locale-gen
 
+echo "Configuring for first boot..."
 #add the local user
 echo -e "[ * ]Adding user"
-read -rp "Enter your desired username:" user_name
-arch-chroot /mnt useradd -m -g users -G wheel -s /bin/bash "${user_name}"
-arch-chroot /mnt passwd "${user_name}"
+read -p "Enter your desired username:" user_name
+echo "${user_name}:password" | chpasswd -R /mnt
 
 #uncomment the wheel group in the sudoers file
 sed -i -e '/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/s/^# //' /mnt/etc/sudoers
@@ -118,15 +107,14 @@ EOF
 
 echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/nvme0n1p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
-arch-chroot /mnt <<EOF
-	pacman -Syu
-	pacman -S git
-	git clone https://aur.archlinux.org/yay-bin.git
-	cd yay-bin
-	makepkg -si
-	mkdir ~/.dotfiles
-	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
-	bash ~/.dotfiles/.scripts/install.sh
+arch-chroot /mnt pacman -Syu
+arch-chroot /mnt pacman -S git
+arch-chroot /mnt git clone https://aur.archlinux.org/yay-bin.git
+cd /mnt/yay-bin
+arch-chroot /mnt makepkg -si
+mkdir /mnt/home/${username}/.dotfiles
+arch-chroot /mnt git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
+arch-chroot /mnt bash ~/.dotfiles/.scripts/install.sh
 EOF
 
 #lock the root account
