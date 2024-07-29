@@ -1,0 +1,70 @@
+
+#install the gui packages
+echo "Installing GUI..."
+arch-chroot /mnt pacman -Sy --needed "${guipacs[@]}"
+
+#user-specific stuff
+arch-chroot -u ${user_name} /mnt bash -s <<-EOF
+	HOME=/home/${user_name}
+	cd HOME
+	mkdir $HOME/YAY
+	git clone https://aur.archlinux.org/yay-bin.git $HOME/YAY
+	cd yay-bin
+	makepkg -si
+	mkdir ~/.dotfiles
+	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
+	
+   	sudo pacman -Sc
+   	
+	read -p "install i3? (y/n)" i3
+	if [ "$i3" = "y" ]; then
+		yay -S i3-wm i3blocks gnome-screenshot rofi i3lock-fancy-dualmonitors-git xorg-apps lxappearance-gtk3 numlockx xorg-xinit xterm xorg-server redshift-qt pamixer
+	fi
+	read -p "install sway? (y/n)" sway
+	if [ "$sway" = "y" ]; then
+		yay -S sway swaytools slurp ydotool evtest otf-font-awesome waybar lxappearance wofi xorg-xwayland xorg-xlsclients qt5-wayland qt6-wayland glfw-wayland gammastep swaylock-effects-git swaybg xdg-desktop-portal-gtk
+	fi
+
+	cp -a ~/.dotfiles/.config/. ~/.config
+	cp -a ~/.dotfiles/.chatty ~/
+	rm ~/.bashrc
+	cp ~/.dotfiles/.profile ~/
+	cp ~/.dotfiles/.bashrc ~/
+	cp ~/.dotfiles/.bash_profile ~/
+	cp ~/.dotfiles/.Xresources ~/
+	cp ~/.dotfiles/.Xdefaults ~/
+	mkdir ~/.scripts
+	cp -a ~/.dotfiles/.scripts/. ~/.scripts
+	chmod +x ~/.scripts/*.sh
+	cd ~/.dotfiles
+	stow --adopt -vt ~ .
+	git config --global user.email "kleshas@mailbox.org"
+	git config --global user.name "kleshas"
+
+	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+
+	echo "--protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist" |sudo tee /etc/xdg/reflector/reflector.conf
+	sudo systemctl enable reflector.service
+	sudo systemctl enable fstrim.timer
+
+	wget https://mullvad.net/media/mullvad-code-signing.asc
+	gpg2 --import mullvad-code-signing.asc
+	gpg2 --edit-key A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF
+	yay -S mullvad-vpn-bin
+	
+	sudo bash -c "cat ~/.dotfiles/crypttab > /etc/crypttab"
+	sudo bash -c "cat ~/.dotfiles/fstab >> /etc/fstab"
+EOF
+
+#lock the root account
+#arch-chroot /mnt usermod -L root
+#and we're done
+
+echo "-----------------------------------"
+echo "- Install complete. Rebooting.... -"
+echo "Log in as ${username} and run the apps installer"
+echo "-----------------------------------"
+sleep 10
+sync
+reboot
+
