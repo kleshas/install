@@ -105,7 +105,7 @@ yay=(
 #install the gui packages
 echo "Installing GUI..."
 arch-chroot /mnt pacman -Sy --needed "${pacs[@]}"
-arch-chroot /mnt yay -S "${yay[@]}"
+arch-chroot /mnt yay -S --needed "${yay[@]}"
 
 #user-specific stuff
 HOME=/home/${user_name}
