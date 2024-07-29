@@ -108,8 +108,9 @@ arch-chroot /mnt pacman -Sy --needed "${pacs[@]}"
 arch-chroot /mnt yay -S --needed "${yay[@]}"
 
 #user-specific stuff
-HOME=/home/${user_name}
-arch-chroot -u ${user_name} /mnt bash -c <<-EOF
+read -p "which username to install under? " username
+HOME=/home/${username}
+arch-chroot -u ${username} /mnt bash -c <<-EOF
 	cd $HOME
 	mkdir $HOME/YAY
 	git clone https://aur.archlinux.org/yay-bin.git $HOME/YAY
@@ -156,8 +157,8 @@ arch-chroot -u ${user_name} /mnt bash -c <<-EOF
 	gpg2 --edit-key A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF
 	yay -S --needed mullvad-vpn-bin
 	
-	sudo bash -c "cat ~/.dotfiles/crypttab > /etc/crypttab"
-	sudo bash -c "cat ~/.dotfiles/fstab >> /etc/fstab"
+	cat ~/.dotfiles/crypttab > /etc/crypttab
+	cat ~/.dotfiles/fstab >> /etc/fstab
 EOF
 
 #lock the root account
@@ -166,7 +167,6 @@ EOF
 
 echo "-----------------------------------"
 echo "- Install complete. Rebooting.... -"
-echo "Log in as ${username} and run the apps installer"
 echo "-----------------------------------"
 sleep 10
 sync
