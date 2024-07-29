@@ -70,7 +70,7 @@ sed -i -e '/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/s/^# //' /mnt/etc/sudoers
 echo "LANG="$username" ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme" |sudo tee -a /mnt/etc/sudoers
 
 #change the HOOKS in mkinitcpio.conf
-sed -i 's/keymap consolefont/vdconsole encrypt/g' /mnt/etc/mkinitcpio.conf
+sed -i 's/keymap/keymap encrypt/g' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -p linux
  
 #enable the services we will need on start up
