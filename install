@@ -13,6 +13,106 @@ fi
 locale="en_CA.UTF-8"
 hostname=$(date +%Y%b)
 
+### Desktop packages #####
+guipacs=(
+	lib32-mesa
+	xf86-video-amdgpu
+	vulkan-radeon
+	lib32-vulkan-radeon
+	mesa-vdpau
+	lib32-mesa-vdpau
+	libva-mesa-driver
+	lib32-libva-mesa-driver
+	smartmontools
+	mesa
+	vulkan-icd-loader
+	lib32-vulkan-icd-loader
+    lact
+	alsa-utils
+	pavucontrol
+	pipewire
+	pipewire-pulse
+	pipewire-alsa
+	lib32-pipewire mpv
+	conky
+	hddtemp
+	wget
+	nvme-cli
+	downgrade
+	sysstat
+	dunst
+	grsync
+	htop
+	reflector
+	pacman-contrib
+	linux-headers
+	man-db
+	ncdu
+	btrfs-progs
+	kitty
+	polkit-gnome
+	thunderbird
+	hunspell-en_ca
+	hyphen-en
+	firefox
+	libreoffice-fresh
+	zathura
+	hplip
+	cups
+	lutris
+	steam
+	winetricks
+	prismlauncher-bin
+	jdk8-openjdk
+	jdk-openjdk
+	heroic-games-launcher-bin
+	mcomix
+	gthumb
+	xnconvert
+	calibre
+	feh
+	noto-fonts-emoji
+	ttf-dejavu
+	ttf-droid
+	ttf-liberation
+	ttf-ms-fonts
+	qt5-styleplugins
+	pcmanfm-gtk3
+	file-roller
+	gvfs
+	unrar
+	grim
+	geany
+	streamlink-twitch-gui-bin
+	chatty
+	protontricks
+	vulkan-intel
+	lib32-vulkan-intel
+	lib32-gnutls
+	lib32-libpulse
+	wine-staging
+	lib32-giflib
+	mpg123
+	lib32-mpg123
+	lib32-openal
+	lib32-v4l-utils
+	lib32-libxcomposite
+	lib32-libxinerama
+	opencl-icd-loader
+	lib32-opencl-icd-loader
+	lib32-libxslt
+	lib32-libva
+	lib32-gtk3
+	lib32-gst-plugins-base-libs
+	cherrytree
+	android-file-transfer
+	keepassxc
+	qbittorrent
+	python-pywal
+	wpgtk
+	virtualbox
+	)
+
 # Partition
 lsblk
 read -p "what drive to install to? " target
@@ -115,6 +215,63 @@ EOF
 
 echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
+#install the gui packages
+echo "Installing GUI..."
+arch-chroot /mnt pacman -Sy --needed "${guipacs[@]}"
+
+#user-specific stuff
+arch-chroot -u ${user_name} /mnt bash -s <<-EOF
+	HOME=/home/${user_name}
+	cd HOME
+	
+	git clone https://aur.archlinux.org/yay-bin.git
+	cd yay-bin
+	makepkg -si
+	mkdir ~/.dotfiles
+	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
+	
+   	sudo pacman -Sc
+   	
+	read -p "install i3? (y/n)" i3
+	if [ "$i3" = "y" ]; then
+		yay -S i3-wm i3blocks gnome-screenshot rofi i3lock-fancy-dualmonitors-git xorg-apps lxappearance-gtk3 numlockx xorg-xinit xterm xorg-server redshift-qt pamixer
+	fi
+	read -p "install sway? (y/n)" sway
+	if [ "$sway" = "y" ]; then
+		yay -S sway swaytools slurp ydotool evtest otf-font-awesome waybar lxappearance wofi xorg-xwayland xorg-xlsclients qt5-wayland qt6-wayland glfw-wayland gammastep swaylock-effects-git swaybg xdg-desktop-portal-gtk
+	fi
+
+	cp -a ~/.dotfiles/.config/. ~/.config
+	cp -a ~/.dotfiles/.chatty ~/
+	rm ~/.bashrc
+	cp ~/.dotfiles/.profile ~/
+	cp ~/.dotfiles/.bashrc ~/
+	cp ~/.dotfiles/.bash_profile ~/
+	cp ~/.dotfiles/.Xresources ~/
+	cp ~/.dotfiles/.Xdefaults ~/
+	mkdir ~/.scripts
+	cp -a ~/.dotfiles/.scripts/. ~/.scripts
+	chmod +x ~/.scripts/*.sh
+	cd ~/.dotfiles
+	stow --adopt -vt ~ .
+	git config --global user.email "kleshas@mailbox.org"
+	git config --global user.name "kleshas"
+
+	echo "vm.swappiness=10" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+
+	echo "--protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist" |sudo tee /etc/xdg/reflector/reflector.conf
+	sudo systemctl enable reflector.service
+	sudo systemctl enable fstrim.timer
+
+	wget https://mullvad.net/media/mullvad-code-signing.asc
+	gpg2 --import mullvad-code-signing.asc
+	gpg2 --edit-key A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF
+	yay -S mullvad-vpn-bin
+	
+	sudo bash -c "cat ~/.dotfiles/crypttab > /etc/crypttab"
+	sudo bash -c "cat ~/.dotfiles/fstab >> /etc/fstab"
+EOF
+
 #lock the root account
 #arch-chroot /mnt usermod -L root
 #and we're done
@@ -126,3 +283,4 @@ echo "-----------------------------------"
 sleep 10
 sync
 reboot
+
