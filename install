@@ -1,6 +1,7 @@
 #!/bin/bash
 # uncomment to view debugging information 
 set -xeuo pipefail
+timedatectl set-ntp true
 
 #check if we're root
 if [[ "$UID" -ne 0 ]]; then
@@ -48,6 +49,8 @@ mount /dev/disk/by-partlabel/boot /mnt/boot
 echo "Pacstrapping..."
 pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode nano cryptsetup 
 genfstab -pU /mnt >> /mnt/etc/fstab
+#Decrease writes to the USB by using the noatime option in fstab
+sed -i 's/relatime/noatime/' /mnt/etc/fstab
 
 echo "Setting up environment..."
 arch-chroot /mnt hwclock --systohc --utc
@@ -84,6 +87,11 @@ cat <<EOF > /mnt/etc/systemd/network/20-wired.network
 	IPv6PrivacyExtensions=yes
 EOF
 
+#Put the following in the /etc/hosts file
+echo "127.0.0.1 localhost" >> /mnt/etc/hosts
+echo "::1  localhost" >> /mnt/etc/hosts
+echo 127.0.1.1 "$hostname".localdomain "$hostname" >> /mnt/etc/hosts
+
 #improve compilation speeds
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /mnt/etc/pacman.conf
 sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /mnt/etc/makepkg.conf
@@ -115,10 +123,9 @@ arch-chroot /mnt makepkg -si
 mkdir /mnt/home/${username}/.dotfiles
 arch-chroot /mnt git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
 arch-chroot /mnt bash ~/.dotfiles/.scripts/install.sh
-EOF
 
 #lock the root account
-arch-chroot /mnt usermod -L root
+#arch-chroot /mnt usermod -L root
 #and we're done
 
 
