@@ -3,7 +3,7 @@
 set -xeuo pipefail
 
 ### Desktop packages #####
-guipacs=(
+pacs=(
 	lib32-mesa
 	xf86-video-amdgpu
 	vulkan-radeon
@@ -16,7 +16,6 @@ guipacs=(
 	mesa
 	vulkan-icd-loader
 	lib32-vulkan-icd-loader
-    	lact
 	alsa-utils
 	pavucontrol
 	pipewire
@@ -27,7 +26,6 @@ guipacs=(
 	hddtemp
 	wget
 	nvme-cli
-	downgrade
 	sysstat
 	dunst
 	grsync
@@ -50,31 +48,20 @@ guipacs=(
 	cups
 	lutris
 	steam
-	winetricks
-	prismlauncher-bin
 	jdk8-openjdk
 	jdk-openjdk
-	heroic-games-launcher-bin
-	mcomix
 	gthumb
-	xnconvert
 	calibre
 	feh
 	noto-fonts-emoji
 	ttf-dejavu
 	ttf-droid
 	ttf-liberation
-	ttf-ms-fonts
-	qt5-styleplugins
 	pcmanfm-gtk3
 	file-roller
 	gvfs
 	unrar
 	grim
-	geany
-	streamlink-twitch-gui-bin
-	chatty
-	protontricks
 	vulkan-intel
 	lib32-vulkan-intel
 	lib32-gnutls
@@ -98,18 +85,32 @@ guipacs=(
 	keepassxc
 	qbittorrent
 	python-pywal
-	wpgtk
 	virtualbox
+	)
+yay=(
+	lact
+	downgrade
+	prismlauncher-bin
+	heroic-games-launcher-bin
+	mcomix
+	xnconvert
+	ttf-ms-fonts
+	qt5-styleplugins
+	streamlink-twitch-gui-bin
+	chatty
+	protontricks
+	wpgtk
 	)
 	
 #install the gui packages
 echo "Installing GUI..."
-arch-chroot /mnt pacman -Sy --needed "${guipacs[@]}"
+arch-chroot /mnt pacman -Sy --needed "${pacs[@]}"
+arch-chroot /mnt yay -S "${yay[@]}"
 
 #user-specific stuff
-arch-chroot -u ${user_name} /mnt bash -s <<-EOF
-	HOME=/home/${user_name}
-	cd HOME
+HOME=/home/${user_name}
+arch-chroot -u ${user_name} /mnt bash -c <<-EOF
+	cd $HOME
 	mkdir $HOME/YAY
 	git clone https://aur.archlinux.org/yay-bin.git $HOME/YAY
 	cd yay-bin
@@ -125,7 +126,7 @@ arch-chroot -u ${user_name} /mnt bash -s <<-EOF
 	fi
 	read -p "install sway? (y/n)" sway
 	if [ "$sway" = "y" ]; then
-		yay -S sway swaytools slurp ydotool evtest otf-font-awesome waybar lxappearance wofi xorg-xwayland xorg-xlsclients qt5-wayland qt6-wayland glfw-wayland gammastep swaylock-effects-git swaybg xdg-desktop-portal-gtk
+		yay -S --needed sway swaytools slurp ydotool evtest otf-font-awesome waybar lxappearance wofi xorg-xwayland xorg-xlsclients qt5-wayland qt6-wayland glfw-wayland gammastep swaylock-effects-git swaybg xdg-desktop-portal-gtk
 	fi
 
 	cp -a ~/.dotfiles/.config/. ~/.config
@@ -153,7 +154,7 @@ arch-chroot -u ${user_name} /mnt bash -s <<-EOF
 	wget https://mullvad.net/media/mullvad-code-signing.asc
 	gpg2 --import mullvad-code-signing.asc
 	gpg2 --edit-key A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF
-	yay -S mullvad-vpn-bin
+	yay -S --needed mullvad-vpn-bin
 	
 	sudo bash -c "cat ~/.dotfiles/crypttab > /etc/crypttab"
 	sudo bash -c "cat ~/.dotfiles/fstab >> /etc/fstab"
