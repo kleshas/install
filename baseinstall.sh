@@ -104,6 +104,7 @@ sed -i 's/^COMPRESSGZ=(gzip -c -f -n)/COMPRESSGZ=(pigz -c -f -n)/' /mnt/etc/make
 sed -i 's/^COMPRESSBZ2=(bzip2 -c -f)/COMPRESSBZ2=(pbzip2 -c -f)/' /mnt/etc/makepkg.conf
 sed -i 's/^COMPRESSZST=(zstd -c -T0 --ultra -20 -)/COMPRESSZST=(zstd -c -T0 -)/' /mnt/etc/makepkg.conf
 sed -i 's/^OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge debug lto)/OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge !debug lto)/' /mnt/etc/makepkg.conf
+sed -i 's/^RUSTFLAGS="-Cforce-frame-pointers=yes"/RUSTFLAGS="-C opt-level=2 -C target-cpu=native"/' /etc/makepkg.conf
 
 #install the systemd-boot bootloader
 arch-chroot /mnt bootctl install
