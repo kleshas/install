@@ -115,7 +115,7 @@ arch-chroot -u ${username} /mnt bash -c <<-EOF
 	cd $HOME
 	mkdir $HOME/YAY
 	git clone https://aur.archlinux.org/yay-bin.git $HOME/YAY
-	cd yay-bin
+	cd $HOME/YAY/yay-bin
 	makepkg -si
 	mkdir ~/.dotfiles
 	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
