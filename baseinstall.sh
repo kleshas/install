@@ -117,4 +117,5 @@ EOF
 
 echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
+curl -fSL https://raw.githubusercontent.com/kleshas/install/master/applications.sh > applications.sh
 echo "Done.  To install desktop applications, bash applications.sh"
