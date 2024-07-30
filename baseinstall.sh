@@ -120,7 +120,6 @@ cat <<EOF > /mnt/boot/loader/entries/arch.conf
 	initrd /intel-ucode.img
 	initrd /initramfs-linux.img
 EOF
-
 echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
 echo "Reboot, log in as $username and run bash ~/.dotfiles/.scripts/install.sh
