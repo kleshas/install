@@ -17,16 +17,16 @@ hostname=$(date +%Y%b)
 lsblk
 read -p "what drive to install to? " target
 echo "Creating partitions..."
-#sgdisk -Z /dev/"$target"
-sgdisk -d 1 -d 2 /dev/"$target"
+#sgdisk -Z /dev/$target
+sgdisk -d 1 -d 2 /dev/$target
 sgdisk \
     -n1:0:+512M  -t1:ef00 -c1:boot \
     -N2          -t2:8304 -c2:linux \
-    /dev/"$target"
+    /dev/$target
     
 # Reload partition table
 sleep 2
-partprobe -s /dev/"$target"
+partprobe -s /dev/$target
 sleep 2
 echo "Encrypting root partition..."
 
@@ -53,11 +53,11 @@ genfstab -pU /mnt >> /mnt/etc/fstab
 sed -i 's/relatime/noatime/' /mnt/etc/fstab
 
 echo "Setting up environment..."
-echo "$hostname" > /mnt/etc/hostname
+echo $hostname > /mnt/etc/hostname
 arch-chroot /mnt hwclock --systohc --utc
 #set up locale/env
 #add our locale to locale.gen
-sed -i -e "/^#"$locale"/s/^#//" /mnt/etc/locale.gen
+sed -i -e "/^#$locale/s/^#//" /mnt/etc/locale.gen
 arch-chroot /mnt locale-gen
 echo LANG=${locale} > /mnt/etc/locale.conf
 ln -sf /mnt/usr/share/zoneinfo/America/Vancouver /mnt/etc/localtime
@@ -66,13 +66,13 @@ echo "Configuring for first boot..."
 #add the local user
 echo -e "[ * ]Adding user"
 read -p "Username " username
-arch-chroot /mnt useradd -mG wheel "$username"
-arch-chroot /mnt passwd "$username"
+arch-chroot /mnt useradd -mG wheel $username
+arch-chroot /mnt passwd $username
 arch-chroot /mnt passwd root
 
 #uncomment the wheel group in the sudoers file
 sed -i -e '/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/s/^# //' /mnt/etc/sudoers
-echo "$username" ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme" |sudo tee -a /mnt/etc/sudoers
+echo $username ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme" |sudo tee -a /mnt/etc/sudoers
 
 #change the HOOKS in mkinitcpio.conf
 sed -i 's/keymap/keymap encrypt/g' /mnt/etc/mkinitcpio.conf
@@ -92,7 +92,7 @@ EOF
 #Put the following in the /etc/hosts file
 echo "127.0.0.1 localhost" >> /mnt/etc/hosts
 echo "::1  localhost" >> /mnt/etc/hosts
-echo 127.0.1.1 "$hostname".localdomain "$hostname" >> /mnt/etc/hosts
+echo 127.0.1.1 $hostname.localdomain $hostname >> /mnt/etc/hosts
 
 #improve compilation speeds
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /mnt/etc/pacman.conf
@@ -117,4 +117,7 @@ EOF
 
 echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
-arch-chroot -u/mnt
+arch-chroot -u $username /mnt mkdir /home/$username/.dotfiles
+git clone https://gitlab.com/kleshas/dots.git /home/$username/.dotfiles
+
+echo "Reboot, log in as $username and run bash ~/.dotfiles/.scripts/install.sh
