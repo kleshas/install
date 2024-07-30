@@ -122,7 +122,7 @@ if [[ -z ${apps} || ${apps} == "y" || ${apps} == "Y" ]]; then
 	curl -fSL https://raw.githubusercontent.com/kleshas/install/master/applications.sh > applications.sh
  	mv ./applications.sh /mnt/home/"${username}"
   	chmod +x /mnt/home/"${username}/applications.sh
-	arch-chroot /mnt runuser -u "${username}" -- bash /home/"${username}"/applications.sh
+	arch-chroot /mnt -u "${username}" -- bash /home/"${username}"/applications.sh
 elif [[ ${apps} == "n" || ${apps} == "N" ]]; then
 	echo -e "Skipping Rice Setup"
 else
