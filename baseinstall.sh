@@ -117,14 +117,4 @@ EOF
 
 echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
-read -rp "Do you want to setup the applications? [Y/n]:" apps
-if [[ -z ${apps} || ${apps} == "y" || ${apps} == "Y" ]]; then
-	curl -fSL https://raw.githubusercontent.com/kleshas/install/master/applications.sh > applications.sh
- 	mv ./applications.sh /mnt/home/"${username}"
-  	chmod +x /mnt/home/"${username}/applications.sh
-	arch-chroot /mnt -u "${username}" -- bash /home/"${username}"/applications.sh
-elif [[ ${apps} == "n" || ${apps} == "N" ]]; then
-	echo -e "Skipping Rice Setup"
-else
-	echo -e "Not a valid option, Skipping Rice Setup"
-fi
+echo "Done.  To install desktop applications, bash applications.sh"
