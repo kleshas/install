@@ -104,6 +104,7 @@ yay=(
 	
 #install the gui packages
 echo "Installing GUI..."
+arch-chroot /mnt timedatectl set-ntp true
 arch-chroot /mnt pacman -Sy --needed "${pacs[@]}"
 arch-chroot /mnt yay -S --needed "${yay[@]}"
 
