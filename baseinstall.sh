@@ -97,7 +97,7 @@ echo "127.0.1.1 $hostname.localdomain $hostname" >> /mnt/etc/hosts
 #improve compilation speeds
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /mnt/etc/pacman.conf
 sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /mnt/etc/makepkg.conf
-sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS=-"-j$(nproc)"/' /mnt/etc/makepkg.conf
+sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /mnt/etc/makepkg.conf
 sed -i 's/^COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -z - --threads=0)/' /mnt/etc/makepkg.conf
 
 #install the systemd-boot bootloader
