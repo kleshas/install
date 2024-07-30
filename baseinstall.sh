@@ -60,7 +60,7 @@ arch-chroot /mnt hwclock --systohc --utc
 sed -i -e "/^#$locale/s/^#//" /mnt/etc/locale.gen
 arch-chroot /mnt locale-gen
 echo LANG=${locale} > /mnt/etc/locale.conf
-ln -sf /mnt/usr/share/zoneinfo/America/Vancouver /mnt/etc/localtime
+arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
 
 echo "Configuring for first boot..."
 #add the local user
