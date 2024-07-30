@@ -105,7 +105,7 @@ arch-chroot /mnt bootctl install
 arch-chroot /mnt rm -f /boot/loader/loader.conf
 cat <<EOF > /mnt/boot/loader/loader.conf
 	default arch
-	timeout 3
+	timeout 0
 	editor 0
 EOF
 cat <<EOF > /mnt/boot/loader/entries/arch.conf
