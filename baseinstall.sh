@@ -72,7 +72,7 @@ arch-chroot /mnt passwd root
 
 #uncomment the wheel group in the sudoers file
 sed -i -e '/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/s/^# //' /mnt/etc/sudoers
-echo $username ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme" |sudo tee -a /mnt/etc/sudoers
+echo "$username ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme" |sudo tee -a /mnt/etc/sudoers
 
 #change the HOOKS in mkinitcpio.conf
 sed -i 's/keymap/keymap encrypt/g' /mnt/etc/mkinitcpio.conf
@@ -92,7 +92,7 @@ EOF
 #Put the following in the /etc/hosts file
 echo "127.0.0.1 localhost" >> /mnt/etc/hosts
 echo "::1  localhost" >> /mnt/etc/hosts
-echo 127.0.1.1 $hostname.localdomain $hostname >> /mnt/etc/hosts
+echo "127.0.1.1 $hostname.localdomain $hostname" >> /mnt/etc/hosts
 
 #improve compilation speeds
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /mnt/etc/pacman.conf
