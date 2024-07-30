@@ -122,4 +122,12 @@ cat <<EOF > /mnt/boot/loader/entries/arch.conf
 EOF
 echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
+arch-chroot -u $username /mnt << LASTTHINGS
+	mkdir /home/$username/.dotfiles
+	git clone https://aur.archlinux.org/yay-bin.git
+	cd /home/$username/yay-bin
+	makepkg -si
+	git clone https://gitlab.com/kleshas/dots.git /home/$username/.dotfiles
+ LASTTHINGS
+
 echo "Reboot, log in as $username and run bash ~/.dotfiles/.scripts/install.sh
