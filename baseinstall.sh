@@ -99,7 +99,7 @@ sed -i "/\[multilib\]/,/Include/"'s/^#//' /mnt/etc/pacman.conf
 sed -i "/^#Color/s/^#//" /mnt/etc/pacman.conf
 sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /mnt/etc/makepkg.conf
 sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /mnt/etc/makepkg.conf
-sed -i 's/^#ParallelDownloads/ParallelDownloads/' mnt/etc/makepkg.conf
+sed -i 's/^#ParallelDownloads/ParallelDownloads/' /mnt/etc/makepkg.conf
 sed -i 's/^COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -z - --threads=0)/' /mnt/etc/makepkg.conf
 sed -i 's/^COMPRESSGZ=(gzip -c -f -n)/COMPRESSGZ=(pigz -c -f -n)/' /mnt/etc/makepkg.conf
 sed -i 's/^COMPRESSBZ2=(bzip2 -c -f)/COMPRESSBZ2=(pbzip2 -c -f)/' /mnt/etc/makepkg.conf
