@@ -28,7 +28,7 @@ sgdisk \
 sleep 2
 partprobe -s /dev/$target
 sleep 2
-echo "Encrypting root partition..."
+echo "Encrypting root partition..."final
 
 #Encrypt the root partition. prompt for crypt password
 cryptsetup luksFormat /dev/disk/by-partlabel/linux
