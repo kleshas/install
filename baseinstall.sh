@@ -127,4 +127,4 @@ arch-chroot /mnt su $username <<EOF
 	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
  EOF
 
-echo "Reboot, log in as $username and run bash ~/.dotfiles/.scripts/install.sh
+echo "Reboot, log in as $username and run bash ~/.dotfiles/.scripts/install.sh"
