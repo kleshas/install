@@ -17,7 +17,7 @@ hostname=$(date +%Y%b)
 echo -e "\e[1;31mCreating partitions...\n\e[0m"
 lsblk
 echo -e "\n\e[1;31m"
-read -p "What drive to install to?   " target
+read -p "What drive to install to?  e.g. nvme0n1 " target
 echo -e "[1;31mCreating partitions...\e[0m"
 #sgdisk -Z /dev/$target
 sgdisk -d 1 -d 2 /dev/$target
