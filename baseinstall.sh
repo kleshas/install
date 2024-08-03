@@ -17,8 +17,8 @@ hostname=$(date +%Y%b)
 echo -e "\e[1;31mCreating partitions...\n\e[0m"
 lsblk
 echo -e "\n\e[1;31m"
-read -p "mWhat drive to install to?   " target
-echo "\e[1;31mCreating partitions...\e[0m"
+read -p "What drive to install to?   " target
+echo -e "[1;31mCreating partitions...\e[0m"
 #sgdisk -Z /dev/$target
 sgdisk -d 1 -d 2 /dev/$target
 sgdisk \
@@ -30,7 +30,7 @@ sgdisk \
 sleep 2
 partprobe -s /dev/$target
 sleep 2
-echo "\e[1;31mEncrypting root partition...\e[0m"
+echo -e "\e[1;31mEncrypting root partition...\e[0m"
 
 #Encrypt the root partition. prompt for crypt password
 echo -e "\e[1;31mEncrypting the root partition...\e[0m\n"
@@ -55,7 +55,7 @@ genfstab -pU /mnt >> /mnt/etc/fstab
 #Decrease writes to the USB by using the noatime option in fstab
 sed -i 's/relatime/noatime/' /mnt/etc/fstab
 
-echo -e "Setting up environment...\e[0m\n"
+echo -e "\e[1;31mSetting up environment...\e[0m\n"
 echo $hostname > /mnt/etc/hostname
 arch-chroot /mnt hwclock --systohc --utc
 #set up locale/env
@@ -67,8 +67,9 @@ arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
 
 echo "\e[1;31mConfiguring for first boot...\e[0m"
 #add the local user
-echo -e "\e[1;31m[ * ]Adding user\e[0m\n"
+echo -e "\e[1;31m[ * ]Adding user\n"
 read -p "Username " username
+echo -e "\e[0m"
 arch-chroot /mnt useradd -mG wheel $username
 arch-chroot /mnt passwd $username
 echo -e "\e[1;31mChange the root password...\e[0m\n"
