@@ -16,7 +16,8 @@ hostname=$(date +%Y%b)
 # Partition
 echo -e "\e[1;31mCreating partitions...\n\e[0m"
 lsblk
-read -p "\e[1;31mWhat drive to install to?   \e[0m" target
+echo -e "\n"
+read -p "mWhat drive to install to?   " target
 echo "\e[1;31mCreating partitions...\e[0m"
 #sgdisk -Z /dev/$target
 sgdisk -d 1 -d 2 /dev/$target
@@ -67,7 +68,7 @@ arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
 echo "\e[1;31mConfiguring for first boot...\e[0m"
 #add the local user
 echo -e "\e[1;31m[ * ]Adding user\e[0m\n"
-read -p "\e[1;31mUsername \e[0m" username
+read -p "Username " username
 arch-chroot /mnt useradd -mG wheel $username
 arch-chroot /mnt passwd $username
 echo -e "\e[1;31mChange the root password...\e[0m\n"
