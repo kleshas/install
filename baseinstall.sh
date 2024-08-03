@@ -29,7 +29,7 @@ sgdisk \
 sleep 2
 partprobe -s /dev/$target
 sleep 2
-echo "\e[1;31mEncrypting root partition...\e[0m"final
+echo "\e[1;31mEncrypting root partition...\e[0m"
 
 #Encrypt the root partition. prompt for crypt password
 echo -e "\e[1;31mEncrypting the root partition...\e[0m\n"
