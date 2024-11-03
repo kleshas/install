@@ -1,6 +1,6 @@
 #!/bin/bash
 # uncomment to view debugging information 
-set -xeuo pipefail
+set -euo pipefail
 timedatectl set-ntp true
 
 #check if we're root
@@ -16,9 +16,7 @@ hostname=$(date +%Y%b)
 # Partition
 echo -e "\e[1;31mCreating partitions...\n\e[0m"
 lsblk
-echo -e "\n\e[1;31m"
 read -p "What drive to install to?  e.g. nvme0n1 " target
-echo -e "[1;31mCreating partitions...\e[0m"
 #sgdisk -Z /dev/$target
 sgdisk -d 1 -d 2 /dev/$target
 sgdisk \
@@ -66,12 +64,10 @@ arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
 
 echo "\e[1;31mConfiguring for first boot...\e[0m"
 #add the local user
-echo -e "\e[1;31m[ * ]Adding user\n"
-read -p "Username " username
-echo -e "\e[0m"
+read -p "Let's add a regular account.  What's the username for the new account? " username
 arch-chroot /mnt useradd -mG wheel $username
 arch-chroot /mnt passwd $username
-echo -e "\e[1;31mChange the root password...\e[0m\n"
+echo -e "\e[1;31mChanging the root password...\e[0m\n"
 arch-chroot /mnt passwd root
 
 #uncomment the wheel group in the sudoers file
@@ -104,7 +100,7 @@ sed -i "/\[multilib\]/,/Include/"'s/^#//' /mnt/etc/pacman.conf
 sed -i "/^#Color/s/^#//" /mnt/etc/pacman.conf
 sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /mnt/etc/makepkg.conf
 sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /mnt/etc/makepkg.conf
-sed -i 's/^#ParallelDownloads/ParallelDownloads/' /mnt/etc/makepkg.conf
+sed -i 's/^#ParallelDownloads/ParallelDownloads/' /mnt/etc/pacman.conf
 sed -i 's/^COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -z - --threads=0)/' /mnt/etc/makepkg.conf
 sed -i 's/^COMPRESSGZ=(gzip -c -f -n)/COMPRESSGZ=(pigz -c -f -n)/' /mnt/etc/makepkg.conf
 sed -i 's/^COMPRESSBZ2=(bzip2 -c -f)/COMPRESSBZ2=(pbzip2 -c -f)/' /mnt/etc/makepkg.conf
@@ -128,7 +124,7 @@ cat <<EOF > /mnt/boot/loader/entries/arch.conf
 EOF
 echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
-echo -e "\e[1;31mDownload dotfiles...\e[0m\n"
+echo -e "\e[1;31mDownloading dotfiles...\e[0m\n"
 arch-chroot /mnt su $username <<EOF
 	mkdir ~/.dotfiles
 	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
