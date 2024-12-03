@@ -64,7 +64,8 @@ arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
 
 echo "\e[1;31mConfiguring for first boot...\e[0m"
 #add the local user
-read -p "Let's add a regular account.  What's the username for the new account? " username
+echo "\e[1;31mLet's add a regular account.  What username?\e[0m"
+read -p " " username
 arch-chroot /mnt useradd -mG wheel $username
 arch-chroot /mnt passwd $username
 echo -e "\e[1;31mChanging the root password...\e[0m\n"
