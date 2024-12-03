@@ -16,7 +16,8 @@ hostname=$(date +%Y%b)
 # Partition
 echo -e "\e[1;31mCreating partitions...\n\e[0m"
 lsblk
-read -p "What drive to install to?  e.g. nvme0n1 " target
+echo -e "\e[1;31mWhat drive do you want to install to? (e.g. nvme0n1) \n\e[0m"
+read -p ": " target
 #sgdisk -Z /dev/$target
 sgdisk -d 1 -d 2 /dev/$target
 sgdisk \
@@ -62,10 +63,10 @@ arch-chroot /mnt locale-gen
 echo LANG=${locale} > /mnt/etc/locale.conf
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
 
-echo "\e[1;31mConfiguring for first boot...\e[0m"
+echo "\e[1;31mConfiguring for first boot...\e[0m\n"
 #add the local user
 echo "\e[1;31mLet's add a regular account.  What username?\e[0m"
-read -p ":" username
+read -p ": " username
 arch-chroot /mnt useradd -mG wheel $username
 arch-chroot /mnt passwd $username
 echo -e "\e[1;31mChanging the root password...\e[0m\n"
@@ -81,7 +82,7 @@ sed -i 's/keymap/keymap encrypt/g' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -p linux
  
 #enable the services we will need on start up
-echo -e "\e[1;31mEnabling services...\e[0m\n"
+echo -e "\e[1;31mEnabling services...\e[0m"
 systemctl --root /mnt enable systemd-resolved systemd-networkd
 cat <<EOF > /mnt/etc/systemd/network/20-wired.network
 	[Match]
