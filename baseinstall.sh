@@ -33,6 +33,7 @@ sleep 2
 #Encrypt the root partition. prompt for crypt password
 echo -e "\e[1;31mEncrypting the root partition...\e[0m\n"
 cryptsetup luksFormat /dev/disk/by-partlabel/linux
+echo -e "\e[1;31mOpening the root partition...\e[0m\n"
 cryptsetup luksOpen /dev/disk/by-partlabel/linux root
 
 echo -e "\e[1;31mMaking File Systems...\e[0m\n"
@@ -63,9 +64,9 @@ arch-chroot /mnt locale-gen
 echo LANG=${locale} > /mnt/etc/locale.conf
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
 
-echo "\e[1;31mConfiguring for first boot...\e[0m\n"
+echo -e "\e[1;31mConfiguring for first boot...\e[0m\n"
 #add the local user
-echo "\e[1;31mLet's add a regular account.  What username?\e[0m"
+echo -e "\e[1;31mLet's add a regular account.  What username?\e[0m"
 read -p ": " username
 arch-chroot /mnt useradd -mG wheel $username
 arch-chroot /mnt passwd $username
