@@ -79,6 +79,7 @@ echo "$username ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme" |sudo tee -a /mnt/etc/sud
 echo "$username ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl" |sudo tee -a /mnt/etc/sudoers
 
 #change the HOOKS in mkinitcpio.conf
+sed -i 's/systemd/udev/g' /mnt/etc/mkinitcpio.conf
 sed -i 's/keymap/keymap encrypt/g' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -p linux
  
