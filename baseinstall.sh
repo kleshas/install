@@ -49,7 +49,7 @@ mount /dev/disk/by-partlabel/boot /mnt/boot
 
 #Update pacman mirrors and then pacstrap base install
 echo -e "\e[1;31mPacstrapping...\e[0m\n"
-pacstrap -K /mnt base base-devel linux linux-firmware i795531ntel-ucode nano cryptsetup git
+pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode nano cryptsetup git
 genfstab -pU /mnt >> /mnt/etc/fstab
 #Decrease writes to the USB by using the noatime option in fstab
 sed -i 's/relatime/noatime/' /mnt/etc/fstab
@@ -125,7 +125,7 @@ cat <<EOF > /mnt/boot/loader/entries/arch.conf
 	initrd /intel-ucode.img
 	initrd /initramfs-linux.img
 EOF
-echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off amdgpu.ppfeaturemask=0xffffffff loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
+echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
 echo -e "\e[1;31mDownloading dotfiles...\e[0m\n"
 arch-chroot /mnt su $username <<EOF
