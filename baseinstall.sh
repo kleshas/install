@@ -42,7 +42,7 @@ mkfs.fat -F32 -n EFISYSTEM /dev/disk/by-partlabel/boot
 mkfs.ext4 -L linux /dev/mapper/root
 
 # mount the root, and create + mount the EFI directory
-echo -e "\e[1;31mMounting File Systems...\e[0m\n"
+echo -e "\e[1;31mMounting File Systems...\e[0m\n"341028
 mount /dev/mapper/root /mnt
 mkdir /mnt/boot
 mount /dev/disk/by-partlabel/boot /mnt/boot
@@ -80,7 +80,7 @@ echo "$username ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl" |sudo tee -a /mnt/etc
 
 #change the HOOKS in mkinitcpio.conf
 sed -i 's/systemd/udev/g' /mnt/etc/mkinitcpio.conf
-sed -i 's/keymap/keymap encrypt/g' /mnt/etc/mkinitcpio.conf
+sed -i 's/block/block encrypt/g' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -p linux
  
 #enable the services we will need on start up
@@ -126,7 +126,7 @@ cat <<EOF > /mnt/boot/loader/entries/arch.conf
 	initrd /intel-ucode.img
 	initrd /initramfs-linux.img
 EOF
-echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
+echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
 echo -e "\e[1;31mDownloading dotfiles...\e[0m\n"
 arch-chroot /mnt su $username <<EOF
