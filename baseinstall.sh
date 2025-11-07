@@ -80,6 +80,7 @@ echo "$username ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl" |sudo tee -a /mnt/etc
 
 #change the HOOKS in mkinitcpio.conf
 sed -i 's/systemd/udev/g' /mnt/etc/mkinitcpio.conf
+sed -i 's/sd-vconsole//g' /mnt/etc/mkinitcpio.conf
 sed -i 's/block/block encrypt/g' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -p linux
  
@@ -133,4 +134,4 @@ arch-chroot /mnt su $username <<EOF
 	mkdir ~/.dotfiles
 	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
 EOF
-echo -e "\n\n\n\e[1;31mReboot, log in as $username and run bash ~/.dotfiles/.scripts/install.sh\e[0m"
+echo -e "\n\n\n\e[1;31mReboot, log in as $username and run bash ~/.dotfiles/.scripts/installer.sh\e[0m"
