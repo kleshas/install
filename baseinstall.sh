@@ -95,7 +95,7 @@ cat <<EOF > /mnt/etc/systemd/network/20-wired.network
 EOF
 
 #Put the following in the /etc/hosts file
-echo "127.0.0.1 localhost" >> /mnt/etc/hosts
+echo "127.0.0.1 localhost" > /mnt/etc/hosts
 echo "::1  localhost" >> /mnt/etc/hosts
 echo "127.0.1.1 $hostname.localdomain $hostname" >> /mnt/etc/hosts
 
