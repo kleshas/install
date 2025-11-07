@@ -42,7 +42,7 @@ mkfs.fat -F32 -n EFISYSTEM /dev/disk/by-partlabel/boot
 mkfs.ext4 -L linux /dev/mapper/root
 
 # mount the root, and create + mount the EFI directory
-echo -e "\e[1;31mMounting File Systems...\e[0m\n"341028
+echo -e "\e[1;31mMounting File Systems...\e[0m\n"
 mount /dev/mapper/root /mnt
 mkdir /mnt/boot
 mount /dev/disk/by-partlabel/boot /mnt/boot
