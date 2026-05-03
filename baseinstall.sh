@@ -129,9 +129,9 @@ cat <<EOF > /mnt/boot/loader/entries/arch.conf
 EOF
 echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
-echo -e "\e[1;31mDownloading dotfiles...\e[0m\n"
+echo -e "\e[1;31mCreating local dotfiles folder...\e[0m\n"
 arch-chroot /mnt su $username <<EOF
 	mkdir ~/.dotfiles
-	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
+#	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
 EOF
-echo -e "\n\n\n\e[1;31mReboot, log in as $username and run bash ~/.dotfiles/.scripts/installer.sh\e[0m"
+echo -e "\n\n\n\e[1;31mReboot, log in as $username, run cryptsetup luksOpen /dev/sdb 4TB, then sudo mount /dev/mapper/4TB /mnt/4TB, copy the /mnt/4TB/backup/,dotfiles contents to ~/ and run bash ~/.dotfiles/.scripts/installer.sh\e[0m"
