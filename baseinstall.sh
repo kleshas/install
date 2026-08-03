@@ -134,4 +134,4 @@ arch-chroot /mnt su $username <<EOF
 	mkdir ~/.dotfiles
 #	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
 EOF
-echo -e "\n\n\n\e[1;31mReboot, log in as $username, run cryptsetup luksOpen /dev/sdb 4TB, then sudo mount /dev/mapper/4TB /mnt/4TB, copy the /mnt/4TB/backup/,dotfiles contents to ~/ and run bash ~/.dotfiles/.scripts/installer.sh\e[0m"
+echo -e "\n\n\n\e[1;31mReboot, log in as $username, run cryptsetup luksOpen /dev/sdb 4TB, sudo mount /dev/mapper/4TB /mnt/4TB, copy /mnt/4TB/backup/.dotfiles to ~/ and run bash ~/.dotfiles/.scripts/installer.sh\e[0m"
