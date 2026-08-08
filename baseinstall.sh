@@ -132,6 +132,6 @@ echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2
 echo -e "\e[1;31mCreating local dotfiles folder...\e[0m\n"
 arch-chroot /mnt su $username <<EOF
 	mkdir ~/.dotfiles
-#	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
+	git clone https://oauth2:glpat-BfVzi4OE-PdEskM08ltddWM6MQpvOjEKdTo1Zjh5MQ8.01.170lu2li8@gitlab.com/kleshas/dots.git ~/.dotfiles
 EOF
 echo -e "\n\n\n\e[1;31mReboot, log in as $username, run cryptsetup luksOpen /dev/sdb 4TB, sudo mount /dev/mapper/4TB /mnt/4TB, copy /mnt/4TB/backup/.dotfiles to ~/ and run bash ~/.dotfiles/.scripts/installer.sh\e[0m"
