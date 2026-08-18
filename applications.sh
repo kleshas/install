@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
     set -euo pipefail
-    hostname=$1
-	username=$2
-
+	
 	# --- APP CONFIGURATION LISTS ---
 	# Official repository packages (Installed via pacman)
 	PACMAN_APPS=(
@@ -143,7 +141,7 @@
 	# Run the compile process as the non-root user since makepkg blocks root execution
 	sudo -u "$username" bash <<EOF
 	cd /home/$username
-	git clone https://archlinux.org
+	git clone https://aur.archlinux.org/yay-bin.git
 	cd yay-bin
 	makepkg -si --noconfirm
 	cd ..
