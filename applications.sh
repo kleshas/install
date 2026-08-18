@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
     set -euo pipefail
-	
+	HOSTNAME="$1"
+	USERNAME="$2"
+
 	# --- APP CONFIGURATION LISTS ---
 	# Official repository packages (Installed via pacman)
 	PACMAN_APPS=(
@@ -137,16 +139,24 @@
 	)
 
 	
-	echo "==> Installing yay (AUR Helper) as $username..."
+	echo "==> Installing yay (AUR Helper) as $USERNAME..."
 	# Run the compile process as the non-root user since makepkg blocks root execution
-	sudo -u "$username" bash <<EOF
-	cd /home/$username
-	git clone https://aur.archlinux.org/yay-bin.git
-	cd yay-bin
-	makepkg -si --noconfirm
-	cd ..
-	rm -rf yay-bin
-	EOF
+	sudo -u "$USERNAME" env USERNAME="$USERNAME" bash <<'EOF'
+    # Go to the user's home directory safely
+    cd "$HOME" || exit
+
+    # Clean up any old attempts and clone the ACTUAL AUR helper URL
+    rm -rf yay-bin
+    git clone https://aur.archlinux.org/yay-bin.git
+    
+    # Move in and build the package
+    cd yay-bin || exit
+    makepkg -si --noconfirm
+    
+    # Clean up the folder
+    cd ..
+    rm -rf yay-bin
+EOF
 	
 	echo "==> Installing official Pacman packages..."
     sudo pacman -S --needed --noconfirm "${PACMAN_APPS[@]}"
