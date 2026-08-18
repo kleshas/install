@@ -133,4 +133,16 @@ echo -e "\e[1;31mCreating local dotfiles folder...\e[0m\n"
 arch-chroot /mnt su $username <<EOF
 	mkdir ~/.dotfiles
 EOF
-echo -e "\n\n\n\e[1;31mReboot, log in as $username, run cryptsetup luksOpen /dev/sdb 4TB, sudo mount /dev/mapper/4TB /mnt/4TB, copy /mnt/4TB/backup/.dotfiles to ~/ and run bash ~/.dotfiles/.scripts/installer.sh\e[0m"
+
+# Copy Stage 2 configuration script into the new environment
+cp applications.sh /mnt/root/applications.sh
+chmod +x /mnt/root/applications.sh
+
+echo "==> Chrooting into /mnt to run Stage 2..."
+arch-chroot /mnt /root/applications.sh "$HOSTNAME" "$USERNAME"
+
+echo "==> Unmounting filesystems..."
+umount -R /mnt
+
+echo "==> Installation complete! Reboot your machine."
+
