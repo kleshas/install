@@ -49,7 +49,7 @@ mount /dev/disk/by-partlabel/boot /mnt/boot
 
 #Update pacman mirrors and then pacstrap base install
 echo -e "\e[1;31mPacstrapping...\e[0m\n"
-pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode nano cryptsetup git
+pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode nano cryptsetup git firefox sway
 genfstab -pU /mnt >> /mnt/etc/fstab
 #Decrease writes to the USB by using the noatime option in fstab
 sed -i 's/relatime/noatime/' /mnt/etc/fstab
