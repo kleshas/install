@@ -1,11 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-    exec 2> >(tee -a ~/error.log)
-    sudo pacman -Sy 
-    
-    git clone https://aur.archlinux.org/yay-bin.git
-    cd yay-bin
-    makepkg -si
+    set -euo pipefail
+    hostname=$1
+	username=$2
+	
+	echo "==> Installing yay (AUR Helper) as $username..."
+	# Run the compile process as the non-root user since makepkg blocks root execution
+	sudo -u "$username" bash <<EOF
+	cd /home/$username
+	git clone https://archlinux.org
+	cd yay-bin
+	makepkg -si --noconfirm
+	cd ..
+	rm -rf yay-bin
+	EOF
     
     sudo pacman -S --needed lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver smartmontools mesa vulkan-icd-loader lib32-vulkan-icd-loader alsa-utils pavucontrol pipewire pipewire-pulse pipewire-alsa lib32-pipewire mpv conky hddtemp	wget nvme-cli sysstat dunst grsync htop reflector pacman-contrib linux-headers man-db ncdu btrfs-progs kitty polkit-gnome thunderbird hunspell-en_ca hyphen-en firefox libreoffice-fresh zathura hplip cups lutris steam jdk8-openjdk jdk-openjdk gthumb calibre feh noto-fonts-emoji ttf-dejavu ttf-droid ttf-liberation thunar xarchiver thunar-archive-plugin gvfs unrar grim vulkan-intel lib32-vulkan-intel lib32-gnutls lib32-libpulse wine-staging lib32-giflib mpg123 lib32-mpg123 lib32-openal lib32-v4l-utils lib32-libxcomposite lib32-libxinerama opencl-icd-loader lib32-opencl-icd-loader lib32-libxslt lib32-libva lib32-gtk3 otf-montserrat android-file-transfer keepassxc qbittorrent virtualbox obsidian geany geany-plugins pigz pbzip2
     
