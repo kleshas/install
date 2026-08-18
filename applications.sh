@@ -157,31 +157,3 @@
 	gpg2 --import mullvad-code-signing.asc
 	gpg2 --edit-key A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF
 	yay -S mullvad-vpn-bin
-
-#dotfiles
-	cp ~/.dotfiles/.profile ~/
-	rm ~/.bashrc
-	cp ~/.dotfiles/.bashrc ~/
-	cp ~/.dotfiles/.bash_profile ~/
-	cp ~/.dotfiles/.Xresources ~/
-	cp ~/.dotfiles/.Xdefaults ~/
-	
-	cd ~/.dotfiles/stow
-	stow -t ../.. */
-
-	git config --global user.email "kleshas@mailbox.org"
-	git config --global user.name "kleshas"
-
-#system stuff
-	sudo pacman -Sc
-	echo "--protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist" |sudo tee /etc/xdg/reflector/reflector.conf
-	sudo systemctl enable reflector.service
-	sudo systemctl enable cups.service
-	sudo systemctl enable fstrim.timer
-	sudo systemctl enable prelockd.service
-	
-	echo "drivetemp" |sudo tee /etc/modules-load.d/modules.conf
-	sudo bash -c "cat /home/bhava/.dotfiles/crypttab > /etc/crypttab"
-	sudo bash -c "cat /home/bhava/.dotfiles/fstab >> /etc/fstab"
-	sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-	sudo cryptsetup --allow-discards --persistent refresh root
