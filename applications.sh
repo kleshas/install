@@ -148,6 +148,10 @@
 	cd ..
 	rm -rf yay-bin
 	EOF
+	
+	echo "==> Installing official Pacman packages..."
+    sudo pacman -S --needed --noconfirm "${PACMAN_APPS[@]}"
+
 
 	echo "==> Installing AUR apps via yay..."
 	# Run as user, passing the array elements cleanly inside the user session
