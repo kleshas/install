@@ -169,18 +169,10 @@
 DOTFILES_DIR="$HOME/.dotfiles"
 DOTFILES_REPO="https://github.com/kleshas/dotfiles"
 
-
-	# 1. Ensure the user is logged in to the GitHub CLI
-	if ! gh auth status &>/dev/null; then
-	    echo "❌ Error: You must authenticate with GitHub first to pull private dotfiles."
-	    echo "Running authentication wizard now..."
-	    gh auth login
-	fi
-
-	# 2. Clone the dotfiles repository securely
+	# Clone the dotfiles repository securely
 if [ ! -d "$DOTFILES_DIR" ]; then
     echo "==> Cloning dotfiles repo to $DOTFILES_DIR..."
-    gh repo clone "$DOTFILES_REPO" "$DOTFILES_DIR"
+    git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
 else
     echo "==> Dotfiles directory already exists. Pulling latest updates..."
     cd "$DOTFILES_DIR" && git pull
