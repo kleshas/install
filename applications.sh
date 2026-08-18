@@ -157,7 +157,7 @@
 	gpg2 --import mullvad-code-signing.asc
 	gpg2 --edit-key A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF
 	yay -S mullvad-vpn-bin
-		
+
 #dotfiles
 	cp ~/.dotfiles/.profile ~/
 	rm ~/.bashrc
