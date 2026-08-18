@@ -92,6 +92,7 @@
 	geany-plugins
 	pigz
 	pbzip2
+	github-cli
 	)
 
 	# AUR repository packages (Installed via yay)
