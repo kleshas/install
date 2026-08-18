@@ -165,3 +165,24 @@
 	gpg2 --import mullvad-code-signing.asc
 	gpg2 --edit-key A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF
 	yay -S mullvad-vpn-bin
+	
+DOTFILES_DIR="$HOME/.dotfiles"
+DOTFILES_REPO="https://github.com/kleshas/dotfiles"
+
+
+	# 1. Ensure the user is logged in to the GitHub CLI
+	if ! gh auth status &>/dev/null; then
+	    echo "❌ Error: You must authenticate with GitHub first to pull private dotfiles."
+	    echo "Running authentication wizard now..."
+	    gh auth login
+	fi
+
+	# 2. Clone the dotfiles repository securely
+if [ ! -d "$DOTFILES_DIR" ]; then
+    echo "==> Cloning dotfiles repo to $DOTFILES_DIR..."
+    gh repo clone "$DOTFILES_REPO" "$DOTFILES_DIR"
+else
+    echo "==> Dotfiles directory already exists. Pulling latest updates..."
+    cd "$DOTFILES_DIR" && git pull
+fi
+
