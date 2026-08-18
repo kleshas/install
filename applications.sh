@@ -136,6 +136,7 @@
 	qt5ct
 	catppuccin-qt5ct-git
 	ttf-jetbrains-mono-nerd
+	mullvad-vpn-bin
 	)
 
 	
@@ -169,11 +170,7 @@ EOF
         --answereddiff None \
         --answerupgrade None \
         "${AUR_APPS[@]}"
-	wget https://mullvad.net/media/mullvad-code-signing.asc
-	gpg2 --import mullvad-code-signing.asc
-	gpg2 --edit-key A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF
-	yay -S mullvad-vpn-bin
-	
+
 DOTFILES_DIR="$HOME/.dotfiles"
 DOTFILES_REPO="https://github.com/kleshas/dotfiles"
 
