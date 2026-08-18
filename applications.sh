@@ -151,8 +151,11 @@
 
 	echo "==> Installing AUR apps via yay..."
 	# Run as user, passing the array elements cleanly inside the user session
-	sudo -u "$USERNAME" yay -S --noconfirm "${AUR_APPS[@]}"
-
+	yay -S --needed --noconfirm \
+        --answeredbeforeclean All \
+        --answereddiff None \
+        --answerupgrade None \
+        "${AUR_APPS[@]}"
 	wget https://mullvad.net/media/mullvad-code-signing.asc
 	gpg2 --import mullvad-code-signing.asc
 	gpg2 --edit-key A1198702FC3E0A09A9AE5B75D5A1D4F266DE8DDF
