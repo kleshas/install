@@ -139,7 +139,7 @@ cp applications.sh /mnt/root/applications.sh
 chmod +x /mnt/root/applications.sh
 
 echo "==> Chrooting into /mnt to run Stage 2..."
-arch-chroot /mnt /root/applications.sh "$HOSTNAME" "$USERNAME"
+arch-chroot /mnt /root/applications.sh "$hostname" "$username"
 
 echo "==> Unmounting filesystems..."
 umount -R /mnt
