@@ -175,13 +175,8 @@ DOTFILES_DIR="$HOME/.dotfiles"
 DOTFILES_REPO="https://github.com/kleshas/dotfiles"
 
 	# Clone the dotfiles repository securely
-if [ ! -d "$DOTFILES_DIR" ]; then
     echo "==> Cloning dotfiles repo to $DOTFILES_DIR..."
     git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
-else
-    echo "==> Dotfiles directory already exists. Pulling latest updates..."
-    cd "$DOTFILES_DIR" && git pull
-fi
 
 cp ~/.dotfiles/.profile ~/
 	rm ~/.bashrc
