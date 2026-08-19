@@ -141,7 +141,7 @@
 
 	
 	echo "==> Installing yay (AUR Helper) as $USERNAME..."
-	# Run the compile process as the non-root user since makepkg blocks root execution
+# Run the compile process as the non-root user since makepkg blocks root execution
 	sudo -u "$USERNAME" env USERNAME="$USERNAME" bash <<'EOF'
     # Go to the user's home directory safely
     cd "$HOME" || exit
@@ -164,21 +164,18 @@ EOF
 
 
 	echo "==> Installing AUR apps via yay..."
-	# Run as user, passing the array elements cleanly inside the user session
+# Run as user, passing the array elements cleanly inside the user session
 	yay -S --needed --noconfirm \
         --answeredbeforeclean All \
         --answereddiff None \
         --answerupgrade None \
         "${AUR_APPS[@]}"
 
-DOTFILES_DIR="$HOME/.dotfiles"
-DOTFILES_REPO="https://github.com/kleshas/dotfiles"
-
-	# Clone the dotfiles repository securely
+# Clone the dotfiles repository securely
     echo "==> Cloning dotfiles repo to $DOTFILES_DIR..."
-    git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
+    git clone https://github.com/kleshas/dotfiles ~/.dotfiles
 
-cp ~/.dotfiles/.profile ~/
+	cp ~/.dotfiles/.profile ~/
 	rm ~/.bashrc
 	cp ~/.dotfiles/.bashrc ~/
 	cp ~/.dotfiles/.bash_profile ~/
