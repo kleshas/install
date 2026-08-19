@@ -79,10 +79,9 @@ echo "$username ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme" |sudo tee -a /mnt/etc/sud
 echo "$username ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl" |sudo tee -a /mnt/etc/sudoers
 
 #change the HOOKS in mkinitcpio.conf
-sed -i 's/systemd/udev/g' /mnt/etc/mkinitcpio.conf
-sed -i 's/sd-vconsole//g' /mnt/etc/mkinitcpio.conf
-sed -i 's/block/block encrypt/g' /mnt/etc/mkinitcpio.conf
-arch-chroot /mnt mkinitcpio -p linux
+#sed -i 's/systemd/udev/g' /mnt/etc/mkinitcpio.conf
+#sed -i 's/sd-vconsole//g' /mnt/etc/mkinitcpio.conf
+#sed -i 's/block/block encrypt/g' /mnt/etc/mkinitcpio.conf
  
 #enable the services we will need on start up
 echo -e "\e[1;31mEnabling services...\e[0m"
@@ -127,7 +126,10 @@ cat <<EOF > /mnt/boot/loader/entries/arch.conf
 	initrd /intel-ucode.img
 	initrd /initramfs-linux.img
 EOF
-echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
+#echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
+echo "options rd.luks.UUID=$(blkid -s PARTUUID -o value /dev/${target}p2) root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
+
+arch-chroot /mnt mkinitcpio -p linux
 
 echo -e "\e[1;31mCreating local dotfiles folder...\e[0m\n"
 arch-chroot /mnt su $username <<EOF
