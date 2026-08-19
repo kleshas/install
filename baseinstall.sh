@@ -129,6 +129,10 @@ EOF
 #echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 echo "options rd.luks.name=$(blkid -s PARTUUID -o value /dev/${target}p2)=root root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
 
+#change the HOOKS in mkinitcpio.conf
+sed -i 's/sd-vconsole//g' /mnt/etc/mkinitcpio.conf
+sed -i 's/block/block sd-encrypt/g' /mnt/etc/mkinitcpio.conf
+ 
 arch-chroot /mnt mkinitcpio -p linux
 
 echo -e "\e[1;31mCreating local dotfiles folder...\e[0m\n"
