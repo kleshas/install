@@ -4,6 +4,8 @@
 	HOSTNAME="$1"
 	USERNAME="$2"
 
+	sudo pacman -Sy
+
 	# --- APP CONFIGURATION LISTS ---
 	# Official repository packages (Installed via pacman)
 	PACMAN_APPS=(
@@ -70,11 +72,8 @@
 	lib32-gnutls
 	lib32-libpulse
 	wine-staging
-	lib32-giflib
 	mpg123
 	lib32-mpg123
-	lib32-openal
-	lib32-v4l-utils
 	lib32-libxcomposite
 	lib32-libxinerama
 	opencl-icd-loader
