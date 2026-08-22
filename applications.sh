@@ -193,8 +193,9 @@ EOF
 	sudo cryptsetup --allow-discards --persistent refresh root
 
 	echo "==> Installing AUR apps via yay..."
+	
 # Run as user, passing the array elements cleanly inside the user session
-	yay --needed --noconfirm \
+	sudo -u $USERNAME env HOME="/home/$USERNAME" yay -S --needed --noconfirm \
         --answerclean All \
         --answerdiff None \
         --answerupgrade None \
