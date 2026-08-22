@@ -139,31 +139,18 @@
 	bibata-cursor-theme-bin
 	)
 
-	
-	echo "==> Installing yay (AUR Helper) as $USERNAME..."
-# Run the compile process as the non-root user since makepkg blocks root execution
-	sudo -u "$USERNAME" env USERNAME="$USERNAME" bash <<'EOF'
-    # Go to the user's home directory safely
-    cd "$HOME" || exit
-
-    # Clean up any old attempts and clone the ACTUAL AUR helper URL
-    rm -rf yay-bin
+	echo "==> Installing yay (AUR Helper)"
     git clone https://aur.archlinux.org/yay-bin.git
-    
-    # Move in and build the package
     cd yay-bin || exit
     makepkg -si --noconfirm
-    
-    # Clean up the folder
     cd ..
     rm -rf yay-bin
-EOF
 	
 	echo "==> Installing official Pacman packages..."
     sudo pacman -S --needed --noconfirm "${PACMAN_APPS[@]}"
 
 # Clone the dotfiles repository securely
-    echo "==> Cloning dotfiles repo to $DOTFILES_DIR..."
+    echo "==> Cloning dotfiles repo"
     git clone https://github.com/kleshas/dotfiles ~/.dotfiles
 
 	cp ~/.dotfiles/.profile ~/
