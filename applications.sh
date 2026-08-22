@@ -162,15 +162,6 @@ EOF
 	echo "==> Installing official Pacman packages..."
     sudo pacman -S --needed --noconfirm "${PACMAN_APPS[@]}"
 
-
-	echo "==> Installing AUR apps via yay..."
-# Run as user, passing the array elements cleanly inside the user session
-	yay -S --needed --noconfirm \
-        --answeredbeforeclean All \
-        --answereddiff None \
-        --answerupgrade None \
-        "${AUR_APPS[@]}"
-
 # Clone the dotfiles repository securely
     echo "==> Cloning dotfiles repo to $DOTFILES_DIR..."
     git clone https://github.com/kleshas/dotfiles ~/.dotfiles
@@ -200,3 +191,12 @@ EOF
 	sudo bash -c "cat /home/bhava/.dotfiles/fstab >> /etc/fstab"
 	sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 	sudo cryptsetup --allow-discards --persistent refresh root
+
+	echo "==> Installing AUR apps via yay..."
+# Run as user, passing the array elements cleanly inside the user session
+	yay --needed --noconfirm \
+        --answerclean All \
+        --answerdiff None \
+        --answerupgrade None \
+        "${AUR_APPS[@]}"
+	yay --save --answerclean None --answerdiff None
