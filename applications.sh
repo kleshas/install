@@ -146,8 +146,14 @@
     cd ..
     rm -rf yay-bin
 	
-	echo "==> Installing official Pacman packages..."
+	echo "==> Installing packages..."
     sudo pacman -S --needed --noconfirm "${PACMAN_APPS[@]}"
+	yay -S --needed --noconfirm \
+        --answerclean All \
+        --answerdiff None \
+        --answerupgrade None \
+        "${AUR_APPS[@]}"
+	yay --save --answerclean None --answerdiff None
 
 # Clone the dotfiles repository securely
     echo "==> Cloning dotfiles repo"
@@ -178,13 +184,3 @@
 	sudo bash -c "cat /home/bhava/.dotfiles/fstab >> /etc/fstab"
 	sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 	sudo cryptsetup --allow-discards --persistent refresh root
-
-	echo "==> Installing AUR apps via yay..."
-	
-# Run as user, passing the array elements cleanly inside the user session
-	sudo -u $USERNAME env HOME="/home/$USERNAME" yay -S --needed --noconfirm \
-        --answerclean All \
-        --answerdiff None \
-        --answerupgrade None \
-        "${AUR_APPS[@]}"
-	yay --save --answerclean None --answerdiff None
