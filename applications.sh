@@ -137,6 +137,7 @@
 	catppuccin-qt5ct-git
 	ttf-jetbrains-mono-nerd
 	mullvad-vpn-bin
+	bibata-cursor-theme-bin
 	)
 
 	
