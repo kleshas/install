@@ -177,7 +177,7 @@
 	sudo systemctl enable fstrim.timer
 	sudo systemctl enable prelockd.service
 	echo "drivetemp" |sudo tee /etc/modules-load.d/modules.conf
-	sudo bash -c "cat /home/bhava/.dotfiles/crypttab > /etc/crypttab"
-	sudo bash -c "cat /home/bhava/.dotfiles/fstab >> /etc/fstab"
+	sudo bash -c "cat /$HOME/.dotfiles/crypttab > /etc/crypttab"
+	sudo bash -c "cat /$HOME/.dotfiles/fstab >> /etc/fstab"
 	sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 	sudo cryptsetup --allow-discards --persistent refresh root
