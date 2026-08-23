@@ -48,6 +48,7 @@
 	lib32-vulkan-icd-loader
 	lib32-vulkan-intel
 	lib32-vulkan-radeon
+	libappindicator-gtk3 #for gammastep-indicator
 	libreoffice-fresh
 	libva-mesa-driver
 	linux-headers
