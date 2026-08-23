@@ -38,8 +38,8 @@ read -r -p "${red}Username: ${rst}" username
 
 sgdisk -Z "${disk}"
 sgdisk \
-    -n1:0:+1G -t1:ef00 -c1:boot \
-    -N2       -t2:8304 -c2:linux \
+    -n1:0:+1G  -t1:ef00 -c1:boot \
+    -n2:0:+50G -t2:8304 -c2:linux \
     "${disk}"
 partprobe "${disk}"
 udevadm settle --timeout=10
@@ -87,7 +87,7 @@ printf '%s\n' \
     '::1       localhost' \
     "127.0.1.1 ${hostname}.localdomain ${hostname}" > /etc/hosts
 
-useradd -mG wheel,video,audio,input,render,seat "${username}"
+useradd -mG wheel "${username}"
 echo "Password for ${username}:"
 passwd "${username}"
 echo "Password for root:"
@@ -109,7 +109,8 @@ sed -i 's/^HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboar
 mkinitcpio -P
 
 systemctl enable systemd-resolved systemd-networkd
-ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+#ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+#line above is already done
 
 cat > /etc/systemd/network/20-wired.network <<'EOF'
 [Match]
@@ -143,7 +144,7 @@ cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /initramfs-linux.img
-options rd.luks.name=${luks_uuid}=root root=/dev/mapper/root rw quiet loglevel=3
+options rd.luks.name=${luks_uuid}=root root=/dev/mapper/root rw quiet loglevel=3 ibt=off
 EOF
 
 install -d -o "${username}" -g "${username}" "/home/${username}/.dotfiles"
