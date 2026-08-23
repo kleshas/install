@@ -2,28 +2,35 @@
 
 set -euo pipefail
 
-# Ensure script is not run directly as root, but can elevate via sudo
+# 1. Ensure script is not run directly as root
 if [ "$EUID" -eq 0 ]; then
     echo "Please run this script as a normal user, not root."
     exit 1
 fi
 
+# 2. Check for active network connection upfront
+echo "==> Verifying internet connectivity..."
+ping -c 1 archlinux.org >/dev/null 2>&1 || { echo "Error: No network connection detected."; exit 1; }
+
+# 3. Cache sudo credentials immediately to prevent mid-script timeouts
+echo "==> Checking sudo administrative privileges..."
+sudo -v
+
+# Keep sudo alive dynamically if the compilation takes a long time
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; } 2>/dev/null &
+
 # --- ARGUMENT OR INTERACTIVE INPUT PROCESSING ---
-# Check if arguments were passed; if not, prompt the user dynamically
 if [ $# -ge 2 ]; then
     HOSTNAME="$1"
     USERNAME="$2"
 else
     echo "==> Interactive Setup Required"
-    
-    # Request Hostname
     read -rp "Enter target system hostname: " HOSTNAME
     while [ -z "$HOSTNAME" ]; do
         echo "Hostname cannot be empty."
         read -rp "Enter target system hostname: " HOSTNAME
     done
 
-    # Request Username
     read -rp "Enter your primary account username: " USERNAME
     while [ -z "$USERNAME" ]; do
         echo "Username cannot be empty."
@@ -33,20 +40,22 @@ fi
 
 USER_HOME="/home/$USERNAME"
 
-# Validate that the requested user home folder structure actually exists
 if [ ! -d "$USER_HOME" ]; then
     echo "Error: The home directory '$USER_HOME' does not exist."
-    echo "Please ensure the user '$USERNAME' has been created first."
     exit 1
 fi
 
 echo "Proceeding with Deployment -> Hostname: $HOSTNAME | User: $USERNAME"
 echo "------------------------------------------------------------------"
 
+# Apply system hostname definition
+sudo hostnamectl set-hostname "$HOSTNAME"
+
 # Initialize package databases
 sudo pacman -Sy
 
 # --- APP CONFIGURATION LISTS ---
+# Official repository packages (Vertical layout for clean comments)
 PACMAN_APPS=(
     alsa-utils
     android-file-transfer
@@ -87,7 +96,7 @@ PACMAN_APPS=(
     lib32-vulkan-icd-loader
     lib32-vulkan-intel
     lib32-vulkan-radeon
-    libappindicator-gtk3 #for gammastep-indicator
+    libappindicator-gtk3        # Required for gammastep-indicator tray rendering
     libreoffice-fresh
     libva-mesa-driver
     linux-headers
@@ -133,6 +142,7 @@ PACMAN_APPS=(
     zathura
 )
 
+# AUR repository packages (Vertical layout for clean comments)
 AUR_APPS=(
     Amdsmi
     amdgpu_top
@@ -174,8 +184,8 @@ AUR_APPS=(
     ydotool
 )
 
-# ==> Install yay (AUR Helper) safely in a temporary location
-echo "==> Installing yay (AUR Helper)..."
+# ==> Install yay safely inside an isolated temporary sandbox
+echo "==> Preparing AUR helper..."
 YAY_DIR=$(mktemp -d)
 git clone https://archlinux.org "$YAY_DIR"
 cd "$YAY_DIR"
@@ -183,12 +193,12 @@ makepkg -si --noconfirm
 cd -
 rm -rf "$YAY_DIR"
 
-# ==> Install official packages
-echo "==> Installing Pacman packages..."
+# ==> Install core native system distributions
+echo "==> Synchronizing system infrastructure software..."
 sudo pacman -S --needed --noconfirm "${PACMAN_APPS[@]}"
 
-# ==> Install AUR packages with completely silent automation configs
-echo "==> Installing AUR packages..."
+# ==> Run AUR software provisioning profile routines
+echo "==> Refreshing composite user repositories..."
 yay -S --needed --noconfirm \
     --answerclean All \
     --answerdiff None \
@@ -196,55 +206,73 @@ yay -S --needed --noconfirm \
     "${AUR_APPS[@]}"
 yay --save --answerclean None --answerdiff None
 
-# ==> Clone and configure the dotfiles using the execution user's directory variable
-echo "==> Cloning dotfiles repo..."
+# ==> Clone and configure profile runtime assets
+echo "==> Resolving dotfiles tracking tree..."
 rm -rf "$USER_HOME/.dotfiles"
-git clone https://github.com "$USER_HOME/.dotfiles"
+sudo -u "$USERNAME" git clone https://github.com "$USER_HOME/.dotfiles"
 
-# Change ownership of cloned files to the target deployment user
-chown -R "$USERNAME:$USERNAME" "$USER_HOME/.dotfiles"
+# Deploy standard localized environment strings profiles safely
+for profile_file in .profile .bashrc .bash_profile .Xresources .Xdefaults; do
+    if [ -f "$USER_HOME/.dotfiles/$profile_file" ]; then
+        rm -f "$USER_HOME/$profile_file"
+        cp "$USER_HOME/.dotfiles/$profile_file" "$USER_HOME/"
+        chown "$USERNAME:$USERNAME" "$USER_HOME/$profile_file"
+    fi
+done
 
-# Copy configurations carefully targeting the variable profile path
-cp "$USER_HOME/.dotfiles/.profile" "$USER_HOME/"
-rm -f "$USER_HOME/.bashrc"
-cp "$USER_HOME/.dotfiles/.bashrc" "$USER_HOME/"
-cp "$USER_HOME/.dotfiles/.bash_profile" "$USER_HOME/"
-cp "$USER_HOME/.dotfiles/.Xresources" "$USER_HOME/"
-cp "$USER_HOME/.dotfiles/.Xdefaults" "$USER_HOME/"
-
-# Stow configurations relative to the correct target profile
+# ==> Resolve file and folder path conflicts before running GNU Stow
+echo "==> Clearing target file conflicts for GNU Stow..."
 cd "$USER_HOME/.dotfiles/stow"
+
+for pkg in */; do
+    pkg="${pkg%/}"
+    find "$pkg" -mindepth 1 | while read -r source_path; do
+        relative_target="${source_path#"$pkg"/}"
+        full_target="$USER_HOME/$relative_target"
+        
+        if [ -d "$source_path" ] && [ -f "$full_target" ] && [ ! -L "$full_target" ]; then
+            echo "Removing conflicting file: $full_target"
+            rm -f "$full_target"
+        elif [ -d "$source_path" ]; then
+            mkdir -p "$full_target"
+            chown "$USERNAME:$USERNAME" "$full_target"
+        elif [ -f "$source_path" ] && [ -e "$full_target" ] && [ ! -L "$full_target" ]; then
+            echo "Removing conflicting file: $full_target"
+            rm -f "$full_target"
+        fi
+    done
+done
+
+# Map symlinks over file structures via GNU Stow using relative target step backs
+echo "==> Executing GNU Stow..."
 sudo -u "$USERNAME" stow -t ../.. */
 
-# Apply user identification updates
-git config --global user.email "kleshas@mailbox.org"
-git config --global user.name "kleshas"
+# Apply git standard identity metrics cleanly via targeted execution sub-shells
+sudo -u "$USERNAME" git config --global user.email "kleshas@mailbox.org"
+sudo -u "$USERNAME" git config --global user.name "kleshas"
 
-# ==> System Administration Task Configurations
-echo "==> Configuring system operations..."
+# ==> Run Final Housekeeping Adjustments
+echo "==> Sweeping localized system resource pools..."
 sudo pacman -Sc --noconfirm
 
-# Configure Reflector automation
+# Configure operational parameters rulesets
 sudo mkdir -p /etc/xdg/reflector
 echo "--protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirrorlist" | sudo tee /etc/xdg/reflector/reflector.conf
 
-# Manage system services
-sudo systemctl enable reflector.service
-sudo systemctl enable cups.service
-sudo systemctl enable fstrim.timer
-sudo systemctl enable prelockd.service
+# Synchronize essential startup processes status maps
+sudo systemctl enable reflector.service cups.service fstrim.timer prelockd.service
 
-# Kernel module rules
+# Apply runtime system layout tweaks safely
 echo "drivetemp" | sudo tee /etc/modules-load.d/modules.conf
 
-# Dynamic file concatenation targeting the explicit script runtime variables
-sudo bash -c "cat $USER_HOME/.dotfiles/crypttab > /etc/crypttab"
-sudo bash -c "cat $USER_HOME/.dotfiles/fstab >> /etc/fstab"
+if [ -f "$USER_HOME/.dotfiles/crypttab" ] && [ -f "$USER_HOME/.dotfiles/fstab" ]; then
+    sudo cp "$USER_HOME/.dotfiles/crypttab" /etc/crypttab
+    sudo bash -c "cat $USER_HOME/.dotfiles/fstab >> /etc/fstab"
+fi
 
-# DNS resolver layout setup
 sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
-# Persistent encryption storage performance settings
-sudo cryptsetup --allow-discards --persistent refresh root || echo "Warning: Root is not managed via LUKS or device is busy."
+# Attempt safe execution parameter shifts for target crypto block partitions
+sudo cryptsetup --allow-discards --persistent refresh root || echo "Note: Root drive bypass optimized or non-LUKS."
 
-echo "==> Installation complete! Please reboot your system."
+echo "==> Installation completely finished! System ready for restart."
