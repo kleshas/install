@@ -9,88 +9,88 @@
 	# --- APP CONFIGURATION LISTS ---
 	# Official repository packages (Installed via pacman)
 	PACMAN_APPS=(
-	lib32-mesa
-	xf86-video-amdgpu
-	vulkan-radeon
-	lib32-vulkan-radeon
-	libva-mesa-driver
-	lib32-libva-mesa-driver
-	smartmontools
-	mesa
-	vulkan-icd-loader
-	lib32-vulkan-icd-loader
 	alsa-utils
-	pavucontrol
-	pipewire
-	pipewire-pulse
-	pipewire-alsa
-	lib32-pipewire
-	mpv
-	conky
-	hddtemp
-	wget
-	nvme-cli
-	sysstat
-	dunst
-	grsync
-	htop
-	reflector
-	pacman-contrib
-	linux-headers
-	man-db
-	ncdu
+	android-file-transfer
 	btrfs-progs
-	kitty
-	polkit-gnome
-	thunderbird
+	calibre
+	conky
+	cups
+	dunst
+	feh
+	firefox
+	geany
+	geany-plugins
+	grim
+	grsync
+	gthumb
+	gvfs
+	hddtemp
+	hplip
+	htop
 	hunspell-en_ca
 	hyphen-en
-	firefox
-	libreoffice-fresh
-	zathura
-	hplip
-	cups
-	lutris
-	steam
-	jdk8-openjdk
 	jdk-openjdk
-	gthumb
-	calibre
-	feh
+	jdk8-openjdk
+	keepassxc
+	kitty
+	lib32-gnutls
+	lib32-gtk3
+	lib32-libpulse
+	lib32-libva
+	lib32-libva-mesa-driver
+	lib32-libxcomposite
+	lib32-libxinerama
+	lib32-libxslt
+	lib32-mesa
+	lib32-mpg123
+	lib32-opencl-icd-loader
+	lib32-pipewire
+	lib32-vulkan-icd-loader
+	lib32-vulkan-intel
+	lib32-vulkan-radeon
+	libreoffice-fresh
+	libva-mesa-driver
+	linux-headers
+	lutris
+	man-db
+	mesa
+	mpg123
+	mpv
+	ncdu
 	noto-fonts-emoji
+	nvme-cli
+	obsidian
+	opencl-icd-loader
+	otf-montserrat
+	pacman-contrib
+	pavucontrol
+	pbzip2
+	pigz
+	pipewire
+	pipewire-alsa
+	pipewire-pulse
+	polkit-gnome
+	qbittorrent
+	reflector
+	smartmontools
+	steam
+	sysstat
+	thunar
+	thunar-archive-plugin
+	thunderbird
 	ttf-dejavu
 	ttf-droid
 	ttf-liberation
-	thunar
-	xarchiver
-	thunar-archive-plugin
-	gvfs
 	unrar
-	grim
-	vulkan-intel
-	lib32-vulkan-intel
-	lib32-gnutls
-	lib32-libpulse
-	wine-staging
-	mpg123
-	lib32-mpg123
-	lib32-libxcomposite
-	lib32-libxinerama
-	opencl-icd-loader
-	lib32-opencl-icd-loader
-	lib32-libxslt
-	lib32-libva
-	lib32-gtk3
-	otf-montserrat
-	android-file-transfer
-	keepassxc
-	qbittorrent
 	virtualbox
-	obsidian
-	geany
-	geany-plugins
-	pigz
-	pbzip2
+	vulkan-icd-loader
+	vulkan-intel
+	vulkan-radeon
+	wget
+	wine-staging
+	xarchiver
+	xf86-video-amdgpu
+	zathura
 	)
 
 	# AUR repository packages (Installed via yay)
