@@ -1,147 +1,154 @@
-#!/bin/bash
-# uncomment to view debugging information 
+#!/usr/bin/env bash
 set -euo pipefail
-timedatectl set-ntp true
 
-#check if we're root
-if [[ "$UID" -ne 0 ]]; then
-    echo "This script needs to be run as root!" >&2
+if [[ ${UID} -ne 0 ]]; then
+    echo "This script needs to be run as root." >&2
     exit 3
 fi
 
-### Config options
+timedatectl set-ntp true
+
 locale="en_CA.UTF-8"
-hostname=$(date +%Y%b)
+timezone="America/Vancouver"
+red=$'\e[1;31m'
+rst=$'\e[0m'
+msg() { printf '%s%s%s\n' "${red}" "$*" "${rst}"; }
 
-# Partition
-echo -e "\e[1;31mCreating partitions...\n\e[0m"
-lsblk
-echo -e "\e[1;31mWhat drive do you want to install to? (e.g. nvme0n1) \n\e[0m"
-read -p ": " target
-#sgdisk -Z /dev/$target
-sgdisk -d 1 -d 2 /dev/$target
+cpu_vendor=$(awk -F: '/^vendor_id/{print $2; exit}' /proc/cpuinfo)
+case ${cpu_vendor} in
+    *GenuineIntel*) ucode_pkg=intel-ucode ;;
+    *AuthenticAMD*) ucode_pkg=amd-ucode ;;
+    *) ucode_pkg= ;;
+esac
+
+lsblk -d -o NAME,SIZE,MODEL,TRAN
+read -r -p "${red}Install to which disk? (e.g. nvme0n1, sda): ${rst}" target
+target=${target#/dev/}
+disk=/dev/${target}
+
+[[ -b ${disk} ]] || { echo "Not a block device: ${disk}" >&2; exit 1; }
+
+read -r -p "${red}This will ERASE ${disk}. Type the disk name to continue: ${rst}" confirm
+[[ ${confirm} == "${target}" ]] || { echo "Aborted."; exit 1; }
+
+read -r -p "${red}Hostname [${hostname:-$(date +%Y%b)}]: ${rst}" hostname
+hostname=${hostname:-$(date +%Y%b)}
+read -r -p "${red}Username: ${rst}" username
+[[ ${username} =~ ^[a-z_][a-z0-9_-]*$ ]] || { echo "Invalid username." >&2; exit 1; }
+
+sgdisk -Z "${disk}"
 sgdisk \
-    -n1:0:+512M  -t1:ef00 -c1:boot \
-    -N2          -t2:8304 -c2:linux \
-    /dev/$target
-    
-# Reload partition table
-sleep 2
-partprobe -s /dev/$target
-sleep 2
+    -n1:0:+1G -t1:ef00 -c1:boot \
+    -N2       -t2:8304 -c2:linux \
+    "${disk}"
+partprobe "${disk}"
+udevadm settle --timeout=10
+until [[ -e /dev/disk/by-partlabel/linux && -e /dev/disk/by-partlabel/boot ]]; do
+    sleep 0.2
+done
 
-#Encrypt the root partition. prompt for crypt password
-echo -e "\e[1;31mEncrypting the root partition...\e[0m\n"
-cryptsetup luksFormat /dev/disk/by-partlabel/linux
-echo -e "\e[1;31mOpening the root partition...\e[0m\n"
-cryptsetup luksOpen /dev/disk/by-partlabel/linux root
+msg "Encrypting root..."
+cryptsetup luksFormat --type luks2 --pbkdf argon2id /dev/disk/by-partlabel/linux
+cryptsetup open /dev/disk/by-partlabel/linux root
 
-echo -e "\e[1;31mMaking File Systems...\e[0m\n"
-# Create file systems
 mkfs.fat -F32 -n EFISYSTEM /dev/disk/by-partlabel/boot
-mkfs.ext4 -L linux /dev/mapper/root
+mkfs.ext4 -F -L linux /dev/mapper/root
 
-# mount the root, and create + mount the EFI directory
-echo -e "\e[1;31mMounting File Systems...\e[0m\n"
 mount /dev/mapper/root /mnt
-mkdir /mnt/boot
+install -d /mnt/boot
 mount /dev/disk/by-partlabel/boot /mnt/boot
 
-#Update pacman mirrors and then pacstrap base install
-echo -e "\e[1;31mPacstrapping...\e[0m\n"
-pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode nano cryptsetup git firefox sway
-genfstab -pU /mnt >> /mnt/etc/fstab
-#Decrease writes to the USB by using the noatime option in fstab
+msg "Pacstrapping..."
+pacstrap -K /mnt base base-devel linux linux-firmware ${ucode_pkg} \
+    nano cryptsetup git sudo polkit \
+    firefox sway foot xdg-desktop-portal-wlr \
+    nvme-cli smartmontools pigz pbzip2 efibootmgr
+
+genfstab -U /mnt >> /mnt/etc/fstab
 sed -i 's/relatime/noatime/' /mnt/etc/fstab
 
-echo -e "\e[1;31mSetting up environment...\e[0m\n"
-echo $hostname > /mnt/etc/hostname
-arch-chroot /mnt hwclock --systohc --utc
-#set up locale/env
-#add our locale to locale.gen
-sed -i -e "/^#$locale/s/^#//" /mnt/etc/locale.gen
-arch-chroot /mnt locale-gen
-echo LANG=${locale} > /mnt/etc/locale.conf
-arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
+luks_uuid=$(blkid -s UUID -o value /dev/disk/by-partlabel/linux)
 
-echo -e "\e[1;31mConfiguring for first boot...\e[0m\n"
-#add the local user
-echo -e "\e[1;31mLet's add a regular account.  What username?\e[0m"
-read -p ": " username
-arch-chroot /mnt useradd -mG wheel $username
-arch-chroot /mnt passwd $username
-echo -e "\e[1;31mChanging the root password...\e[0m\n"
-arch-chroot /mnt passwd root
+arch-chroot /mnt /bin/bash -s -- "${hostname}" "${locale}" "${timezone}" "${username}" "${luks_uuid}" <<'CHROOT'
+set -euo pipefail
+hostname=$1 locale=$2 timezone=$3 username=$4 luks_uuid=$5
 
-#uncomment the wheel group in the sudoers file
-sed -i -e '/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/s/^# //' /mnt/etc/sudoers
-echo "$username ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme" |sudo tee -a /mnt/etc/sudoers
-echo "$username ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl" |sudo tee -a /mnt/etc/sudoers
+echo "${hostname}" > /etc/hostname
+ln -sf "/usr/share/zoneinfo/${timezone}" /etc/localtime
+hwclock --systohc --utc
 
-#change the HOOKS in mkinitcpio.conf
-#sed -i 's/systemd/udev/g' /mnt/etc/mkinitcpio.conf
-#sed -i 's/sd-vconsole//g' /mnt/etc/mkinitcpio.conf
-#sed -i 's/block/block encrypt/g' /mnt/etc/mkinitcpio.conf
- 
-#enable the services we will need on start up
-echo -e "\e[1;31mEnabling services...\e[0m"
-systemctl --root /mnt enable systemd-resolved systemd-networkd
-cat <<EOF > /mnt/etc/systemd/network/20-wired.network
-	[Match]
-	Name=enp8s0
-	[Network]
-	DHCP=yes
-	IPv6PrivacyExtensions=yes
+sed -i -e "/^#${locale}/s/^#//" /etc/locale.gen
+locale-gen
+printf 'LANG=%s\n' "${locale}" > /etc/locale.conf
+printf 'KEYMAP=us\n' > /etc/vconsole.conf
+
+printf '%s\n' \
+    '127.0.0.1 localhost' \
+    '::1       localhost' \
+    "127.0.1.1 ${hostname}.localdomain ${hostname}" > /etc/hosts
+
+useradd -mG wheel,video,audio,input,render,seat "${username}"
+echo "Password for ${username}:"
+passwd "${username}"
+echo "Password for root:"
+passwd root
+
+install -d -m 750 /etc/sudoers.d
+cat > /etc/sudoers.d/wheel <<'EOF'
+%wheel ALL=(ALL:ALL) ALL
+EOF
+cat > /etc/sudoers.d/hwtools <<EOF
+${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme
+${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl
+EOF
+chmod 440 /etc/sudoers.d/wheel /etc/sudoers.d/hwtools
+
+# systemd + sd-encrypt matches rd.luks.name= on the kernel cmdline
+sed -i 's/^HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt filesystems fsck)/' \
+    /etc/mkinitcpio.conf
+mkinitcpio -P
+
+systemctl enable systemd-resolved systemd-networkd
+ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
+cat > /etc/systemd/network/20-wired.network <<'EOF'
+[Match]
+Type=ether
+
+[Network]
+DHCP=yes
+IPv6PrivacyExtensions=yes
 EOF
 
-#Put the following in the /etc/hosts file
-echo "127.0.0.1 localhost" > /mnt/etc/hosts
-echo "::1  localhost" >> /mnt/etc/hosts
-echo "127.0.1.1 $hostname.localdomain $hostname" >> /mnt/etc/hosts
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+sed -i "/^#Color/s/^#//" /etc/pacman.conf
+sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /etc/makepkg.conf
+sed -i 's/^#MAKEFLAGS=.*/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
+sed -i 's/^COMPRESSXZ=.*/COMPRESSXZ=(xz -c -z - --threads=0)/' /etc/makepkg.conf
+sed -i 's/^COMPRESSGZ=.*/COMPRESSGZ=(pigz -c -f -n)/' /etc/makepkg.conf
+sed -i 's/^COMPRESSBZ2=.*/COMPRESSBZ2=(pbzip2 -c -f)/' /etc/makepkg.conf
+sed -i 's/^COMPRESSZST=.*/COMPRESSZST=(zstd -c -T0 -)/' /etc/makepkg.conf
+sed -i 's/ debug / !debug /' /etc/makepkg.conf
+sed -i 's/^RUSTFLAGS=.*/RUSTFLAGS="-C opt-level=2 -C target-cpu=native"/' /etc/makepkg.conf
 
-#improve compilation speeds
-sed -i "/\[multilib\]/,/Include/"'s/^#//' /mnt/etc/pacman.conf
-sed -i "/^#Color/s/^#//" /mnt/etc/pacman.conf
-sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /mnt/etc/makepkg.conf
-sed -i 's/^#MAKEFLAGS="-j2"/MAKEFLAGS="-j$(nproc)"/' /mnt/etc/makepkg.conf
-sed -i 's/^#ParallelDownloads/ParallelDownloads/' /mnt/etc/pacman.conf
-sed -i 's/^COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -z - --threads=0)/' /mnt/etc/makepkg.conf
-sed -i 's/^COMPRESSGZ=(gzip -c -f -n)/COMPRESSGZ=(pigz -c -f -n)/' /mnt/etc/makepkg.conf
-sed -i 's/^COMPRESSBZ2=(bzip2 -c -f)/COMPRESSBZ2=(pbzip2 -c -f)/' /mnt/etc/makepkg.conf
-sed -i 's/^COMPRESSZST=(zstd -c -T0 --ultra -20 -)/COMPRESSZST=(zstd -c -T0 -)/' /mnt/etc/makepkg.conf
-sed -i 's/^OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge debug lto)/OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge !debug lto)/' /mnt/etc/makepkg.conf
-sed -i 's/^RUSTFLAGS="-Cforce-frame-pointers=yes"/RUSTFLAGS="-C opt-level=2 -C target-cpu=native"/' /etc/makepkg.conf
-
-#install the systemd-boot bootloader
-arch-chroot /mnt bootctl install
-arch-chroot /mnt rm -f /boot/loader/loader.conf
-cat <<EOF > /mnt/boot/loader/loader.conf
-	default arch
-	timeout 0
-	editor 0
-EOF
-cat <<EOF > /mnt/boot/loader/entries/arch.conf
-	title arch
-	linux /vmlinuz-linux
-	initrd /intel-ucode.img
-	initrd /initramfs-linux.img
-EOF
-#echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value /dev/${target}p2):root root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
-echo "options rd.luks.name=$(blkid -s UUID -o value /dev/${target}p2)=root root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >> /mnt/boot/loader/entries/arch.conf
-
-#change the HOOKS in mkinitcpio.conf
-sed -i 's/sd-vconsole//g' /mnt/etc/mkinitcpio.conf
-sed -i 's/block/block sd-encrypt/g' /mnt/etc/mkinitcpio.conf
- 
-arch-chroot /mnt mkinitcpio -p linux
-
-echo -e "\e[1;31mCreating local dotfiles folder...\e[0m\n"
-arch-chroot /mnt su $username <<EOF
-	mkdir ~/.dotfiles
+bootctl install
+cat > /boot/loader/loader.conf <<'EOF'
+default arch.conf
+timeout 3
+editor no
 EOF
 
-echo "==> Unmounting filesystems..."
+cat > /boot/loader/entries/arch.conf <<EOF
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /initramfs-linux.img
+options rd.luks.name=${luks_uuid}=root root=/dev/mapper/root rw quiet loglevel=3
+EOF
+
+install -d -o "${username}" -g "${username}" "/home/${username}/.dotfiles"
+CHROOT
+
 umount -R /mnt
-
-echo "==> Installation complete! Reboot your machine."
-
+cryptsetup close root
+echo "==> Installation complete. Reboot."
