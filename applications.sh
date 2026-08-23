@@ -65,7 +65,7 @@ PACMAN_APPS=(
     cups
     dunst
     feh
-    fileroller
+    file-roller
     firefox
     geany
     geany-plugins
@@ -185,11 +185,15 @@ AUR_APPS=(
 
 # ==> Install yay safely inside an isolated temporary sandbox
 echo "==> Preparing AUR helper..."
+# 1. Create a secure temporary directory
 YAY_DIR=$(mktemp -d)
-git clone https://archlinux.org "$YAY_DIR"
-cd "$YAY_DIR"
+# 2. Clone from the correct AUR repository endpoint
+git clone https://aur.archlinux.org/yay-bin.git "$YAY_DIR"
+# 3. Enter directory, build/install without prompts, and return safely
+cd "$YAY_DIR" || exit 1
 makepkg -si --noconfirm
-cd -
+cd - >/dev/null || exit 1
+# 4. Clean up temporary files
 rm -rf "$YAY_DIR"
 
 # ==> Install core native system distributions
@@ -208,7 +212,7 @@ yay --save --answerclean None --answerdiff None
 # ==> Clone and configure profile runtime assets
 echo "==> Resolving dotfiles tracking tree..."
 rm -rf "$USER_HOME/.dotfiles"
-sudo -u "$USERNAME" git clone https://github.com "$USER_HOME/.dotfiles"
+sudo -u "$USERNAME" git clone https://github.com/kleshas/dotfile "$USER_HOME/.dotfiles"
 
 # Deploy standard localized environment strings profiles safely
 for profile_file in .profile .bashrc .bash_profile .Xresources .Xdefaults; do
@@ -244,7 +248,7 @@ done
 
 # Map symlinks over file structures via GNU Stow using relative target step backs
 echo "==> Executing GNU Stow..."
-sudo -u "$USERNAME" stow -t ../.. */
+sudo -u "$USERNAME" stow -d "$USER_HOME/.dotfiles/stow" -t "$USER_HOME" */
 
 # Apply git standard identity metrics cleanly via targeted execution sub-shells
 sudo -u "$USERNAME" git config --global user.email "kleshas@mailbox.org"
