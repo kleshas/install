@@ -95,44 +95,44 @@
 
 	# AUR repository packages (Installed via yay)
 	AUR_APPS=(
-    amdgpu_top
-	prelockd
-	tartube
-	downgrade
-	prismlauncher
-	heroic-games-launcher-bin
-	mcomix
-	xnconvert
-	protontricks
-	gnucash
-	swaytools
-	stow
-	amdsmi
-	imagemagick
-	nwg-look
-	slurp
-	ydotool
-	evtest
-	otf-font-awesome
-	waybar
-	wofi
-	xorg-xwayland
-	xorg-xlsclients
-	qt5-wayland
-	qt6-wayland
-	glfw-wayland
-	gammastep
-	swaylock-effects
-	swaybg
-	xdg-desktop-portal-gtk
-	wl-clipboard
-	catppuccin-gtk-theme-mocha
+    Amdsmi
+	amdgpu_top
+	bibata-cursor-theme-bin
 	catppuccin-gtk-theme-frappe
 	catppuccin-gtk-theme-macchiato
-	qt5ct
+	catppuccin-gtk-theme-mocha
 	catppuccin-qt5ct-git
+	downgrade
+	evtest
+	gammastep
+	glfw-wayland
+	gnucash
+	heroic-games-launcher-bin
+	imagemagick
+	mcomix
+	nwg-look
+	otf-font-awesome
+	prelockd
+	prismlauncher
+	protontricks
+	qt5-wayland
+	qt5ct
+	qt6-wayland
+	slurp
+	stow
+	swaybg
+	swaylock-effects
+	swaytools
+	tartube
 	ttf-jetbrains-mono-nerd
-	bibata-cursor-theme-bin
+	waybar
+	wl-clipboard
+	wofi
+	xdg-desktop-portal-gtk
+	xnconvert
+	xorg-xlsclients
+	xorg-xwayland
+	ydotool
 	)
 
 	echo "==> Installing yay (AUR Helper)"
