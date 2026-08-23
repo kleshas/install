@@ -91,7 +91,6 @@
 	geany-plugins
 	pigz
 	pbzip2
-	github-cli
 	)
 
 	# AUR repository packages (Installed via yay)
@@ -104,10 +103,8 @@
 	heroic-games-launcher-bin
 	mcomix
 	xnconvert
-	ttf-ms-fonts
 	protontricks
 	gnucash
-	sway
 	swaytools
 	stow
 	amdsmi
