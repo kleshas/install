@@ -93,15 +93,26 @@ passwd "${username}"
 echo "Password for root:"
 passwd root
 
+# 1. Create the directory with secure permissions
 install -d -m 750 /etc/sudoers.d
-cat > /etc/sudoers.d/wheel <<'EOF'
+# 2. Write the wheel group access rule
+# Using 'EOF' prevents variable expansion inside the block
+tee /etc/sudoers.d/wheel <<'EOF' >/dev/null
 %wheel ALL=(ALL:ALL) ALL
 EOF
-cat > /etc/sudoers.d/hwtools <<EOF
+# 3. Write the passwordless hardware tools access rule
+# Using EOF (no quotes) allows the ${username} variable to expand
+tee /etc/sudoers.d/hwtools <<EOF >/dev/null
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl
 EOF
+# 4. Enforce strict permissions required by sudo
 chmod 440 /etc/sudoers.d/wheel /etc/sudoers.d/hwtools
+# 5. Automation Guard: Validate syntax and fail-fast if broken
+if ! visudo -c; then
+    echo "ERROR: Sudoers configuration validation failed!" >&2
+    exit 1
+fi
 
 # systemd + sd-encrypt matches rd.luks.name= on the kernel cmdline
 sed -i 's/^HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt filesystems fsck)/' \
@@ -121,17 +132,31 @@ DHCP=yes
 IPv6PrivacyExtensions=yes
 EOF
 
+# --- Pacman Customization ---
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 sed -i "/^#Color/s/^#//" /etc/pacman.conf
-sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+sed -i 's/^#\?ParallelDownloads.*/ParallelDownloads = 5/' /etc/pacman.conf
+
+# --- Makepkg Optimizations ---
 sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /etc/makepkg.conf
-sed -i 's/^#MAKEFLAGS=.*/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
+sed -i "s/^#MAKEFLAGS=.*/MAKEFLAGS=\"-j\$(nproc)\"/" /etc/makepkg.conf
+
+# Cleanly disable debug package generation by matching the OPTIONS array
+sed -i 's/\bdebug\b/!debug/g' /etc/makepkg.conf
+
+# --- Parallel Compression Enhancements ---
 sed -i 's/^COMPRESSXZ=.*/COMPRESSXZ=(xz -c -z - --threads=0)/' /etc/makepkg.conf
 sed -i 's/^COMPRESSGZ=.*/COMPRESSGZ=(pigz -c -f -n)/' /etc/makepkg.conf
 sed -i 's/^COMPRESSBZ2=.*/COMPRESSBZ2=(pbzip2 -c -f)/' /etc/makepkg.conf
 sed -i 's/^COMPRESSZST=.*/COMPRESSZST=(zstd -c -T0 -)/' /etc/makepkg.conf
-sed -i 's/ debug / !debug /' /etc/makepkg.conf
-sed -i 's/^RUSTFLAGS=.*/RUSTFLAGS="-C opt-level=2 -C target-cpu=native"/' /etc/makepkg.conf
+
+# --- Rust Optimizations ---
+# Note: Modern Arch splits this into /etc/makepkg.conf.d/rust.conf
+if [ -f /etc/makepkg.conf.d/rust.conf ]; then
+    sed -i 's/^RUSTFLAGS=.*/RUSTFLAGS="-C opt-level=2 -C target-cpu=native"/' /etc/makepkg.conf.d/rust.conf
+else
+    sed -i 's/^RUSTFLAGS=.*/RUSTFLAGS="-C opt-level=2 -C target-cpu=native"/' /etc/makepkg.conf
+fi
 
 bootctl install
 cat > /boot/loader/loader.conf <<'EOF'
