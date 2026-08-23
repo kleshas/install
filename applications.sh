@@ -65,6 +65,7 @@ PACMAN_APPS=(
     cups
     dunst
     feh
+    fileroller
     firefox
     geany
     geany-plugins
@@ -83,7 +84,6 @@ PACMAN_APPS=(
     kitty
     lib32-gnutls
     lib32-gtk3
-    lib32-libpulse
     lib32-libva
     lib32-libva-mesa-driver
     lib32-libxcomposite
@@ -137,7 +137,6 @@ PACMAN_APPS=(
     vulkan-radeon
     wget
     wine-staging
-    xarchiver
     xf86-video-amdgpu
     zathura
 )
