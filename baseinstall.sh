@@ -140,13 +140,6 @@ arch-chroot /mnt su $username <<EOF
 	mkdir ~/.dotfiles
 EOF
 
-# Copy Stage 2 configuration script into the new environment
-cp applications.sh /mnt/root/applications.sh
-chmod +x /mnt/root/applications.sh
-
-echo "==> Chrooting into /mnt to run Stage 2..."
-arch-chroot /mnt /root/applications.sh "$hostname" "$username"
-
 echo "==> Unmounting filesystems..."
 umount -R /mnt
 
