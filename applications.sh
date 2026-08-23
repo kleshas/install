@@ -214,7 +214,7 @@ cp "$USER_HOME/.dotfiles/.Xdefaults" "$USER_HOME/"
 
 # Stow configurations relative to the correct target profile
 cd "$USER_HOME/.dotfiles/stow"
-sudo -u "$USERNAME" stow -t "$USER_HOME" */
+sudo -u "$USERNAME" stow -t ../.. */
 
 # Apply user identification updates
 git config --global user.email "kleshas@mailbox.org"
