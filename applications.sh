@@ -2,21 +2,46 @@
 
 set -euo pipefail
 
-# Check for required arguments
-if [ $# -lt 2 ]; then
-    echo "Usage: $0 <hostname> <username>"
-    exit 1
-fi
-
-HOSTNAME="$1"
-USERNAME="$2"
-USER_HOME="/home/$USERNAME"
-
 # Ensure script is not run directly as root, but can elevate via sudo
 if [ "$EUID" -eq 0 ]; then
     echo "Please run this script as a normal user, not root."
     exit 1
 fi
+
+# --- ARGUMENT OR INTERACTIVE INPUT PROCESSING ---
+# Check if arguments were passed; if not, prompt the user dynamically
+if [ $# -ge 2 ]; then
+    HOSTNAME="$1"
+    USERNAME="$2"
+else
+    echo "==> Interactive Setup Required"
+    
+    # Request Hostname
+    read -rp "Enter target system hostname: " HOSTNAME
+    while [ -z "$HOSTNAME" ]; do
+        echo "Hostname cannot be empty."
+        read -rp "Enter target system hostname: " HOSTNAME
+    done
+
+    # Request Username
+    read -rp "Enter your primary account username: " USERNAME
+    while [ -z "$USERNAME" ]; do
+        echo "Username cannot be empty."
+        read -rp "Enter your primary account username: " USERNAME
+    done
+fi
+
+USER_HOME="/home/$USERNAME"
+
+# Validate that the requested user home folder structure actually exists
+if [ ! -d "$USER_HOME" ]; then
+    echo "Error: The home directory '$USER_HOME' does not exist."
+    echo "Please ensure the user '$USERNAME' has been created first."
+    exit 1
+fi
+
+echo "Proceeding with Deployment -> Hostname: $HOSTNAME | User: $USERNAME"
+echo "------------------------------------------------------------------"
 
 # Initialize package databases
 sudo pacman -Sy
@@ -152,7 +177,7 @@ AUR_APPS=(
 # ==> Install yay (AUR Helper) safely in a temporary location
 echo "==> Installing yay (AUR Helper)..."
 YAY_DIR=$(mktemp -d)
-git clone https://aur.archlinux.org/yay-bin.git "$YAY_DIR"
+git clone https://archlinux.org "$YAY_DIR"
 cd "$YAY_DIR"
 makepkg -si --noconfirm
 cd -
@@ -174,7 +199,7 @@ yay --save --answerclean None --answerdiff None
 # ==> Clone and configure the dotfiles using the execution user's directory variable
 echo "==> Cloning dotfiles repo..."
 rm -rf "$USER_HOME/.dotfiles"
-git clone https://github.com/kleshas/dotfiles "$USER_HOME/.dotfiles"
+git clone https://github.com "$USER_HOME/.dotfiles"
 
 # Change ownership of cloned files to the target deployment user
 chown -R "$USERNAME:$USERNAME" "$USER_HOME/.dotfiles"
