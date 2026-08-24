@@ -74,7 +74,6 @@ PACMAN_APPS=(
     pipewire
     pipewire-alsa
     pipewire-pulse
-    polkit-gnome
     qbittorrent
     reflector
     smartmontools
