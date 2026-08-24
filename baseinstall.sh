@@ -159,6 +159,7 @@ EOF
 cat > /boot/loader/entries/arch.conf <<EOF
 title   Arch Linux
 linux   /vmlinuz-linux
+initrd  /${ucode_pkg}.img
 initrd  /initramfs-linux.img
 options rd.luks.name=${luks_uuid}=root root=/dev/mapper/root rw quiet loglevel=3 ibt=off
 EOF
