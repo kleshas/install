@@ -220,8 +220,8 @@ sudo systemctl enable reflector.service cups.service fstrim.timer prelockd.servi
 # Apply runtime system layout tweaks safely
 echo "drivetemp" | sudo tee /etc/modules-load.d/modules.conf
 
-sudo bash -c "cat ~/.dotfiles/crypttab >> /etc/crypttab"
-sudo bash -c "cat ~/.dotfiles/fstab >> /etc/fstab"
+cat ~/.dotfiles/crypttab | sudo tee -a /etc/crypttab > /dev/null
+cat ~/.dotfiles/fstab | sudo tee -a /etc/fstab > /dev/null
 
 sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
