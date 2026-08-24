@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-# ==> Automatically Enable Multilib Repository if missing
+
+# ==> Automatically Enable Multilib Repository if missing or commented out
 if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
     echo "==> Enabling multilib repository..."
-    sudo sed -i '/^#\[multilib\]/s/^#//' /etc/pacman.conf
-    sudo sed -i '/^#Include = \/etc\/pacman\.d\/mirrorlist/s/^#//' /etc/pacman.conf
+    if grep -q "^#\[multilib\]" /etc/pacman.conf; then
+        sudo sed -i '/^#\[multilib\]/s/^#//' /etc/pacman.conf
+        sudo sed -i '/^\[multilib\]/{n;s/^#//}' /etc/pacman.conf
+    else
+        echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" | sudo tee -a /etc/pacman.conf
+    fi
 fi
 
 # Initialize package databases
 sudo pacman -Sy
 
 # --- APP CONFIGURATION LISTS ---
-# Official repository packages (Vertical layout for clean comments)
 PACMAN_APPS=(
     alsa-utils
     android-file-transfer
@@ -54,7 +58,7 @@ PACMAN_APPS=(
     lib32-vulkan-icd-loader
     lib32-vulkan-intel
     lib32-vulkan-radeon
-    libappindicator-gtk3        # Required for gammastep-indicator tray rendering
+    libappindicator-gtk3
     libreoffice-fresh
     libva-mesa-driver
     linux-headers
@@ -99,7 +103,6 @@ PACMAN_APPS=(
     zathura
 )
 
-# AUR repository packages (Vertical layout for clean comments)
 AUR_APPS=(
     amdsmi
     amdgpu_top
@@ -138,17 +141,15 @@ AUR_APPS=(
 )
 
 # ==> Install yay safely inside an isolated temporary sandbox
-echo "==> Preparing AUR helper..."
-# 1. Create a secure temporary directory
-YAY_DIR=$(mktemp -d)
-# 2. Clone from the correct AUR repository endpoint
-git clone https://aur.archlinux.org/yay-bin.git "$YAY_DIR"
-# 3. Enter directory, build/install without prompts, and return safely
-cd "$YAY_DIR" || exit 1
-makepkg -si --noconfirm
-cd - >/dev/null || exit 1
-# 4. Clean up temporary files
-rm -rf "$YAY_DIR"
+if ! command -v yay &> /dev/null; then
+    echo "==> Preparing AUR helper..."
+    YAY_DIR=$(mktemp -d)
+    git clone https://aur.archlinux.org/yay-bin.git "$YAY_DIR"
+    cd "$YAY_DIR" || exit 1
+    makepkg -si --noconfirm
+    cd - >/dev/null || exit 1
+    rm -rf "$YAY_DIR"
+fi
 
 # ==> Install core native system distributions
 echo "==> Synchronizing system infrastructure software..."
@@ -170,18 +171,18 @@ git clone https://github.com/kleshas/dotfiles ~/.dotfiles
 
 # Deploy standard localized environment strings profiles safely
 for profile_file in .profile .bashrc .bash_profile .Xresources .Xdefaults; do
-    if [ -f ~/.dotfiles/$profile_file ]; then
-        rm -f ~/$profile_file
-        cp ~/.dotfiles/$profile_file ~/
+    if [ -f "$HOME/.dotfiles/$profile_file" ]; then
+        rm -f "$HOME/$profile_file"
+        cp "$HOME/.dotfiles/$profile_file" "$HOME/"
     fi
 done
 
-# ==> Resolve file and folder path conflicts before running GNU Stow
-echo "==> Clearing target file conflicts for GNU Stow..."
-cd ~/.dotfiles/stow
-stow -t ../.. *
+# ==> Executing GNU Stow cleanly
+echo "==> Executing GNU Stow..."
+cd "$HOME/.dotfiles/stow"
+stow --restow -t "$HOME" *
 
-# Apply git standard identity metrics cleanly via targeted execution sub-shells
+# Apply git standard identity metrics cleanly
 git config --global user.email "kleshas@mailbox.org"
 git config --global user.name "kleshas"
 
@@ -197,10 +198,10 @@ echo "--protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirr
 sudo systemctl enable reflector.service cups.service fstrim.timer prelockd.service
 
 # Apply runtime system layout tweaks safely
-echo "drivetemp" | sudo tee /etc/modules-load.d/modules.conf
+echo "drivetemp" | sudo tee /etc/modules-load.d/drivetemp.conf > /dev/null
 
-cat ~/.dotfiles/crypttab | sudo tee -a /etc/crypttab > /dev/null
-cat ~/.dotfiles/fstab | sudo tee -a /etc/fstab > /dev/null
+cat "$HOME/.dotfiles/crypttab" | sudo tee -a /etc/crypttab > /dev/null
+cat "$HOME/.dotfiles/fstab" | sudo tee -a /etc/fstab > /dev/null
 
 sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
