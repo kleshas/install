@@ -2,55 +2,6 @@
 
 set -euo pipefail
 
-# 1. Ensure script is not run directly as root
-if [ "$EUID" -eq 0 ]; then
-    echo "Please run this script as a normal user, not root."
-    exit 1
-fi
-
-# 2. Check for active network connection upfront
-echo "==> Verifying internet connectivity..."
-ping -c 1 archlinux.org >/dev/null 2>&1 || { echo "Error: No network connection detected."; exit 1; }
-
-# 3. Cache sudo credentials immediately to prevent mid-script timeouts
-echo "==> Checking sudo administrative privileges..."
-sudo -v
-
-# Keep sudo alive dynamically if the compilation takes a long time
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; } 2>/dev/null &
-
-# --- ARGUMENT OR INTERACTIVE INPUT PROCESSING ---
-if [ $# -ge 2 ]; then
-    HOSTNAME="$1"
-    USERNAME="$2"
-else
-    echo "==> Interactive Setup Required"
-    read -rp "Enter target system hostname: " HOSTNAME
-    while [ -z "$HOSTNAME" ]; do
-        echo "Hostname cannot be empty."
-        read -rp "Enter target system hostname: " HOSTNAME
-    done
-
-    read -rp "Enter your primary account username: " USERNAME
-    while [ -z "$USERNAME" ]; do
-        echo "Username cannot be empty."
-        read -rp "Enter your primary account username: " USERNAME
-    done
-fi
-
-USER_HOME="/home/$USERNAME"
-
-if [ ! -d "$USER_HOME" ]; then
-    echo "Error: The home directory '$USER_HOME' does not exist."
-    exit 1
-fi
-
-echo "Proceeding with Deployment -> Hostname: $HOSTNAME | User: $USERNAME"
-echo "------------------------------------------------------------------"
-
-# Apply system hostname definition
-sudo hostnamectl set-hostname "$HOSTNAME"
-
 # Initialize package databases
 sudo pacman -Sy
 
@@ -211,34 +162,32 @@ yay --save --answerclean None --answerdiff None
 
 # ==> Clone and configure profile runtime assets
 echo "==> Resolving dotfiles tracking tree..."
-rm -rf "$USER_HOME/.dotfiles"
-sudo -u "$USERNAME" git clone https://github.com/kleshas/dotfile "$USER_HOME/.dotfiles"
+rm -rf ~/.dotfiles
+git clone https://github.com/kleshas/dotfiles ~/.dotfiles
 
 # Deploy standard localized environment strings profiles safely
 for profile_file in .profile .bashrc .bash_profile .Xresources .Xdefaults; do
-    if [ -f "$USER_HOME/.dotfiles/$profile_file" ]; then
-        rm -f "$USER_HOME/$profile_file"
-        cp "$USER_HOME/.dotfiles/$profile_file" "$USER_HOME/"
-        chown "$USERNAME:$USERNAME" "$USER_HOME/$profile_file"
+    if [ -f ~/.dotfiles/$profile_file ]; then
+        rm -f ~/$profile_file
+        cp ~/.dotfiles/$profile_file ~/
     fi
 done
 
 # ==> Resolve file and folder path conflicts before running GNU Stow
 echo "==> Clearing target file conflicts for GNU Stow..."
-cd "$USER_HOME/.dotfiles/stow"
+cd ~/.dotfiles/stow
 
 for pkg in */; do
     pkg="${pkg%/}"
     find "$pkg" -mindepth 1 | while read -r source_path; do
         relative_target="${source_path#"$pkg"/}"
-        full_target="$USER_HOME/$relative_target"
+        full_target=~/$relative_target
         
         if [ -d "$source_path" ] && [ -f "$full_target" ] && [ ! -L "$full_target" ]; then
             echo "Removing conflicting file: $full_target"
             rm -f "$full_target"
         elif [ -d "$source_path" ]; then
             mkdir -p "$full_target"
-            chown "$USERNAME:$USERNAME" "$full_target"
         elif [ -f "$source_path" ] && [ -e "$full_target" ] && [ ! -L "$full_target" ]; then
             echo "Removing conflicting file: $full_target"
             rm -f "$full_target"
@@ -248,11 +197,11 @@ done
 
 # Map symlinks over file structures via GNU Stow using relative target step backs
 echo "==> Executing GNU Stow..."
-sudo -u "$USERNAME" stow -d "$USER_HOME/.dotfiles/stow" -t "$USER_HOME" */
+sudo stow -d ~/.dotfiles/stow" -t ~/ */
 
 # Apply git standard identity metrics cleanly via targeted execution sub-shells
-sudo -u "$USERNAME" git config --global user.email "kleshas@mailbox.org"
-sudo -u "$USERNAME" git config --global user.name "kleshas"
+sudo git config --global user.email "kleshas@mailbox.org"
+sudo git config --global user.name "kleshas"
 
 # ==> Run Final Housekeeping Adjustments
 echo "==> Sweeping localized system resource pools..."
@@ -268,9 +217,8 @@ sudo systemctl enable reflector.service cups.service fstrim.timer prelockd.servi
 # Apply runtime system layout tweaks safely
 echo "drivetemp" | sudo tee /etc/modules-load.d/modules.conf
 
-if [ -f "$USER_HOME/.dotfiles/crypttab" ] && [ -f "$USER_HOME/.dotfiles/fstab" ]; then
-    sudo cp "$USER_HOME/.dotfiles/crypttab" /etc/crypttab
-    sudo bash -c "cat $USER_HOME/.dotfiles/fstab >> /etc/fstab"
+sudo cp ~/.dotfiles/crypttab /etc/crypttab
+sudo bash -c "cat ~/.dotfiles/fstab >> /etc/fstab"
 fi
 
 sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
