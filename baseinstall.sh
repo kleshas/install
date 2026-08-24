@@ -14,13 +14,6 @@ red=$'\e[1;31m'
 rst=$'\e[0m'
 msg() { printf '%s%s%s\n' "${red}" "$*" "${rst}"; }
 
-cpu_vendor=$(awk -F: '/^vendor_id/{print $2; exit}' /proc/cpuinfo)
-case ${cpu_vendor} in
-    *GenuineIntel*) ucode_pkg=intel-ucode ;;
-    *AuthenticAMD*) ucode_pkg=amd-ucode ;;
-    *) ucode_pkg= ;;
-esac
-
 lsblk -d -o NAME,SIZE,MODEL,TRAN
 read -r -p "${red}Install to which disk? (e.g. nvme0n1, sda): ${rst}" target
 target=${target#/dev/}
@@ -163,7 +156,7 @@ LOADEOF
 cat << ENTRYEOF > /boot/loader/entries/arch.conf
 title   Arch Linux
 linux   /vmlinuz-linux
-$( [[ -n "${ucode_pkg}" ]] && echo "initrd  /${ucode_pkg}.img" || true )
+initrd /intel-ucode.img
 initrd  /initramfs-linux.img
 options rd.luks.name=${luks_uuid}=root root=/dev/mapper/root rw quiet loglevel=3 ibt=off
 ENTRYEOF
