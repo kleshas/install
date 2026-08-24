@@ -116,11 +116,13 @@ if ! visudo -c; then
 fi
 
 # Optimized Hooks: Standardized layout ordering for clean systemd decryption
-sed -i 's/^HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt filesystems fsck)/' \
+sed -i 's/^HOOKS=.*/HOOKS=(base systemd keyboard autodetect microcode modconf kms sd-vconsole block sd-encrypt filesystems fsck)/' \
     /etc/mkinitcpio.conf
 mkinitcpio -P
 
 systemctl enable systemd-resolved systemd-networkd
+rm -f /etc/resolv.conf
+ln -s /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 cat > /etc/systemd/network/20-wired.network << 'NETEOF'
 [Match]
@@ -137,7 +139,7 @@ sed -i 's/^#\?ParallelDownloads.*/ParallelDownloads = 5/' /etc/pacman.conf
 
 sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /etc/makepkg.conf
 # Corrected escaping: Resolves the multi-threaded compilation variable generation mapping
-sed -i 's/^#\?MAKEFLAGS=.*/MAKEFLAGS="-j\$(nproc)"/' /etc/makepkg.conf
+sed -i 's|^#\?MAKEFLAGS=.*|MAKEFLAGS="-j$(nproc)"|' /etc/makepkg.conf
 sed -i 's/\bdebug\b/!debug/g' /etc/makepkg.conf
 
 sed -i 's/^COMPRESSXZ=.*/COMPRESSXZ=(xz -c -z - --threads=0)/' /etc/makepkg.conf
