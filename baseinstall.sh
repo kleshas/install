@@ -71,13 +71,7 @@ sed -i 's/relatime/noatime/' /mnt/etc/fstab
 
 luks_uuid=$(blkid -s UUID -o value /dev/disk/by-partlabel/linux)
 
-arch-chroot /mnt /bin/bash -s -- "${hostname}" "${locale}" "${timezone}" "${username}" "${luks_uuid}" <<'CHROOT'
-set -euo pipefail
-hostname=$1 
-locale=$2 
-timezone=$3 
-username=$4 
-luks_uuid=$5
+arch-chroot /mnt 
 
 echo "${hostname}" > /etc/hostname
 ln -sf "/usr/share/zoneinfo/${timezone}" /etc/localtime
@@ -102,7 +96,6 @@ passwd root < /dev/tty
 install -d -m 750 /etc/sudoers.d
 tee /etc/sudoers.d/wheel <<'EOF' >/dev/null
 %wheel ALL=(ALL:ALL) ALL
-EOF
 
 tee /etc/sudoers.d/hwtools <<EOF >/dev/null
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme
@@ -165,7 +158,6 @@ options rd.luks.name=${luks_uuid}=root root=/dev/mapper/root rw quiet loglevel=3
 EOF
 
 install -d -o "${username}" -g "${username}" "/home/${username}/.dotfiles"
-CHROOT
 
 umount -R /mnt
 cryptsetup close root
