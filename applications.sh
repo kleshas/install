@@ -197,8 +197,8 @@ echo "--protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirr
 # Synchronize essential startup processes status maps
 sudo systemctl enable reflector.service cups.service fstrim.timer prelockd.service
 
-# Apply runtime system layout tweaks safely
-echo "drivetemp" | sudo tee /etc/modules-load.d/drivetemp.conf > /dev/null
+#echo "drivetemp" | sudo tee /etc/modules-load.d/drivetemp.conf > /dev/null
+#drivetemp used for hwmon monitoring?  so not needed as conky uses smartctl for HDD and nvme for nvme drives
 
 cat "$HOME/.dotfiles/crypttab" | sudo tee -a /etc/crypttab > /dev/null
 cat "$HOME/.dotfiles/fstab" | sudo tee -a /etc/fstab > /dev/null
