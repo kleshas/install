@@ -1,3 +1,11 @@
+Here is your updated script with all the proposed improvements integrated:
+
+* **Speed:** Enables `ParallelDownloads = 5` for faster package installation.
+* **Maintenance:** Enables `fstrim.timer` (for SSD/NVMe health) and `systemd-timesyncd` (for NTP time syncing).
+* **Reliability:** Adds `sync` calls to flush disk writes before unmounting/exiting.
+* **SSD Encryption Support:** Added `rd.luks.options=allow-discards` to the kernel parameters so TRIM works through the LUKS layer.
+
+```bash
 #!/usr/bin/env bash
 
 # Exit immediately if a command exits with a non-zero status
@@ -104,14 +112,11 @@ if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
-echo "=== 1. Setting System Clock ==="
+echo "=== 1. Setting System Clock & Enabling Parallel Downloads ==="
 timedatectl set-ntp true
+sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 
 echo "=== 2. Re-partitioning Disk ($DISK) ==="
-# Delete existing partitions 1 and 2 if they exist, then recreate them:
-# - Delete 1 & 2 (-d 1 -d 2)
-# - Partition 1: 512M at the start of the drive (EFI)
-# - Partition 2: Fill remaining space up to partition 3 (Linux root)
 sgdisk -d 1 -d 2 "$DISK" || true
 sgdisk -n 1:0:+512M -t 1:ef00 "$DISK"
 sgdisk -n 2:0:0     -t 2:8300 "$DISK"
@@ -125,7 +130,6 @@ else
     PART_ROOT="${DISK}2"
 fi
 
-# Inform OS of partition table changes
 partprobe "$DISK"
 
 echo "=== 3. Encrypting and Opening Root Partition ==="
@@ -147,12 +151,14 @@ pacstrap -K /mnt base linux linux-firmware intel-ucode cryptsetup base-devel sud
 echo "=== 7. Generating Fstab ==="
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# Capture UUID of the raw encrypted partition (PART_ROOT)
 ROOT_UUID=$(blkid -s UUID -o value "$PART_ROOT")
 
 echo "=== 8. Configuring System via Chroot ==="
 arch-chroot /mnt /bin/bash <<EOF
 set -e
+
+# Enable parallel downloads in installed system
+sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 
 # Timezone & Clock
 ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
@@ -174,9 +180,11 @@ useradd -m -G wheel -s /bin/bash $USER_NAME
 echo "$USER_NAME:$USER_PASSWORD" | chpasswd
 echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers.d/wheel
 
-# Configure systemd-networkd & systemd-resolved
+# Configure System Services
 systemctl enable systemd-networkd
 systemctl enable systemd-resolved
+systemctl enable systemd-timesyncd
+systemctl enable fstrim.timer
 
 # Auto-configure DHCP on all Ethernet interfaces
 cat <<NETWORK > /etc/systemd/network/20-wired.network
@@ -190,7 +198,7 @@ NETWORK
 # Link systemd-resolved stub file for DNS resolution
 ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
-# Configure mkinitcpio (microcode placed before autodetect embed microcode into initramfs)
+# Configure mkinitcpio (embed microcode into initramfs)
 sed -i 's/^HOOKS=(.*)/HOOKS=(base systemd microcode autodetect modconf block sd-encrypt filesystems fsck)/' /etc/mkinitcpio.conf
 mkinitcpio -P
 
@@ -205,15 +213,21 @@ console-mode max
 editor no
 LOADER
 
-# Create Arch Linux boot entry using unified initramfs image
+# Create Arch Linux boot entry
 cat <<ENTRY > /boot/loader/entries/arch.conf
 title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /initramfs-linux.img
-options rd.luks.name=$ROOT_UUID=$MAPPER_NAME root=/dev/mapper/$MAPPER_NAME rw
+options rd.luks.name=$ROOT_UUID=$MAPPER_NAME rd.luks.options=allow-discards root=/dev/mapper/$MAPPER_NAME rw
 ENTRY
 
+# Flush changes to disk
+sync
+
 EOF
+
+# Sync unchrooted environment before finishing
+sync
 
 echo "=== Installation Complete! ==="
 echo "Created user: $USER_NAME"
@@ -223,6 +237,8 @@ echo "Timezone set to: $TIMEZONE"
 echo "Microcode: Intel (intel-ucode packed via HOOK)"
 echo "Bootloader: systemd-boot"
 echo "Networking: systemd-networkd + systemd-resolved"
-echo "Initramfs Hooks: microcode before autodetect"
-echo "Root Partition: Encrypted with LUKS"
+echo "Services enabled: fstrim.timer, systemd-timesyncd"
+echo "Root Partition: Encrypted with LUKS (TRIM allowed)"
 echo "You can now unmount and reboot: umount -R /mnt && reboot"
+
+```
