@@ -180,10 +180,6 @@ echo "==> Clearing target file conflicts for GNU Stow..."
 cd ~/.dotfiles/stow
 stow -t ../.. *
 
-# Map symlinks over file structures via GNU Stow using relative target step backs
-echo "==> Executing GNU Stow..."
-stow -d ~/.dotfiles/stow -t ~/ */
-
 # Apply git standard identity metrics cleanly via targeted execution sub-shells
 git config --global user.email "kleshas@mailbox.org"
 git config --global user.name "kleshas"
