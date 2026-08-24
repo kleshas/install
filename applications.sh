@@ -204,8 +204,6 @@ if ! grep -q "root" /etc/crypttab; then
 fi
 cat "$HOME/.dotfiles/fstab" | sudo tee -a /etc/fstab > /dev/null
 
-sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-
 # Attempt safe execution parameter shifts for target crypto block partitions
 sudo cryptsetup --allow-discards --persistent refresh root || echo "Note: Root drive bypass optimized or non-LUKS."
 
