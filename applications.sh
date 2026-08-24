@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
 # ==> Automatically Enable Multilib Repository if missing or commented out
 if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
     echo "==> Enabling multilib repository..."
