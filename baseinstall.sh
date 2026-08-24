@@ -97,8 +97,8 @@ chown root:root /etc/sudoers.d/wheel
 chmod 440 /etc/sudoers.d/wheel
 
 # Grant capabilities to the binaries (conky no longer requires sudo)
-setcap cap_sys_admin+ep /usr/bin/smartctl
-setcap 'cap_sys_rawio=ep cap_sys_admin=ep' /usr/bin/nvme
+setcap cap_sys_admin+ep "$(command -v smartctl)"
+setcap 'cap_sys_rawio=ep cap_sys_admin=ep' "$(command -v nvme)"
 # Give your user block-device access (so nvme works in conky without sudo)
 usermod -aG disk ${username}
 
