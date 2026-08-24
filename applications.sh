@@ -4,7 +4,7 @@ set -euo pipefail
 # ==> Automatically Enable Multilib Repository if missing
 if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
     echo "==> Enabling multilib repository..."
-    echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" | sudo tee -a /etc/pacman.conf
+    sudo sed -i '/^#\[multilib\]/{N;s/#\[multilib\]\n#Include/\[multilib\]\nInclude/}' /etc/pacman.conf
 fi
 
 # Initialize package databases
@@ -25,15 +25,16 @@ PACMAN_APPS=(
     firefox
     geany
     geany-plugins
+    gnucash
     grim
     grsync
     gthumb
     gvfs
-    hddtemp
     hplip
     htop
     hunspell-en_ca
     hyphen-en
+    imagemagick
     jdk-openjdk
     jdk8-openjdk
     keepassxc
@@ -78,6 +79,7 @@ PACMAN_APPS=(
     reflector
     smartmontools
     steam
+    stow
     sysstat
     thunar
     thunar-archive-plugin
@@ -108,9 +110,7 @@ AUR_APPS=(
     downgrade
     gammastep
     glfw-wayland
-    gnucash
     heroic-games-launcher-bin
-    imagemagick
     mcomix
     nwg-look
     otf-font-awesome
@@ -121,7 +121,6 @@ AUR_APPS=(
     qt5ct
     qt6-wayland
     slurp
-    stow
     swaybg
     swaylock-effects
     swaytools
@@ -179,24 +178,7 @@ done
 # ==> Resolve file and folder path conflicts before running GNU Stow
 echo "==> Clearing target file conflicts for GNU Stow..."
 cd ~/.dotfiles/stow
-
-for pkg in */; do
-    pkg="${pkg%/}"
-    find "$pkg" -mindepth 1 | while read -r source_path; do
-        relative_target="${source_path#"$pkg"/}"
-        full_target=~/$relative_target
-        
-        if [ -d "$source_path" ] && [ -f "$full_target" ] && [ ! -L "$full_target" ]; then
-            echo "Removing conflicting file: $full_target"
-            rm -f "$full_target"
-        elif [ -d "$source_path" ]; then
-            mkdir -p "$full_target"
-        elif [ -f "$source_path" ] && [ -e "$full_target" ] && [ ! -L "$full_target" ]; then
-            echo "Removing conflicting file: $full_target"
-            rm -f "$full_target"
-        fi
-    done
-done
+stow -t ../.. *
 
 # Map symlinks over file structures via GNU Stow using relative target step backs
 echo "==> Executing GNU Stow..."
