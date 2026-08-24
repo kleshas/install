@@ -101,6 +101,7 @@ tee /etc/sudoers.d/hwtools <<EOF >/dev/null
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl
 EOF
+sudo chown root:root /etc/sudoers.d/hwtools
 
 chmod 440 /etc/sudoers.d/wheel /etc/sudoers.d/hwtools
 if ! visudo -c; then
