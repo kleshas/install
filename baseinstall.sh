@@ -28,7 +28,7 @@ disk=/dev/${target}
 
 [[ -b ${disk} ]] || { echo "Not a block device: ${disk}" >&2; exit 1; }
 
-read -r -p "${red}This will ERASE ${disk}. Type the disk name to continue: ${rst}" confirm
+read -r -p "${red}This will ERASE partitions 1 and 2 on ${disk}. Type the disk name to continue: ${rst}" confirm
 [[ ${confirm} == "${target}" ]] || { echo "Aborted."; exit 1; }
 
 read -r -p "${red}Hostname [${hostname:-$(date +%Y%b)}]: ${rst}" hostname
@@ -36,11 +36,13 @@ hostname=${hostname:-$(date +%Y%b)}
 read -r -p "${red}Username: ${rst}" username
 [[ ${username} =~ ^[a-z_][a-z0-9_-]*$ ]] || { echo "Invalid username." >&2; exit 1; }
 
+# Delete only the first two partitions instead of a full disk zap
 sgdisk -d 1 -d 2 "${disk}" || true
 sgdisk \
     -n1:0:+1G  -t1:ef00 -c1:boot \
     -n2:0:+50G -t2:8304 -c2:linux \
     "${disk}"
+
 partprobe "${disk}"
 udevadm settle --timeout=10
 until [[ -e /dev/disk/by-partlabel/linux && -e /dev/disk/by-partlabel/boot ]]; do
@@ -97,26 +99,22 @@ passwd "${username}"
 echo "Password for root:"
 passwd root
 
-# 1. Create the directory with secure permissions
 install -d -m 750 /etc/sudoers.d
-# 2. Write the wheel group access rule
 tee /etc/sudoers.d/wheel <<'EOF' >/dev/null
 %wheel ALL=(ALL:ALL) ALL
 EOF
-# 3. Write the passwordless hardware tools access rule
+
 tee /etc/sudoers.d/hwtools <<EOF >/dev/null
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl
 EOF
-# 4. Enforce strict permissions required by sudo
+
 chmod 440 /etc/sudoers.d/wheel /etc/sudoers.d/hwtools
-# 5. Automation Guard: Validate syntax and fail-fast if broken
 if ! visudo -c; then
     echo "ERROR: Sudoers configuration validation failed!" >&2
     exit 1
 fi
 
-# systemd + sd-encrypt matches rd.luks.name= on the kernel cmdline
 sed -i 's/^HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt filesystems fsck)/' \
     /etc/mkinitcpio.conf
 mkinitcpio -P
@@ -132,25 +130,19 @@ DHCP=yes
 IPv6PrivacyExtensions=yes
 EOF
 
-# --- Pacman Customization ---
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 sed -i "/^#Color/s/^#//" /etc/pacman.conf
 sed -i 's/^#\?ParallelDownloads.*/ParallelDownloads = 5/' /etc/pacman.conf
 
-# --- Makepkg Optimizations ---
 sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /etc/makepkg.conf
 sed -i "s/^#MAKEFLAGS=.*/MAKEFLAGS=\"-j\$(nproc)\"/" /etc/makepkg.conf
-
-# Cleanly disable debug package generation by matching the OPTIONS array
 sed -i 's/\bdebug\b/!debug/g' /etc/makepkg.conf
 
-# --- Parallel Compression Enhancements ---
 sed -i 's/^COMPRESSXZ=.*/COMPRESSXZ=(xz -c -z - --threads=0)/' /etc/makepkg.conf
 sed -i 's/^COMPRESSGZ=.*/COMPRESSGZ=(pigz -c -f -n)/' /etc/makepkg.conf
 sed -i 's/^COMPRESSBZ2=.*/COMPRESSBZ2=(pbzip2 -c -f)/' /etc/makepkg.conf
 sed -i 's/^COMPRESSZST=.*/COMPRESSZST=(zstd -c -T0 -)/' /etc/makepkg.conf
 
-# --- Rust Optimizations ---
 if [ -f /etc/makepkg.conf.d/rust.conf ]; then
     sed -i 's/^RUSTFLAGS=.*/RUSTFLAGS="-C opt-level=2 -C target-cpu=native"/' /etc/makepkg.conf.d/rust.conf
 else
