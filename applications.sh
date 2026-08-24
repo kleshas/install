@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+# ==> Automatically Enable Multilib Repository if missing
+if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
+    echo "==> Enabling multilib repository..."
+    echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" | sudo tee -a /etc/pacman.conf
+fi
 
 # Initialize package databases
 sudo pacman -Sy
@@ -197,11 +202,11 @@ done
 
 # Map symlinks over file structures via GNU Stow using relative target step backs
 echo "==> Executing GNU Stow..."
-sudo stow -d ~/.dotfiles/stow" -t ~/ */
+stow -d ~/.dotfiles/stow" -t ~/ */
 
 # Apply git standard identity metrics cleanly via targeted execution sub-shells
-sudo git config --global user.email "kleshas@mailbox.org"
-sudo git config --global user.name "kleshas"
+git config --global user.email "kleshas@mailbox.org"
+git config --global user.name "kleshas"
 
 # ==> Run Final Housekeeping Adjustments
 echo "==> Sweeping localized system resource pools..."
