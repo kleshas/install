@@ -4,7 +4,8 @@ set -euo pipefail
 # ==> Automatically Enable Multilib Repository if missing
 if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
     echo "==> Enabling multilib repository..."
-    sudo sed -i '/^#\[multilib\]/{N;s/#\[multilib\]\n#Include/\[multilib\]\nInclude/}' /etc/pacman.conf
+    sudo sed -i '/^#\[multilib\]/s/^#//' /etc/pacman.conf
+    sudo sed -i '/^#Include = \/etc\/pacman\.d\/mirrorlist/s/^#//' /etc/pacman.conf
 fi
 
 # Initialize package databases
