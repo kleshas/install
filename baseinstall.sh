@@ -63,7 +63,7 @@ mount /dev/disk/by-partlabel/boot /mnt/boot
 msg "Pacstrapping..."
 pacstrap -K /mnt base base-devel linux linux-firmware ${ucode_pkg} \
     nano cryptsetup git sudo polkit \
-    firefox sway foot xdg-desktop-portal-wlr \
+    firefox sway kitty xdg-desktop-portal-wlr \
     nvme-cli smartmontools pigz pbzip2 efibootmgr
 
 genfstab -U /mnt >> /mnt/etc/fstab
