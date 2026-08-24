@@ -54,7 +54,7 @@ install -d /mnt/boot
 mount /dev/disk/by-partlabel/boot /mnt/boot
 
 msg "Pacstrapping..."
-pacstrap_pkgs=(base base-devel linux linux-firmware nano cryptsetup git sudo polkit-gnome firefox sway kitty xdg-desktop-portal-wlr nvme-cli smartmontools pigz pbzip2 efibootmgr)
+pacstrap_pkgs=(base base-devel linux linux-firmware nano cryptsetup git sudo polkit-gnome firefox sway kitty xdg-desktop-portal-wlr nvme-cli smartmontools efibootmgr)
 [[ -n "${ucode_pkg}" ]] && pacstrap_pkgs+=("${ucode_pkg}")
 
 pacstrap -K /mnt "${pacstrap_pkgs[@]}"
@@ -136,9 +136,6 @@ sed -i 's|^#\?MAKEFLAGS=.*|MAKEFLAGS="-j$(nproc)"|' /etc/makepkg.conf
 sed -i 's/\bdebug\b/!debug/g' /etc/makepkg.conf
 
 sed -i 's/^COMPRESSXZ=.*/COMPRESSXZ=(xz -c -z - --threads=0)/' /etc/makepkg.conf
-sed -i 's/^COMPRESSGZ=.*/COMPRESSGZ=(pigz -c -f -n)/' /etc/makepkg.conf
-sed -i 's/^COMPRESSBZ2=.*/COMPRESSBZ2=(pbzip2 -c -f)/' /etc/makepkg.conf
-sed -i 's/^COMPRESSZST=.*/COMPRESSZST=(zstd -c -T0 -)/' /etc/makepkg.conf
 
 if [ -f /etc/makepkg.conf.d/rust.conf ]; then
     sed -i 's/^RUSTFLAGS=.*/RUSTFLAGS="-C opt-level=2 -C target-cpu=native"/' /etc/makepkg.conf.d/rust.conf
