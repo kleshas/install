@@ -101,6 +101,7 @@ SUDOHW
 chown root:root /etc/sudoers.d/hwtools /etc/sudoers.d/wheel
 chmod 440 /etc/sudoers.d/wheel /etc/sudoers.d/hwtools
 
+#make changes to allow nvme and smartctl to run without sudo (in conky)
 sudo setcap cap_sys_admin+ep /usr/sbin/smartctl
 sudo setcap 'cap_sys_rawio=ep cap_sys_admin=ep' $(which nvme)
 sudo usermod -aG disk ${username}
