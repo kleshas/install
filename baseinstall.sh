@@ -93,17 +93,13 @@ cat << 'SUDOWHEEL' > /etc/sudoers.d/wheel
 %wheel ALL=(ALL:ALL) ALL
 SUDOWHEEL
 
-cat << SUDOHW > /etc/sudoers.d/hwtools
-${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme
-${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl
-SUDOHW
+chown root:root /etc/sudoers.d/wheel
+chmod 440 /etc/sudoers.d/wheel
 
-chown root:root /etc/sudoers.d/hwtools /etc/sudoers.d/wheel
-chmod 440 /etc/sudoers.d/wheel /etc/sudoers.d/hwtools
-
-#make changes to allow nvme and smartctl to run without sudo (in conky)
+# Grant capabilities to the binaries (conky no longer requires sudo)
 sudo setcap cap_sys_admin+ep /usr/sbin/smartctl
 sudo setcap 'cap_sys_rawio=ep cap_sys_admin=ep' $(which nvme)
+# Give your user block-device access (so nvme works in conky without sudo)
 sudo usermod -aG disk ${username}
 
 if ! visudo -c; then
