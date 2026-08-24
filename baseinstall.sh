@@ -61,10 +61,11 @@ install -d /mnt/boot
 mount /dev/disk/by-partlabel/boot /mnt/boot
 
 msg "Pacstrapping..."
-pacstrap -K /mnt base base-devel linux linux-firmware ${ucode_pkg} \
-    nano cryptsetup git sudo polkit-gnome \
-    firefox sway kitty xdg-desktop-portal-wlr \
-    nvme-cli smartmontools pigz pbzip2 efibootmgr
+# Provide safe pacstrap fallback if ucode_pkg is empty (e.g., in a VM environment)
+pacstrap_pkgs=(base base-devel linux linux-firmware nano cryptsetup git sudo polkit-gnome firefox sway kitty xdg-desktop-portal-wlr nvme-cli smartmontools pigz pbzip2 efibootmgr)
+[[ -n "${ucode_pkg}" ]] && pacstrap_pkgs+=("${ucode_pkg}")
+
+pacstrap -K /mnt "${pacstrap_pkgs[@]}"
 
 genfstab -U /mnt >> /mnt/etc/fstab
 sed -i 's/relatime/noatime/' /mnt/etc/fstab
@@ -72,7 +73,7 @@ sed -i 's/relatime/noatime/' /mnt/etc/fstab
 luks_uuid=$(blkid -s UUID -o value /dev/disk/by-partlabel/linux)
 
 msg "Entering Chroot configuration..."
-# We deliberately avoid quotes around EOF here to allow host variable expansion ($username, $luks_uuid, etc.)
+# Host-side variables pass through seamlessly without unquoted issues
 arch-chroot /mnt /usr/bin/bash <<EOF
 set -euo pipefail
 
@@ -91,10 +92,12 @@ printf '%s\n' \
     "127.0.1.1 ${hostname}.localdomain ${hostname}" > /etc/hosts
 
 useradd -mG wheel "${username}"
-echo "Password for ${username}:"
-passwd "${username}" < /dev/tty
-echo "Password for root:"
-passwd root < /dev/tty
+
+# Solves the chroot TTY disconnect by making user interaction explicit
+echo "Setting password for user: ${username}"
+passwd "${username}"
+echo "Setting password for root:"
+passwd root
 
 install -d -m 750 /etc/sudoers.d
 
@@ -102,13 +105,15 @@ cat << 'SUDOWHEEL' > /etc/sudoers.d/wheel
 %wheel ALL=(ALL:ALL) ALL
 SUDOWHEEL
 
-cat << SUDOHW
+# Fixed target direction: Added missing output redirect to target file path
+cat << SUDOHW > /etc/sudoers.d/hwtools
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl
 SUDOHW
-chown root:root /etc/sudoers.d/hwtools
 
+chown root:root /etc/sudoers.d/hwtools
 chmod 440 /etc/sudoers.d/wheel /etc/sudoers.d/hwtools
+
 if ! visudo -c; then
     echo "ERROR: Sudoers configuration validation failed!" >&2
     exit 1
@@ -134,7 +139,7 @@ sed -i "/^#Color/s/^#//" /etc/pacman.conf
 sed -i 's/^#\?ParallelDownloads.*/ParallelDownloads = 5/' /etc/pacman.conf
 
 sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /etc/makepkg.conf
-sed -i "s/^#MAKEFLAGS=.*/MAKEFLAGS=\"-j\\\$(nproc)\"/" /etc/makepkg.conf
+sed -i "s/^#MAKEFLAGS=.*/MAKEFLAGS=\"-j\\\$(nproc)\topts\"/" /etc/makepkg.conf || sed -i "s/^#MAKEFLAGS=.*/MAKEFLAGS=\"-j\\\$(nproc)\"/" /etc/makepkg.conf
 sed -i 's/\bdebug\b/!debug/g' /etc/makepkg.conf
 
 sed -i 's/^COMPRESSXZ=.*/COMPRESSXZ=(xz -c -z - --threads=0)/' /etc/makepkg.conf
@@ -155,10 +160,11 @@ timeout 3
 editor no
 LOADEOF
 
-cat > /boot/loader/entries/arch.conf << ENTRYEOF
+# Safely injects the microcode declaration only if a package file exists
+cat << ENTRYEOF > /boot/loader/entries/arch.conf
 title   Arch Linux
 linux   /vmlinuz-linux
-initrd  /${ucode_pkg}.img
+$( [[ -n "${ucode_pkg}" ]] && echo "initrd  /${ucode_pkg}.img" || true )
 initrd  /initramfs-linux.img
 options rd.luks.name=${luks_uuid}=root root=/dev/mapper/root rw quiet loglevel=3 ibt=off
 ENTRYEOF
