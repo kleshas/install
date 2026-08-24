@@ -98,7 +98,7 @@ PACMAN_APPS=(
 
 # AUR repository packages (Vertical layout for clean comments)
 AUR_APPS=(
-    Amdsmi
+    amdsmi
     amdgpu_top
     bibata-cursor-theme-bin
     catppuccin-gtk-theme-frappe
@@ -200,7 +200,7 @@ done
 
 # Map symlinks over file structures via GNU Stow using relative target step backs
 echo "==> Executing GNU Stow..."
-stow -d ~/.dotfiles/stow" -t ~/ */
+stow -d ~/.dotfiles/stow -t ~/ */
 
 # Apply git standard identity metrics cleanly via targeted execution sub-shells
 git config --global user.email "kleshas@mailbox.org"
@@ -220,9 +220,8 @@ sudo systemctl enable reflector.service cups.service fstrim.timer prelockd.servi
 # Apply runtime system layout tweaks safely
 echo "drivetemp" | sudo tee /etc/modules-load.d/modules.conf
 
-sudo cp ~/.dotfiles/crypttab /etc/crypttab
+sudo bash -c "cat ~/.dotfiles/crypttab >> /etc/crypttab"
 sudo bash -c "cat ~/.dotfiles/fstab >> /etc/fstab"
-fi
 
 sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
