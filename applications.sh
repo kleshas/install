@@ -107,7 +107,6 @@ AUR_APPS=(
     catppuccin-gtk-theme-mocha
     catppuccin-qt5ct-git
     downgrade
-    evtest
     gammastep
     glfw-wayland
     gnucash
