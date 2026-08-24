@@ -71,7 +71,10 @@ sed -i 's/relatime/noatime/' /mnt/etc/fstab
 
 luks_uuid=$(blkid -s UUID -o value /dev/disk/by-partlabel/linux)
 
-arch-chroot /mnt 
+msg "Entering Chroot configuration..."
+# We deliberately avoid quotes around EOF here to allow host variable expansion ($username, $luks_uuid, etc.)
+arch-chroot /mnt /usr/bin/bash <<EOF
+set -euo pipefail
 
 echo "${hostname}" > /etc/hostname
 ln -sf "/usr/share/zoneinfo/${timezone}" /etc/localtime
@@ -94,14 +97,16 @@ echo "Password for root:"
 passwd root < /dev/tty
 
 install -d -m 750 /etc/sudoers.d
-tee /etc/sudoers.d/wheel <<'EOF' >/dev/null
-%wheel ALL=(ALL:ALL) ALL
 
-tee /etc/sudoers.d/hwtools <<EOF >/dev/null
+cat << 'SUDOWHEEL' > /etc/sudoers.d/wheel
+%wheel ALL=(ALL:ALL) ALL
+SUDOWHEEL
+
+cat << SUDOHW
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl
-EOF
-sudo chown root:root /etc/sudoers.d/hwtools
+SUDOHW
+chown root:root /etc/sudoers.d/hwtools
 
 chmod 440 /etc/sudoers.d/wheel /etc/sudoers.d/hwtools
 if ! visudo -c; then
@@ -115,21 +120,21 @@ mkinitcpio -P
 
 systemctl enable systemd-resolved systemd-networkd
 
-cat > /etc/systemd/network/20-wired.network <<'EOF'
+cat > /etc/systemd/network/20-wired.network << 'NETEOF'
 [Match]
 Type=ether
 
 [Network]
 DHCP=yes
 IPv6PrivacyExtensions=yes
-EOF
+NETEOF
 
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 sed -i "/^#Color/s/^#//" /etc/pacman.conf
 sed -i 's/^#\?ParallelDownloads.*/ParallelDownloads = 5/' /etc/pacman.conf
 
 sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /etc/makepkg.conf
-sed -i "s/^#MAKEFLAGS=.*/MAKEFLAGS=\"-j\$(nproc)\"/" /etc/makepkg.conf
+sed -i "s/^#MAKEFLAGS=.*/MAKEFLAGS=\"-j\\\$(nproc)\"/" /etc/makepkg.conf
 sed -i 's/\bdebug\b/!debug/g' /etc/makepkg.conf
 
 sed -i 's/^COMPRESSXZ=.*/COMPRESSXZ=(xz -c -z - --threads=0)/' /etc/makepkg.conf
@@ -144,22 +149,24 @@ else
 fi
 
 bootctl install
-cat > /boot/loader/loader.conf <<'EOF'
+cat > /boot/loader/loader.conf << 'LOADEOF'
 default arch.conf
 timeout 3
 editor no
-EOF
+LOADEOF
 
-cat > /boot/loader/entries/arch.conf <<EOF
+cat > /boot/loader/entries/arch.conf << ENTRYEOF
 title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /${ucode_pkg}.img
 initrd  /initramfs-linux.img
 options rd.luks.name=${luks_uuid}=root root=/dev/mapper/root rw quiet loglevel=3 ibt=off
-EOF
+ENTRYEOF
 
 install -d -o "${username}" -g "${username}" "/home/${username}/.dotfiles"
+EOF
 
+msg "Unmounting and wrapping up..."
 umount -R /mnt
 cryptsetup close root
 echo "==> Installation complete. Reboot."
