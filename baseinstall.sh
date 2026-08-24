@@ -54,8 +54,7 @@ install -d /mnt/boot
 mount /dev/disk/by-partlabel/boot /mnt/boot
 
 msg "Pacstrapping..."
-pacstrap_pkgs=(base base-devel linux linux-firmware nano cryptsetup git sudo polkit-gnome firefox sway kitty xdg-desktop-portal-wlr nvme-cli smartmontools efibootmgr)
-[[ -n "${ucode_pkg}" ]] && pacstrap_pkgs+=("${ucode_pkg}")
+pacstrap_pkgs=(base base-devel linux linux-firmware nano cryptsetup intel-ucode git sudo polkit-gnome firefox sway kitty xdg-desktop-portal-wlr nvme-cli smartmontools efibootmgr)
 
 pacstrap -K /mnt "${pacstrap_pkgs[@]}"
 
