@@ -132,8 +132,6 @@ sed -i 's/-march=[^ ]* -mtune=[^ ]*/-march=native/' /etc/makepkg.conf
 sed -i 's|^#\?MAKEFLAGS=.*|MAKEFLAGS="-j$(nproc)"|' /etc/makepkg.conf
 sed -i 's/\bdebug\b/!debug/g' /etc/makepkg.conf
 
-sed -i 's/^COMPRESSXZ=.*/COMPRESSXZ=(xz -c -z - --threads=0)/' /etc/makepkg.conf
-
 bootctl install
 cat > /boot/loader/loader.conf << 'LOADEOF'
 default arch.conf
