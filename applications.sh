@@ -162,7 +162,6 @@ yay -S --needed --noconfirm \
     --answerdiff None \
     --answerupgrade None \
     "${AUR_APPS[@]}"
-yay --save --answerclean None --answerdiff None
 
 # ==> Clone and configure profile runtime assets
 echo "==> Resolving dotfiles tracking tree..."
@@ -200,7 +199,9 @@ sudo systemctl enable reflector.service cups.service fstrim.timer prelockd.servi
 #echo "drivetemp" | sudo tee /etc/modules-load.d/drivetemp.conf > /dev/null
 #drivetemp used for hwmon monitoring?  so not needed as conky uses smartctl for HDD and nvme for nvme drives
 
-cat "$HOME/.dotfiles/crypttab" | sudo tee -a /etc/crypttab > /dev/null
+if ! grep -q "root" /etc/crypttab; then
+    cat "$HOME/.dotfiles/crypttab" | sudo tee -a /etc/crypttab > /dev/null
+fi
 cat "$HOME/.dotfiles/fstab" | sudo tee -a /etc/fstab > /dev/null
 
 sudo ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
