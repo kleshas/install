@@ -95,9 +95,9 @@ printf '%s\n' \
 
 useradd -mG wheel "${username}"
 echo "Password for ${username}:"
-passwd "${username}"
+passwd "${username}" < /dev/tty
 echo "Password for root:"
-passwd root
+passwd root < /dev/tty
 
 install -d -m 750 /etc/sudoers.d
 tee /etc/sudoers.d/wheel <<'EOF' >/dev/null
