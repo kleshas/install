@@ -108,7 +108,7 @@ if ! visudo -c; then
 fi
 
 # Optimized Hooks: Standardized layout ordering for clean systemd decryption
-sed -i 's/^HOOKS=.*/HOOKS=(base systemd keyboard autodetect microcode modconf kms sd-vconsole block sd-encrypt filesystems fsck)/' \
+sed -i 's/^HOOKS=.*/HOOKS=(base systemd keyboard microcode autodetect modconf kms sd-vconsole block sd-encrypt filesystems fsck)/' \
     /etc/mkinitcpio.conf
 mkinitcpio -P
 
@@ -152,7 +152,6 @@ LOADEOF
 cat << ENTRYEOF > /boot/loader/entries/arch.conf
 title   Arch Linux
 linux   /vmlinuz-linux
-initrd /intel-ucode.img
 initrd  /initramfs-linux.img
 options rd.luks.name=${luks_uuid}=root root=/dev/mapper/root rw quiet loglevel=3 ibt=off
 ENTRYEOF
