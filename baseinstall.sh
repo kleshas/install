@@ -36,7 +36,7 @@ hostname=${hostname:-$(date +%Y%b)}
 read -r -p "${red}Username: ${rst}" username
 [[ ${username} =~ ^[a-z_][a-z0-9_-]*$ ]] || { echo "Invalid username." >&2; exit 1; }
 
-sgdisk -Z "${disk}"
+sgdisk -d 1 -d 2 "${disk}" || true
 sgdisk \
     -n1:0:+1G  -t1:ef00 -c1:boot \
     -n2:0:+50G -t2:8304 -c2:linux \
@@ -71,7 +71,11 @@ luks_uuid=$(blkid -s UUID -o value /dev/disk/by-partlabel/linux)
 
 arch-chroot /mnt /bin/bash -s -- "${hostname}" "${locale}" "${timezone}" "${username}" "${luks_uuid}" <<'CHROOT'
 set -euo pipefail
-hostname=$1 locale=$2 timezone=$3 username=$4 luks_uuid=$5
+hostname=$1 
+locale=$2 
+timezone=$3 
+username=$4 
+luks_uuid=$5
 
 echo "${hostname}" > /etc/hostname
 ln -sf "/usr/share/zoneinfo/${timezone}" /etc/localtime
@@ -84,7 +88,7 @@ printf 'KEYMAP=us\n' > /etc/vconsole.conf
 
 printf '%s\n' \
     '127.0.0.1 localhost' \
-    '::1       localhost' \
+    '::1        localhost' \
     "127.0.1.1 ${hostname}.localdomain ${hostname}" > /etc/hosts
 
 useradd -mG wheel "${username}"
@@ -96,12 +100,10 @@ passwd root
 # 1. Create the directory with secure permissions
 install -d -m 750 /etc/sudoers.d
 # 2. Write the wheel group access rule
-# Using 'EOF' prevents variable expansion inside the block
 tee /etc/sudoers.d/wheel <<'EOF' >/dev/null
 %wheel ALL=(ALL:ALL) ALL
 EOF
 # 3. Write the passwordless hardware tools access rule
-# Using EOF (no quotes) allows the ${username} variable to expand
 tee /etc/sudoers.d/hwtools <<EOF >/dev/null
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme
 ${username} ALL=(ALL:ALL) NOPASSWD: /usr/bin/smartctl
@@ -120,8 +122,6 @@ sed -i 's/^HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboar
 mkinitcpio -P
 
 systemctl enable systemd-resolved systemd-networkd
-#ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-#line above is already done
 
 cat > /etc/systemd/network/20-wired.network <<'EOF'
 [Match]
@@ -151,7 +151,6 @@ sed -i 's/^COMPRESSBZ2=.*/COMPRESSBZ2=(pbzip2 -c -f)/' /etc/makepkg.conf
 sed -i 's/^COMPRESSZST=.*/COMPRESSZST=(zstd -c -T0 -)/' /etc/makepkg.conf
 
 # --- Rust Optimizations ---
-# Note: Modern Arch splits this into /etc/makepkg.conf.d/rust.conf
 if [ -f /etc/makepkg.conf.d/rust.conf ]; then
     sed -i 's/^RUSTFLAGS=.*/RUSTFLAGS="-C opt-level=2 -C target-cpu=native"/' /etc/makepkg.conf.d/rust.conf
 else
