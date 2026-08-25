@@ -58,7 +58,7 @@ fi
 # (Moved official Arch repo packages out of AUR array and into PACMAN_APPS)
 PACMAN_APPS=(
     alsa-utils android-file-transfer btrfs-progs calibre conky cups dunst feh
-    file-roller firefox gammastep geany geany-plugins gnucash grim grsync gthumb gvfs
+    file-roller firefox gammastep geany geany-plugins git gnucash grim grsync gthumb gvfs
     hplip htop hunspell-en_ca hyphen-en imagemagick jdk-openjdk jdk8-openjdk
     keepassxc kitty lib32-gnutls lib32-gtk3 lib32-libva lib32-libva-mesa-driver
     lib32-libxcomposite lib32-libxinerama lib32-libxslt lib32-mesa lib32-mpg123
@@ -68,7 +68,7 @@ PACMAN_APPS=(
     pipewire pipewire-alsa pipewire-pulse qbittorrent qt5-wayland qt6-wayland reflector
     slurp smartmontools steam stow swaybg sysstat thunar thunar-archive-plugin
     thunderbird ttf-dejavu ttf-droid ttf-liberation unrar virtualbox vulkan-icd-loader
-    vulkan-intel vulkan-radeon wget wine-staging wl-clipboard wofi xf86-video-amdgpu
+    vulkan-intel vulkan-radeon waybar wget wine-staging wl-clipboard wofi xf86-video-amdgpu
     xdg-desktop-portal-gtk xorg-xlsclients xorg-xwayland zathura
 )
 
