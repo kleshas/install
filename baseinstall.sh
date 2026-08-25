@@ -242,10 +242,12 @@ cat <<ENTRY > /boot/loader/entries/arch.conf
 title   Arch Linux
 linux   /vmlinuz-linux
 initrd  /initramfs-linux.img
-options rd.luks.name=$ROOT_UUID=$MAPPER_NAME rd.luks.options=allow-discards root=/dev/mapper/$MAPPER_NAME rw
+options rd.luks.name=$ROOT_UUID=$MAPPER_NAME rd.luks.options=allow-discards root=/dev/mapper/$MAPPER_NAME rw quiet
 ENTRY
 
 sync
 EOF
+
+echo "ibt=off no longer needed for virtualbox functionality"
 
 ok "System configuration completed successfully."
