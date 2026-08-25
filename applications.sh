@@ -61,8 +61,7 @@ PACMAN_APPS=(
     file-roller firefox gammastep geany geany-plugins git gnucash grim grsync gthumb gvfs
     hplip htop hunspell-en_ca hyphen-en imagemagick jdk-openjdk jdk8-openjdk
     keepassxc kitty lib32-gnutls lib32-gtk3 lib32-libva lib32-libva-mesa-driver
-    lib32-libxcomposite lib32-libxinerama lib32-libxslt lib32-mesa lib32-mpg123
-    lib32-opencl-icd-loader lib32-pipewire lib32-vulkan-icd-loader lib32-vulkan-intel
+    lib32-libxcomposite lib32-libxinerama lib32-mesa lib32-opencl-icd-loader lib32-pipewire lib32-vulkan-icd-loader lib32-vulkan-intel
     lib32-vulkan-radeon libappindicator-gtk3 libreoffice-fresh libva-mesa-driver
     linux-headers lutris man-db mesa mpg123 mpv ncdu noto-fonts-emoji obsidian opencl-icd-loader otf-montserrat pacman-contrib pavucontrol
     pipewire pipewire-alsa pipewire-pulse qbittorrent qt5-wayland qt6-wayland reflector
