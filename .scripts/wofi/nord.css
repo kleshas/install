@@ -1,0 +1,83 @@
+/* Optimized Nord Theme */
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 18px;
+}
+
+window {
+  background-color: #2e3440; /* Nord0 (Polar Night Base) */
+  border: 2px solid #88c0d0; /* Nord8 (Frost Cyan) */
+}
+
+#outer-box {
+  padding: 10px;
+  background-color: #2e3440;
+}
+
+#inner-box {
+  background-color: transparent;
+}
+
+#input {
+  background-color: #3b4252; /* Nord1 (Polar Night Lighter) */
+  color: #eceff4; /* Nord6 (Snow Storm Brightest) */
+  border: 1px solid #4c566a; /* Nord3 (Polar Night Lightest) */
+  padding: 8px 12px;
+  margin: 10px;
+  border-radius: 35px;
+  outline: 1px solid #434c5e; /* Nord2 */
+}
+
+#input:focus {
+  border-color: #88c0d0; /* Nord8 */
+}
+
+#input image {
+  color: #88c0d0;
+  -gtk-icon-effect: none;
+}
+
+#input placeholder {
+  color: #4c566a; /* Nord3 */
+}
+
+#scroll {
+  margin: 0 8px 8px 8px;
+}
+
+#entry {
+  background-color: #2e3440;
+}
+
+#entry:selected {
+  background-color: #3b4252; /* Nord1 */
+}
+
+#entry:hover {
+  background-color: #434c5e; /* Nord2 */
+}
+
+#text {
+  color: #eceff4; /* Nord6 */
+}
+
+#text:selected {
+  color: #88c0d0; /* Nord8 */
+}
+
+#img {
+  margin-right: 8px;
+}
+
+scrollbar,
+scrollbar trough,
+undershoot.top,
+undershoot.bottom {
+  min-width: 5px;
+  min-height: 5px;
+  background: none;
+}
+
+scrollbar slider {
+  background-color: #88c0d0;
+}

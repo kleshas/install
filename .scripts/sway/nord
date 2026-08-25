@@ -1,0 +1,12 @@
+# nord-palette.conf
+
+set $background 	#2e3440
+set $foreground 	#d8dee9
+set $black			#3b4252
+set $red			#bf616a
+set $green			#a3be8c
+set $yellow			#ebcb8b
+set $blue			#81a1c1
+set $magenta		#b48ead
+set $cyan			#88c0d0
+set $white			#e5e9f0

@@ -1,0 +1,72 @@
+
+* {
+  font-size: 18px;
+}
+#scroll {
+  background-color: #1e1e2e;
+}
+#outer-box {
+  background-color: #1e1e2e;
+  padding: 10px;
+  border: 2px solid #89b4fa;
+}
+#main {
+  background-color: #1e1e2e;
+}
+scrollbar,
+scrollbar trough,
+undershoot.top,
+undershoot.bottom {
+  min-width: 5px;
+  min-height: 5px;
+  background: none;
+}
+scrollbar slider{
+  background-color: #89b4fa;
+}
+#outer-box {
+  padding: 10px;
+}
+
+#input image {
+  color: #89b4fa; /* Accent */
+  -gtk-icon-effect: none;
+}
+#input {
+  background-color: #313244; /* Surface0 */
+  color: #cdd6f4;        /* typed text */
+  caret-color: #89b4fa;
+  border: 1px solid #45475a; /* Surface1 */
+  padding: 8px 12px;
+  margin: 10px;
+  border-radius: 35px;
+  outline: 1px solid #585b70;
+}
+#input:focus {
+  border-color: #89b4fa; /* Accent */
+}
+#input placeholder {
+  color: #1e1e2e; /* Overlay0 */
+}
+#entry {
+  background-color: #1e1e2e;
+  color: #cdd6f4;
+}
+#entry #entry:selected {
+  background-color: #313244;
+  color: #89b4fa;
+}
+#entry:selected {
+  background-color: #313244;
+  color: #89b4fa;
+}
+#entry:hover {
+  background-color: #45475a; /* Surface1 */
+}
+#text {
+  color: #cdd6f4 ; /* Text */
+}
+#text:selected {
+  color: #89b4fa; /* Accent */
+}
+

@@ -1,0 +1,20 @@
+[config]
+# Base settings
+wallpaper_type = "scheme-tonal-spot"
+mode = "dark"
+amoled = false
+
+# =========================================================
+# CRITICAL FIX: [templates] must be a SEPARATE root heading,
+# completely independent from [config]. Do not indent it.
+# =========================================================
+
+
+[templates.kitty]
+input_path = '/home/bhava/.config/matugen/templates/kitty.conf'
+output_path = '/home/bhava/.config/kitty/matugen.conf'
+
+[templates.waybar]
+input_path = '/home/bhava/.config/matugen/templates/style.css'
+output_path = '/home/bhava/.config/waybar/material.css'
+post_hook = 'pkill -SIGUSR2 waybar'

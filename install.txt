@@ -1,0 +1,108 @@
+#create the bootable USB key
+	dd bs=4M if=path/to/archlinux-version-x86_64.iso of=/dev/sdd conv=fsync oflag=direct status=progress
+
+IS GIT UPDATED?
+
+#First things first
+	timedatectl set-ntp true
+	ls /sys/firmware/efi #efivars folder present means you are in EFI mode
+	gdisk automatically aligns partitions
+	# From now on, assumption is we want to install arch onto /dev/nvme0n1
+	mkfs.fat -F32 /dev/nvme0n1p1 #unless using existing ESP.  Must be F32 if using ESP
+
+#Set up the encryption and format
+	cryptsetup -y -h sha512 luksFormat /dev/nvme0n1p2
+	cryptsetup luksDump /dev/nvme0n1p2 #checks that encryption was successful
+	cryptsetup luksOpen /dev/nvme0n1p2 root #root being the name for the encrypted partition
+    mkfs.ext4 /dev/mapper/root
+
+#mount and install the new system
+	mount /dev/mapper/root /mnt
+	mkdir /mnt/boot
+	mount /dev/nvme0n1p1 /mnt/boot
+	pacman -Sy
+	pacman -S archlinux-keyring
+	pacstrap /mnt base base-devel linux nano linux-firmware cryptsetup
+	genfstab -pU /mnt >> /mnt/etc/fstab
+	#change relatime on all non-boot partitions to noatime if SSD
+
+#enter new system
+	arch-chroot /mnt /bin/bash
+
+#settings
+	ln -sf /usr/share/zoneinfo/America/Vancouver /etc/localtime
+	hwclock --systohc --utc #set the hw clock to UTC
+	echo <SYSTEMNAME> > /etc/hostname #choose a name for SYSTEMNAME
+	edit /etc/hosts to include:
+		127.0.0.1   localhost
+		::1         localhost
+		127.0.1.1   <systemname>
+
+#update locale
+	nano /etc/locale.gen #to uncomment en_CA.UTF-8
+	locale-gen
+	echo LANG=en_CA.UTF-8 > /etc/locale.conf #or locale > /etc/locale.conf
+
+#passwords and accounts
+	passwd #to change root password
+	useradd -m -g users -G wheel -s /bin/bash bhava #bhava being the new account name
+	passwd bhava
+	EDITOR=nano visudo #and uncomment the %wheel ALL=(ALL) line
+	    Add following entry (this is for conky)
+	    ## Same thing without a password
+        bhava ALL=(ALL:ALL) NOPASSWD: /usr/bin/nvme
+	pacman -S intel-ucode #if you have intel CPU
+	nano /etc/mkinitcpio.conf #add "encrypt" before "filesystems" in the HOOKS section
+	mkinitcpio -p linux
+
+#bootctl
+	bootctl install
+	nano /boot/loader/loader.conf #and edit:
+		default arch
+		timeout 3
+		editor 0
+	nano /boot/loader/entries/arch.conf #add:
+		title Arch Linux
+		linux /vmlinuz-linux
+		initrd /intel-ucode.img
+		initrd /initramfs-linux.img
+	#save and exit nano.
+	echo "options cryptdevice=PARTUUID=$(blkid -s PARTUUID -o value	/dev/nvme0n1p2):root:allow-discards root=/dev/mapper/root rw quiet split_lock_detect=off loglevel=3 ibt=off" >>	/boot/loader/entries/arch.conf
+
+#install network, using systemd-networkd
+	systemctl enable systemd-networkd.service
+	ip link #gives the interfaces to use on the Name line
+	nano /etc/systemd/network/20-wired.network
+		[Match]
+		Name=enp8s0
+		[Network]
+		DHCP=yes
+		IPv6PrivacyExtensions=yes
+	#save and exit
+	systemctl enable systemd-resolved.service
+
+#improve compilation speeds etc
+	nano /etc/pacman.conf #uncomment the 2 multilib lines and the parallel install line
+	nano /etc/makepkg.conf #edit to read
+		CFLAGS="-march=native -O2 -pipe -fno-plt"
+        CXXFLAGS="${CFLAGS}..."
+		MAKEFLAGS="-j$(nproc)"
+		COMPRESSXZ=(xz -c -z - --threads=0)
+
+#clean up install process
+	exit
+	umount -R /mnt
+	reboot
+
+#Log on as 'bhava' (whatever account you created earlier)
+
+#complete the installation of software packages etc.
+	sudo pacman -Syu
+	sudo pacman -S git
+	git clone https://aur.archlinux.org/yay-bin.git
+	cd yay-bin
+	makepkg -si
+	mkdir ~/.dotfiles
+	git clone https://gitlab.com/kleshas/dots.git ~/.dotfiles
+	bash ~/.dotfiles/.scripts/install.sh
+

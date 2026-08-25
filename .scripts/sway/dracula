@@ -1,0 +1,12 @@
+# gruvbox-dark-palette.conf
+
+set $background 	#282a36
+set $foreground 	#f8f8f2
+set $black			#21222c
+set $red			#ff5555
+set $green			#50fa7b
+set $yellow			#f1fa8c
+set $blue			#bd93f9
+set $magenta		#ff79c6
+set $cyan			#8be9fd
+set $white			#f8f8f2

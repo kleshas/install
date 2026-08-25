@@ -1,0 +1,1 @@
+export STEAM_COMPAT_MOUNTS=/mnt/SN850:/mnt/SN570:/mnt/670p

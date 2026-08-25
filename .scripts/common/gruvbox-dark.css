@@ -1,0 +1,23 @@
+/* material-gruvbox-dark.css */
+
+@define-color primary           #fabd2f; /* Gruvbox Yellow (Primary Accent / Bright Focus) */
+@define-color on-primary        #282828; /* Gruvbox Dark 0 (Deep Retro Charcoal Text) */
+@define-color primary-container #3c3836; /* Gruvbox Dark 1 (Card & Module Bases) */
+@define-color on-primary-container #fabd2f; /* Gruvbox Yellow Text over containers */
+
+@define-color secondary         #83a598; /* Gruvbox Blue (Calm Secondary Accent) */
+@define-color on-secondary      #282828; /* Deep Text over Blue Elements */
+
+@define-color tertiary          #b8bb26; /* Gruvbox Green (Alternative Accent / Success) */
+
+@define-color background        #282828; /* Gruvbox Main Background (Soft Retro Dark) */
+@define-color on-background     #ebdbb2; /* Gruvbox Light 1 (Warm Cream Text/Labels) */
+
+@define-color surface           #3c3836; /* Gruvbox Dark 1 (Distinct Module Backgrounds) */
+@define-color on-surface        #fe8019; /* Gruvbox Orange (Vibrant Warning Text over surfaces) */
+@define-color surface-variant   #504945; /* Gruvbox Dark 2 (Active Element Accents) */
+@define-color on-surface-variant #8ec07c; /* Gruvbox Aqua (Secondary Details/Icons) */
+
+@define-color outline           #665c54; /* Gruvbox Dark 3 (Warm Tonal Panel Borders) */
+
+@define-color error             #fb4934; /* Gruvbox Red (Alert / Critical Urgent States) */

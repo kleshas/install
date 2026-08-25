@@ -1,0 +1,23 @@
+/* material-everforest.css */
+
+@define-color primary           #a7c080; /* Everforest Green (Primary Accent / Balanced Focus) */
+@define-color on-primary        #232a2e; /* Everforest Background (Deep Forest Night Text) */
+@define-color primary-container #2d353b; /* Everforest Bg Light (Card & Module Bases) */
+@define-color on-primary-container #a7c080; /* Everforest Green Text over containers */
+
+@define-color secondary         #7fbbb3; /* Everforest Blue/Aqua (Calm Secondary Accent) */
+@define-color on-secondary      #232a2e; /* Deep Text over Aqua Elements */
+
+@define-color tertiary          #dbbc7f; /* Everforest Yellow (Warm Amber Highlight Accent) */
+
+@define-color background        #232a2e; /* Everforest Main Background (Deep Charcoal Forest) */
+@define-color on-background     #d3c6aa; /* Everforest Foreground (Soft Off-White Text/Labels) */
+
+@define-color surface           #343f44; /* Everforest Bg Visual (Distinct Module Backgrounds) */
+@define-color on-surface        #a7c080; /* Everforest Green Accent Text over surfaces */
+@define-color surface-variant   #3d484d; /* Everforest Selection Bg (Active Element Accents) */
+@define-color on-surface-variant #7fbbb3; /* Everforest Aqua Secondary Details/Icons */
+
+@define-color outline           #475258; /* Everforest Gray Border (Clean Tonal Separation) */
+
+@define-color error             #e67e80; /* Everforest Red (Alert / Critical Urgent States) */

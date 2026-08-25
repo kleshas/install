@@ -1,0 +1,23 @@
+/* material-macchiato-blue.css */
+
+@define-color primary           #8aadf4; /* Macchiato Blue */
+@define-color on-primary        #181926; /* Macchiato Crust */
+@define-color primary-container #24273a; /* Macchiato Base */
+@define-color on-primary-container #8aadf4; /* Macchiato Blue Overlay */
+
+@define-color secondary         #7dc4e4; /* Macchiato Sapphire */
+@define-color on-secondary      #181926; /* Macchiato Crust Overlay */
+
+@define-color tertiary          #8bd5ca; /* Macchiato Teal */
+
+@define-color background        #181926; /* Macchiato Crust */
+@define-color on-background     #8aadf4; /* Macchiato Blue */
+
+@define-color surface           #1e2030; /* Macchiato Mantle */
+@define-color on-surface        #7dc4e4; /* Macchiato Sapphire Typography */
+@define-color surface-variant   #363a4f; /* Macchiato Surface 0 */
+@define-color on-surface-variant #8aadf4; /* Macchiato Blue Muted Details */
+
+@define-color outline           #8aadf4; /* Macchiato Blue Outline */
+
+@define-color error             #ed8796; /* Macchiato Red */

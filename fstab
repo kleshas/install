@@ -1,0 +1,11 @@
+tmpfs											/home/bhava/.cache		tmpfs	rw,noatime,nodev,nosuid,size=5G	0	0
+
+UUID=4fec5051-b0ef-486d-bcd4-cf83641bcd28       /mnt/SN570              ext4    rw,noatime  0   2
+UUID=26c22f8c-b2f3-4783-81b8-534eb72a6fe8       /mnt/SN850				ext4    rw,noatime  0   2
+UUID=aa2e1404-58fd-4065-9d90-234a06741aef       /mnt/670p               ext4    rw,noatime  0   2
+UUID=8d988b75-cd36-4381-9bf1-0f1208513fdd       /mnt/4TB                btrfs   rw,autodefrag,noatime  0   0
+UUID=6064c953-5a7e-43a5-b011-77c7b8f7c8a3       /mnt/10TB               ext4    rw,noatime  0   2
+UUID=29879267-81cf-4bc8-b0c6-a6bdda92de14       /mnt/12TB               ext4    rw,noatime  0   2
+UUID=a16dda4e-c0a0-41ad-8111-2dd931e17cae       /mnt/8TB                ext4    rw,noatime  0   2
+
+/mnt/670p/swap                                  none                    swap    defaults    0   0

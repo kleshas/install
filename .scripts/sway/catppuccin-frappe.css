@@ -1,0 +1,23 @@
+/* material-frappe-blue.css */
+
+@define-color primary           #8caaee; /* Frappé Blue */
+@define-color on-primary        #232634; /* Frappé Crust */
+@define-color primary-container #303446; /* Frappé Base */
+@define-color on-primary-container #8caaee; /* Frappé Blue Overlay */
+
+@define-color secondary         #85c1dc; /* Frappé Sapphire */
+@define-color on-secondary      #232634; /* Frappé Crust Overlay */
+
+@define-color tertiary          #81c8be; /* Frappé Teal */
+
+@define-color background        #232634; /* Frappé Crust */
+@define-color on-background     #8caaee; /* Frappé Blue */
+
+@define-color surface           #292c3c; /* Frappé Mantle */
+@define-color on-surface        #85c1dc; /* Frappé Sapphire Typography */
+@define-color surface-variant   #414559; /* Frappé Surface 0 */
+@define-color on-surface-variant #8caaee; /* Frappé Blue Muted Details */
+
+@define-color outline           #8caaee; /* Frappé Blue Outline */
+
+@define-color error             #e78284; /* Frappé Red */

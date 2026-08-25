@@ -1,0 +1,23 @@
+/* material-mocha-blue.css */
+
+@define-color primary           #89b4fa; /* Blue (Electric Neon Blue / Focused active elements) */
+@define-color on-primary        #11111b; /* Crust (Deepest dark void text over neon blue) */
+@define-color primary-container #1e1e2e; /* Base (Deep blue-black container tracking) */
+@define-color on-primary-container #89b4fa; /* Blue text overlay inside container blocks */
+
+@define-color secondary         #74c7ec; /* Sapphire (Vivid Sky Blue actions/Hover states) */
+@define-color on-secondary      #11111b; /* Crust text overlay for secondary elements */
+
+@define-color tertiary          #94e2d5; /* Teal (Alternative accent/Success states) */
+
+@define-color background        #11111b; /* Crust (Deepest dark void desktop underlayer) */
+@define-color on-background     #89b4fa; /* Blue (All standard text, numbers, and labels glow blue) */
+
+@define-color surface           #181825; /* Mantle (Dark module and card block backgrounds) */
+@define-color on-surface        #74c7ec; /* Sapphire (Vibrant secondary descriptive typography) */
+@define-color surface-variant   #fff9a6; /* Base (Tonal blue-black component background layers) */
+@define-color on-surface-variant #89b4fa; /* Blue (Muted icons and non-interactive details) */
+
+@define-color outline           #89b4fa; /* Blue (Vibrant Blue for glowing layout border lines) */
+
+@define-color error             #f38ba8; /* Red (Alert states and urgent modules) */

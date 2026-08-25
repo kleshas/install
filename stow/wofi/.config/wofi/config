@@ -1,0 +1,7 @@
+mode=drun
+prompt=
+allow_images=true
+insensitive=true
+no_actions=true
+location=center
+style=/home/bhava/.config/wofi/style.css

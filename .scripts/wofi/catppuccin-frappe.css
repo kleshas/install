@@ -1,0 +1,83 @@
+/* Optimized Catppuccin Frappé - Blue Accent */
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 18px;
+}
+
+window {
+  background-color: #303446; /* Frappé Base */
+  border: 2px solid #8caaee; /* Frappé Blue */
+}
+
+#outer-box {
+  padding: 10px;
+  background-color: #303446;
+}
+
+#inner-box {
+  background-color: transparent;
+}
+
+#input {
+  background-color: #414559; /* Frappé Surface0 */
+  color: #c6d0f5; /* Frappé Text */
+  border: 1px solid #51576d; /* Frappé Surface1 */
+  padding: 8px 12px;
+  margin: 10px;
+  border-radius: 35px;
+  outline: 1px solid #626880; /* Frappé Surface2 */
+}
+
+#input:focus {
+  border-color: #8caaee; /* Frappé Blue */
+}
+
+#input image {
+  color: #8caaee;
+  -gtk-icon-effect: none;
+}
+
+#input placeholder {
+  color: #737994; /* Frappé Overlay0 */
+}
+
+#scroll {
+  margin: 0 8px 8px 8px;
+}
+
+#entry {
+  background-color: #303446;
+}
+
+#entry:selected {
+  background-color: #414559; /* Frappé Surface0 */
+}
+
+#entry:hover {
+  background-color: #51576d; /* Frappé Surface1 */
+}
+
+#text {
+  color: #c6d0f5; /* Frappé Text */
+}
+
+#text:selected {
+  color: #8caaee; /* Frappé Blue */
+}
+
+#img {
+  margin-right: 8px;
+}
+
+scrollbar,
+scrollbar trough,
+undershoot.top,
+undershoot.bottom {
+  min-width: 5px;
+  min-height: 5px;
+  background: none;
+}
+
+scrollbar slider {
+  background-color: #8caaee;
+}

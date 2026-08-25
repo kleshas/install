@@ -1,0 +1,54 @@
+window {
+  font-family: "Liberation Mono";
+  margin: 0px;
+  border: 1px solid #bf616a;
+  background-color: #2E3440;
+  border-radius: 10px;
+}
+
+#input {
+  margin: 5px;
+  border: none;
+  color: #EBCB8B;
+  background-color: #2E3440;
+}
+
+#inner-box {
+  margin: 5px;
+  border: none;
+}
+
+#outer-box {
+  margin: 5px;
+  border: none;
+}
+
+#scroll {
+  margin: 0px;
+  border: none;
+}
+
+#text {
+  margin: 5px;
+  border: none;
+  color: #EBCB8B;
+}
+
+#entry {
+  border: none;
+}
+
+#entry:focus {
+  border: none;
+}
+
+#entry:selected {
+  background-color: #2E3440;
+  border-radius: 5px;
+  border: none;
+}
+
+#text:selected {
+	color: #EBCB8B;	
+	background-color: #2E3440;
+}

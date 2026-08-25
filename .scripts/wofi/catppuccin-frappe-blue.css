@@ -1,0 +1,77 @@
+/* Catppuccin Frappé - Wofi */
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 18px;
+}
+window {
+  background-color: #303446; /* Base */
+  border: 2px solid #8caaee; /* Accent */
+}
+
+scrollbar,
+scrollbar trough,
+undershoot.top,
+undershoot.bottom {
+  min-width: 5px;
+  min-height: 5px;
+  background: none;
+}
+scrollbar slider{
+  background-color: #8caaee;
+}
+
+#input image {
+  color: #8caaee; /* Accent */
+  -gtk-icon-effect: none;
+}
+#input {
+  background-color: #414559; /* Surface0 */
+  color: #c6d0f5; /* Text */
+  border: 1px solid #51576d; /* Surface1 */
+  padding: 8px 12px;
+  margin: 10px;
+  border-radius: 35px;
+  outline: 1px solid #626880;
+}
+#input:focus {
+  border-color: #8caaee; /* Accent */
+}
+#input placeholder {
+  color: #737994; /* Overlay0 */
+}
+#scroll {
+  margin: 0 8px 8px 8px;
+}
+#inner-box {
+  background-color: transparent;
+}
+#outer-box {
+  padding: 4px;
+  background-color: #303446;
+  padding: 10px;
+  border: 2px solid #8caaee;
+}
+#entry {
+  background-color: #303446;
+  color: #c6d0f5;
+}
+#entry #entry:selected {
+  background-color: #414559;
+  color: #8caaee;
+}
+#entry:selected {
+  background-color: #414559;
+  color: #8caaee;
+}
+#entry:hover {
+  background-color: #51576d; /* Surface1 */
+}
+#text {
+  color: #c6d0f5; /* Text */
+}
+#text:selected {
+  color: #8caaee; /* Accent */
+}
+#img {
+  margin-right: 8px;
+}

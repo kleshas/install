@@ -1,0 +1,23 @@
+/* material-dracula.css */
+
+@define-color primary           #ff79c6; /* Dracula Pink (Primary Accent / Balanced Focus) */
+@define-color on-primary        #282a36; /* Dracula Background (Deep Dark Charcoal Text) */
+@define-color primary-container #44475a; /* Dracula Current Line (Card & Module Bases) */
+@define-color on-primary-container #ff79c6; /* Dracula Pink Text over containers */
+
+@define-color secondary         #bd93f9; /* Dracula Purple (Vibrant Secondary Accent) */
+@define-color on-secondary      #282a36; /* Deep Text over Purple Elements */
+
+@define-color tertiary          #50fa7b; /* Dracula Green (Success / Alt State Accent) */
+
+@define-color background        #282a36; /* Dracula Main Background (Classic Deep Dark Base) */
+@define-color on-background     #f8f8f2; /* Dracula Foreground (Soft Cream White Text/Labels) */
+
+@define-color surface           #44475a; /* Dracula Current Line (Distinct Module Backgrounds) */
+@define-color on-surface        #f1fa8c; /* Dracula Yellow (Bright Warning Text over surfaces) */
+@define-color surface-variant   #6272a4; /* Dracula Comment (Active Element Grey/Blue Accents) */
+@define-color on-surface-variant #8be9fd; /* Dracula Cyan Secondary Details/Icons */
+
+@define-color outline           #6272a4; /* Dracula Comment Blue-Grey (Clean Layout Borders) */
+
+@define-color error             #ff5555; /* Dracula Red (Alert / Critical Urgent States) */

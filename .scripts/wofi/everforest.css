@@ -1,0 +1,83 @@
+/* Optimized Everforest Dark Medium */
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 18px;
+}
+
+window {
+  background-color: #2d353b; /* Everforest Background Medium */
+  border: 2px solid #a7c080; /* Everforest Green */
+}
+
+#outer-box {
+  padding: 10px;
+  background-color: #2d353b;
+}
+
+#inner-box {
+  background-color: transparent;
+}
+
+#input {
+  background-color: #343f44; /* Everforest Bg1 */
+  color: #d3c6aa; /* Everforest Foreground */
+  border: 1px solid #475258; /* Everforest Bg3 */
+  padding: 8px 12px;
+  margin: 10px;
+  border-radius: 35px;
+  outline: 1px solid #4f5b66; /* Everforest Grey */
+}
+
+#input:focus {
+  border-color: #a7c080; /* Everforest Green */
+}
+
+#input image {
+  color: #a7c080;
+  -gtk-icon-effect: none;
+}
+
+#input placeholder {
+  color: #859289; /* Everforest Status Line */
+}
+
+#scroll {
+  margin: 0 8px 8px 8px;
+}
+
+#entry {
+  background-color: #2d353b;
+}
+
+#entry:selected {
+  background-color: #343f44; /* Everforest Bg1 */
+}
+
+#entry:hover {
+  background-color: #3d484d; /* Everforest Bg2 */
+}
+
+#text {
+  color: #d3c6aa; /* Everforest Foreground */
+}
+
+#text:selected {
+  color: #a7c080; /* Everforest Green */
+}
+
+#img {
+  margin-right: 8px;
+}
+
+scrollbar,
+scrollbar trough,
+undershoot.top,
+undershoot.bottom {
+  min-width: 5px;
+  min-height: 5px;
+  background: none;
+}
+
+scrollbar slider {
+  background-color: #a7c080;
+}

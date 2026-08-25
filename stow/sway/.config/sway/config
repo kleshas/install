@@ -1,0 +1,214 @@
+include colors
+
+set $mod Mod4 
+ 
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $term kitty
+set $menu wofi
+
+# Start a terminal
+bindsym $mod+Return exec $term
+
+# Start your launcher
+bindsym $mod+d exec $menu
+    
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Drag floating windows by holding down $mod and left mouse button.
+floating_modifier $mod normal 
+
+# Reload the configuration file 
+bindsym $mod+Shift+r reload 
+
+# Exit sway (logs you out of your Wayland session) 
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit' 
+
+# Moving around: 
+bindsym $mod+$left focus left 
+bindsym $mod+$down focus down 
+bindsym $mod+$up focus up 
+bindsym $mod+$right focus right 
+
+bindsym $mod+Left focus left 
+bindsym $mod+Down focus down 
+bindsym $mod+Up focus up 
+bindsym $mod+Right focus right 
+
+# Move the focused window with the same, but add Shift 
+bindsym $mod+Shift+$left move left 
+bindsym $mod+Shift+$down move down 
+bindsym $mod+Shift+$up move up 
+bindsym $mod+Shift+$right move right 
+
+bindsym $mod+Shift+Left move left 
+bindsym $mod+Shift+Down move down 
+bindsym $mod+Shift+Up move up 
+bindsym $mod+Shift+Right move right 
+
+set $ws1 "1" 
+set $ws2 "2" 
+set $ws3 "3" 
+set $ws4 "4" 
+set $ws5 "5" 
+set $ws6 "6" 
+set $ws7 "7" 
+set $ws8 "8" 
+set $ws9 "9" 
+set $ws10 "0" 
+
+# Switch to workspace 
+bindsym $mod+1 workspace $ws1 
+bindsym $mod+2 workspace $ws2 
+bindsym $mod+3 workspace $ws3 
+bindsym $mod+4 workspace $ws4 
+bindsym $mod+5 workspace $ws5 
+bindsym $mod+6 workspace $ws6 
+bindsym $mod+7 workspace $ws7 
+bindsym $mod+8 workspace $ws8 
+bindsym $mod+9 workspace $ws9 
+bindsym $mod+0 workspace $ws10 
+
+# Move focused container to workspace 
+bindsym $mod+Shift+1 move container to workspace $ws1 
+bindsym $mod+Shift+2 move container to workspace $ws2 
+bindsym $mod+Shift+3 move container to workspace $ws3 
+bindsym $mod+Shift+4 move container to workspace $ws4 
+bindsym $mod+Shift+5 move container to workspace $ws5 
+bindsym $mod+Shift+6 move container to workspace $ws6 
+bindsym $mod+Shift+7 move container to workspace $ws7 
+bindsym $mod+Shift+8 move container to workspace $ws8 
+bindsym $mod+Shift+9 move container to workspace $ws9 
+bindsym $mod+Shift+0 move container to workspace $ws10 
+
+# Workspace default monitors 
+workspace $ws1 output DP-4 
+workspace $ws2 output DP-1 
+workspace $ws3 output DP-4 
+workspace $ws4 output DP-4 
+workspace $ws5 output DP-4 
+workspace $ws6 output DP-4 
+workspace $ws7 output DP-4 
+workspace $ws8 output DP-4 
+workspace $ws9 output DP-4 
+workspace $ws10 output DP-4 
+
+# Layout stuff: 
+bindsym $mod+b splith 
+bindsym $mod+v splitv 
+
+bindsym $mod+s layout stacking 
+bindsym $mod+w layout tabbed 
+bindsym $mod+e layout toggle split 
+
+bindsym $mod+f fullscreen 
+
+bindsym $mod+Shift+space floating toggle 
+bindsym $mod+space focus mode_toggle 
+bindsym $mod+a focus parent 
+
+# Scratchpad: 
+bindsym $mod+Shift+minus move scratchpad 
+bindsym $mod+minus scratchpad show 
+
+# Resizing containers: 
+mode "resize" { 
+    bindsym $left resize shrink width 10px 
+    bindsym $down resize grow height 10px 
+    bindsym $up resize shrink height 10px 
+    bindsym $right resize grow width 10px 
+
+    bindsym Left resize shrink width 10px 
+    bindsym Down resize grow height 10px 
+    bindsym Up resize shrink height 10px 
+    bindsym Right resize grow width 10px 
+
+    bindsym Return mode "default" 
+    bindsym Escape mode "default" 
+} 
+bindsym $mod+r mode "resize" 
+
+######### COLORS ########## 
+# target                  border       bg           text         indicator    child_border
+client.focused            $blue        $background  $foreground  $yellow      $foreground
+client.focused_inactive   $cyan        $black       $foreground  $yellow      $blue
+client.unfocused          $black       $black       $foreground  $yellow      $background
+client.urgent             $red         $black       $foreground  $red         $red
+client.placeholder        $yellow      $black       $foreground  $yellow      $blue
+client.background         $background
+
+# Bar
+bar {
+    swaybar_command waybar
+}
+
+bindsym $mod+Shift+a exec $term -e /home/bhava/.dotfiles/.scripts/theme-changer.sh
+bindsym $mod+Shift+w exec /home/bhava/.dotfiles/.scripts/swaybgwallpaper.sh
+bindsym $mod+Shift+s exec conky -c ~/.conkyrc 
+bindsym $mod+Shift+x exec $term -e /home/bhava/.dotfiles/.scripts/kamvas.sh 
+bindsym $mod+Shift+b exec $term -e /home/bhava/.dotfiles/.scripts/backup.sh 
+bindsym Control+Mod1+L exec swaylock -S --effect-blur 15x5 
+bindsym $mod+Print exec grim -g "$(slurp)" /mnt/SN850/STANDALONES/Pictures/screenshots/$(date +%Y-%m-%d_%H-%m-%s.png) 
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle 
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 1%- 
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 1%+ 
+bindsym XF86AudioPlay exec playerctl play-pause 
+
+# Colour picker
+bindsym $mod+c exec grim -g "$(slurp -p)" -t ppm - | convert - -format "%[pixel:p{0,0}]" txt:- | tail -n 1 | cut -d " " -f 4 | wl-copy 
+
+# Specify workspaces for applications 
+assign [class="Conky"] $ws2 
+assign [app_id="mullvad-vpn"] $ws3 
+assign [class="steam"] $ws5  
+assign [class="krita"] $ws8
+assign [app_id="md.obsidian.Obsidian"] $ws4
+assign [app_id="org.qbittorrent.qBittorrent"] $ws7 
+assign [app_id="Thunderbird"] $ws9 
+assign [app_id="org.keepassxc.KeePassXC"] $ws10
+assign [app_id="geany"] $ws3
+for_window [app_id="geany"] opacity 0.85
+for_window [app_id="thunar"] opacity 0.85
+
+# Floating 
+for_window [app_id="mpv"] floating enable 
+for_window [class="Steam"] floating enable 
+
+# Monitors
+output DP-4 mode 2560x1440@144Hz position 0,0 
+output DP-1 mode 2560x1440@75Hz position 0,-1440 
+
+# Hide gaps when there is only 1 window 
+smart_gaps off
+gaps inner 5 
+default_border pixel 2
+
+set $gnome-schema org.gnome.desktop.interface 
+exec_always { 
+    gsettings set $gnome-schema cursor-theme 'Bibata-Modern-Amber' 
+} 
+
+exec wal && feh --bg-tile "$(< "${HOME}/.cache/wal/wal")" && cp $(cat ~/.cache/wal/wal) ~/.cache/wal/wal.jpg && bash ~/.dotfiles/.scripts/httpserver.sh 
+exec_always /home/bhava/.dotfiles/.scripts/swaybgwallpaper.sh
+exec dunst 
+exec mullvad-vpn 
+exec gammastep-indicator -m wayland -l 48.42:-123.36 
+exec systemctl --user --now start wireplumber 
+exec ~/.dotfiles/.scripts/keepassxc.sh 
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+input * {
+    xkb_numlock enabled
+}
+
+input 1118:57:Microsoft_Microsoft_IntelliMouse___Optical { 
+    accel_profile adaptive 
+    pointer_accel 1 
+} 
+
+include /etc/sway/config.d/*

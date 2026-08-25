@@ -1,0 +1,83 @@
+/* Optimized Gruvbox Dark Medium */
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 18px;
+}
+
+window {
+  background-color: #282828; /* Gruvbox bg0 */
+  border: 2px solid #d65d0e; /* Gruvbox Orange */
+}
+
+#outer-box {
+  padding: 10px;
+  background-color: #282828;
+}
+
+#inner-box {
+  background-color: transparent;
+}
+
+#input {
+  background-color: #3c3836; /* Gruvbox bg1 */
+  color: #fbf1c7; /* Gruvbox fg0 */
+  border: 1px solid #504945; /* Gruvbox bg2 */
+  padding: 8px 12px;
+  margin: 10px;
+  border-radius: 35px;
+  outline: 1px solid #665c54; /* Gruvbox bg3 */
+}
+
+#input:focus {
+  border-color: #d65d0e; /* Gruvbox Orange */
+}
+
+#input image {
+  color: #d65d0e;
+  -gtk-icon-effect: none;
+}
+
+#input placeholder {
+  color: #928374; /* Gruvbox Gray */
+}
+
+#scroll {
+  margin: 0 8px 8px 8px;
+}
+
+#entry {
+  background-color: #282828;
+}
+
+#entry:selected {
+  background-color: #3c3836; /* Gruvbox bg1 */
+}
+
+#entry:hover {
+  background-color: #504945; /* Gruvbox bg2 */
+}
+
+#text {
+  color: #fbf1c7; /* Gruvbox fg0 */
+}
+
+#text:selected {
+  color: #fabd2f; /* Gruvbox Yellow */
+}
+
+#img {
+  margin-right: 8px;
+}
+
+scrollbar,
+scrollbar trough,
+undershoot.top,
+undershoot.bottom {
+  min-width: 5px;
+  min-height: 5px;
+  background: none;
+}
+
+scrollbar slider {
+  background-color: #d65d0e;
+}

@@ -1,0 +1,23 @@
+/* material-nord-blue.css */
+
+@define-color primary           #88c0d0; /* Nord Frost Blue (Primary Glowing Accent) */
+@define-color on-primary        #2e3440; /* Nord Night 0 (Deep Polar Night Text) */
+@define-color primary-container #3b4252; /* Nord Night 1 (Dark Container Base) */
+@define-color on-primary-container #88c0d0; /* Nord Frost Blue Container Accent text */
+
+@define-color secondary         #81a1c1; /* Nord Frost Blue Secondary (Deep Ice Blue) */
+@define-color on-secondary      #2e3440; /* Nord Night 0 Text over Deep Ice Blue */
+
+@define-color tertiary          #5e81ac; /* Nord Frost Blue Dark (Deep Sea Blue) */
+
+@define-color background        #2e3440; /* Nord Night 0 (Deepest Polar Background) */
+@define-color on-background     #88c0d0; /* Nord Frost Blue Standard Text/Labels */
+
+@define-color surface           #3b4252; /* Nord Night 1 (Dark Module Capsule Backgrounds) */
+@define-color on-surface        #88c0d0; /* Nord Frost Blue Accent Text over surfaces */
+@define-color surface-variant   #434c5e; /* Nord Night 2 (Tonal Gray Background Layers) */
+@define-color on-surface-variant #81a1c1; /* Nord Frost Blue Secondary Icons/Details */
+
+@define-color outline           #88c0d0; /* Nord Frost Blue Layout Border Lines */
+
+@define-color error             #bf616a; /* Nord Aurora Red (Alert / Critical states) */

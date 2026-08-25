@@ -1,0 +1,62 @@
+@import url("http://localhost:8000/colors.css");
+
+header { 
+display: none;
+}
+
+body {
+background-image: url("http://127.0.0.1:8000/wal.jpg");
+--color-border: var(--color5);
+--color-background: var(--color0);
+--color-text: var(--color14);
+--color-accent: var(--color13);
+--color-info: #666d7b;
+--color-success: #408062;
+--color-warning: #af8a1a;
+--color-danger: #8b4848;
+		}
+
+.folder { 
+border-style: double;
+border-radius: 12px;
+border-width: 6px;
+margin-top: -20vh;
+width: 325px;
+height: 1200px;
+padding: 0px 0px 0px 0px;
+--color-border: var(--color1);
+position: fixed;
+top: 40px;
+transform: none;
+margin: 0 0 0 -1px!important; /* margin is set by javascript, so `!important` is needed to overwrite it */
+			}
+
+.folder-items { min-height: calc(100vh - 20px); max-height: calc(100vh - 20px); }
+
+.folder-mqma3aQPuoTN {
+	left: 25px;
+	}
+	
+.folder-njP80kP4mXgF {
+	left: 375px;
+	}
+
+.folder-dBeay7kwjwSl {
+	left: 725px;
+	}
+
+.folder-zqO21Z1nkYq2 {
+	left: 1075px;
+	}
+	
+.folder-ZHL6aVpigWf7 {
+	left: 1425px;
+	}
+	
+.folder--iah2jb7RlPo {
+	left: 1775px;
+	}
+	
+.folder-wakYyWiJ755C {
+	left: 2125px;
+	}

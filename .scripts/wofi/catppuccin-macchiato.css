@@ -1,0 +1,83 @@
+/* Optimized Catppuccin Macchiato - Blue Accent */
+* {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 18px;
+}
+
+window {
+  background-color: #24273a; /* Macchiato Base */
+  border: 2px solid #8cadff; /* Macchiato Blue */
+}
+
+#outer-box {
+  padding: 10px;
+  background-color: #24273a;
+}
+
+#inner-box {
+  background-color: transparent;
+}
+
+#input {
+  background-color: #363a4f; /* Macchiato Surface0 */
+  color: #cad3f5; /* Macchiato Text */
+  border: 1px solid #494d64; /* Macchiato Surface1 */
+  padding: 8px 12px;
+  margin: 10px;
+  border-radius: 35px;
+  outline: 1px solid #5b6078; /* Macchiato Surface2 */
+}
+
+#input:focus {
+  border-color: #8cadff; /* Macchiato Blue */
+}
+
+#input image {
+  color: #8cadff;
+  -gtk-icon-effect: none;
+}
+
+#input placeholder {
+  color: #6e738d; /* Macchiato Overlay0 */
+}
+
+#scroll {
+  margin: 0 8px 8px 8px;
+}
+
+#entry {
+  background-color: #24273a;
+}
+
+#entry:selected {
+  background-color: #363a4f; /* Macchiato Surface0 */
+}
+
+#entry:hover {
+  background-color: #494d64; /* Macchiato Surface1 */
+}
+
+#text {
+  color: #cad3f5; /* Macchiato Text */
+}
+
+#text:selected {
+  color: #8cadff; /* Macchiato Blue */
+}
+
+#img {
+  margin-right: 8px;
+}
+
+scrollbar,
+scrollbar trough,
+undershoot.top,
+undershoot.bottom {
+  min-width: 5px;
+  min-height: 5px;
+  background: none;
+}
+
+scrollbar slider {
+  background-color: #8cadff;
+}
