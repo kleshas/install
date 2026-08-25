@@ -16,7 +16,7 @@ if ! grep -q "^\[multilib\]" /etc/pacman.conf; then
 fi
 
 # Initialize package databases
-sudo pacman -Sy
+sudo pacman -Syu
 
 # --- APP CONFIGURATION LISTS ---
 PACMAN_APPS=(
