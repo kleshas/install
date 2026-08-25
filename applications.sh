@@ -1,35 +1,3 @@
-Your script is well-structured and functional, but a few areas carry potential bugs or inefficiencies—particularly around **`sudo` execution**, **AUR package placement**, and **destructive file operations**.
-
----
-
-### Key Suggested Improvements
-
-1. **Root Pre-Flight Check**
-* Since this script modifies system files with `sudo`, checking or acquiring root credentials at the start prevents half-executed states if `sudo` times out.
-
-
-2. **Pacman Sy + System Sync Bug**
-* Running `pacman -Sy` alone creates a partial-upgrade scenario (discouraged in Arch Linux). Instead, let `pacman -S --needed --noconfirm` or `pacman -Syu` handle full synchronization.
-
-
-3. **Packages in wrong repositories (Pacman vs. AUR)**
-* `xorg-xwayland`, `qt5-wayland`, `qt6-wayland`, `wl-clipboard`, `swaybg`, `wofi`, `slurp`, `gammastep`, and `xdg-desktop-portal-gtk` exist directly in the official Arch repositories (`PACMAN_APPS`). Moving them out of `AUR_APPS` speeds up installation and prevents unnecessary AUR builds.
-
-
-4. **Destructive File Handling (`rm -f` and `fstab` appending)**
-* Overwriting `.bashrc` or appending `fstab`/`crypttab` blindly on repeated script runs can corrupt those files or duplicate entries. Using a temporary backup (`.bak`) or check (`grep`) prevents accidental data loss.
-
-
-5. **Directory Restoration Guard**
-* When `cd "$HOME/.dotfiles/stow"` runs, if a failure happens before `cd`, subsequent commands like `stow *` run in the wrong folder. A `pushd`/`popd` structure or subshell fixes this cleanly.
-
-
-
----
-
-### Refactored Script
-
-```bash
 #!/usr/bin/env bash
 
 set -euo pipefail
@@ -157,5 +125,3 @@ echo "==> Sweeping pacman cache..."
 sudo pacman -Sc --noconfirm
 
 echo "==> Installation completely finished! System ready for restart."
-
-```
