@@ -224,8 +224,6 @@ Name=en*
 DHCP=yes
 NETWORK
 
-ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-
 sed -i 's/^HOOKS=(.*)/HOOKS=(base systemd microcode autodetect modconf block sd-encrypt filesystems fsck)/' /etc/mkinitcpio.conf
 mkinitcpio -P
 
