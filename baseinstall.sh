@@ -194,7 +194,17 @@ info "8. Configuring System via Chroot"
 arch-chroot /mnt /bin/bash <<EOF
 set -euo pipefail
 
+# 1. Parallel Downloads in pacman.conf
 sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
+# 2. Disable debug packages
+sed -i '/^OPTIONS=/s/\bdebug\b/!debug/' /etc/makepkg.conf
+# 3. Use all available CPU cores for building
+CORES=$(nproc)
+sed -i "s/^#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j${CORES}\"/" /etc/makepkg.conf
+# 4. Native architecture optimizations
+sed -i 's/-march=x86-64 -mtune=generic/-march=native/' /etc/makepkg.conf
+# 5. Multi-threaded zstd compression
+sed -i 's/COMPRESSZST=(zstd -c -z -q -)/COMPRESSZST=(zstd -c -z -q -T0 -)/' /etc/makepkg.conf
 
 ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 hwclock --systohc
