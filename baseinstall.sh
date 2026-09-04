@@ -199,8 +199,7 @@ sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 # 2. Disable debug packages
 sed -i '/^OPTIONS=/s/\bdebug\b/!debug/' /etc/makepkg.conf
 # 3. Use all available CPU cores for building
-CORES=$(nproc)
-sed -i "s/^#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j${CORES}\"/" /etc/makepkg.conf
+sed -i "s/^#\?MAKEFLAGS=\"-j[0-9]\+\"/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
 # 4. Native architecture optimizations
 sed -i 's/-march=x86-64 -mtune=generic/-march=native/' /etc/makepkg.conf
 # 5. Multi-threaded zstd compression
