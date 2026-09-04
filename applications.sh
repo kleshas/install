@@ -108,9 +108,7 @@ echo "--protocol https --age 12 --sort rate --latest 5 --save /etc/pacman.d/mirr
 sudo systemctl enable reflector.service cups.service fstrim.timer prelockd.service
 
 # Append crypttab/fstab safely (prevents duplicate lines if re-run)
-if [ -f "$HOME/.dotfiles/crypttab" ] && ! grep -q "root" /etc/crypttab; then
-    cat "$HOME/.dotfiles/crypttab" | sudo tee -a /etc/crypttab > /dev/null
-fi
+    cat "$HOME/.dotfiles/crypttab" | sudo tee /etc/crypttab > /dev/null
 
 if [ -f "$HOME/.dotfiles/fstab" ]; then
     sudo cp /etc/fstab /etc/fstab.bak
