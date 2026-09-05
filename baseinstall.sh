@@ -257,4 +257,4 @@ EOF
 
 echo "ibt=off no longer needed for virtualbox functionality"
 
-ok "System configuration completed successfully."
+"System configuration completed successfully."
