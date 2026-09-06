@@ -35,7 +35,7 @@ PACMAN_APPS=(
     pipewire pipewire-alsa pipewire-pulse qbittorrent qt5-wayland qt6-wayland reflector
     slurp smartmontools steam stow swaybg sysstat thunar thunar-archive-plugin
     thunderbird ttf-dejavu ttf-droid ttf-liberation unrar virtualbox vulkan-icd-loader
-    vulkan-intel vulkan-radeon waybar wget wine-staging wl-clipboard wofi xf86-video-amdgpu
+    vulkan-intel vulkan-radeon waybar wget wine-staging wl-clipboard xf86-video-amdgpu
     xdg-desktop-portal-gtk xorg-xlsclients xorg-xwayland zathura
 )
 
