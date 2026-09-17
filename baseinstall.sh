@@ -219,7 +219,7 @@ echo "root:$ROOT_PASSWORD" | chpasswd
 useradd -m -G wheel -s /bin/bash $USER_NAME
 echo "$USER_NAME:$USER_PASSWORD" | chpasswd
 echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers.d/wheel
-echo "bhava ALL=(ALL) NOPASSWORD: /usr/sbin/ss, /usr/bin/ss" >> /etc/sudoers.d/wheel
+echo "bhava ALL=(ALL) NOPASSWD: /usr/sbin/ss, /usr/bin/ss" >> /etc/sudoers.d/wheel
 
 systemctl enable systemd-networkd
 systemctl enable systemd-resolved
