@@ -194,23 +194,6 @@ info "8. Configuring System via Chroot"
 arch-chroot /mnt /bin/bash <<EOF
 set -euo pipefail
 
-# 1. Parallel Downloads in pacman.conf
-sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
-# 2. Disable debug packages
-sed -i '/^OPTIONS=/s/\bdebug\b/!debug/' /etc/makepkg.conf
-# 3. Use all available CPU cores for building
-sed -i "s/^#\?MAKEFLAGS=\"-j[0-9]\+\"/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
-# 4. Native architecture optimizations
-sed -i 's/-march=x86-64 -mtune=generic/-march=native/' /etc/makepkg.conf
-# 5. Multi-threaded zstd compression
-sed -i 's/COMPRESSZST=(zstd -c -z -q -)/COMPRESSZST=(zstd -c -z -q -T0 -)/' /etc/makepkg.conf
-# 6. Add chaotic-AUR
-sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-sudo pacman-key --lsign-key 3056513887B78AEB
-sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-echo "[chaotic-aur]" >> /etc/pacman.conf
-echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
-
 ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 hwclock --systohc
 
@@ -239,6 +222,26 @@ Name=en*
 [Network]
 DHCP=yes
 NETWORK
+
+# 1. Parallel Downloads in pacman.conf
+sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
+# 2. Disable debug packages
+sed -i '/^OPTIONS=/s/\bdebug\b/!debug/' /etc/makepkg.conf
+# 3. Use all available CPU cores for building
+sed -i "s/^#\?MAKEFLAGS=\"-j[0-9]\+\"/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.conf
+# 4. Native architecture optimizations
+sed -i 's/-march=x86-64 -mtune=generic/-march=native/' /etc/makepkg.conf
+# 5. Multi-threaded zstd compression
+sed -i 's/COMPRESSZST=(zstd -c -z -q -)/COMPRESSZST=(zstd -c -z -q -T0 -)/' /etc/makepkg.conf
+# 6. Add chaotic-AUR
+pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+pacman-key --lsign-key 3056513887B78AEB
+pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+cat << 'REPO' >> /etc/pacman.conf
+
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist
+REPO
 
 sed -i 's/^HOOKS=(.*)/HOOKS=(base systemd microcode autodetect modconf block sd-encrypt filesystems fsck)/' /etc/mkinitcpio.conf
 mkinitcpio -P
