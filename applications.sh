@@ -33,7 +33,7 @@ PACMAN_APPS=(
     lib32-vulkan-radeon libappindicator-gtk3 libreoffice-fresh libva-mesa-driver
     linux-headers lutris man-db mesa mpg123 mpv ncdu noto-fonts-emoji obsidian opencl-icd-loader otf-montserrat pacman-contrib pavucontrol
     pipewire pipewire-alsa pipewire-pulse python-pipx qbittorrent qt5-wayland qt5ct qt6-wayland reflector
-    slurp smartmontools steam stow swaybg sysstat thunar thunar-archive-plugin
+    slurp smartmontools steam stow swaybg swaylock sysstat thunar thunar-archive-plugin
     thunderbird ttf-dejavu ttf-droid ttf-liberation unrar virtualbox vulkan-icd-loader
     vulkan-intel vulkan-radeon waybar wget wine-staging wl-clipboard wofi xf86-video-amdgpu
     xdg-desktop-portal-gtk xorg-xlsclients xorg-xwayland zathura
@@ -43,8 +43,7 @@ AUR_APPS=(
     amdsmi amdgpu_top bibata-cursor-theme-bin catppuccin-gtk-theme-frappe
     catppuccin-gtk-theme-macchiato catppuccin-gtk-theme-mocha catppuccin-qt5ct-git
     downgrade glfw-wayland heroic-games-launcher-bin mcomix nsxiv-demon nwg-look otf-font-awesome
-    prelockd prismlauncher protontricks qt5ct swaylock-effects swaytools tartube
-    ttf-jetbrains-mono-nerd wpgtk xnconvert ydotool
+    prelockd prismlauncher protontricks qt5ct swaytools tartube wpgtk xnconvert ydotool
 )
 
 # ==> Synchronize official packages
