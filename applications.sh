@@ -41,8 +41,7 @@ PACMAN_APPS=(
 
 AUR_APPS=(
     amdsmi amdgpu_top bibata-cursor-theme-bin catppuccin-gtk-theme-frappe
-    catppuccin-gtk-theme-macchiato catppuccin-gtk-theme-mocha catppuccin-qt5ct-git
-    downgrade glfw-wayland heroic-games-launcher-bin mcomix nsxiv-demon nwg-look otf-font-awesome
+    catppuccin-gtk-theme-macchiato catppuccin-gtk-theme-mocha downgrade glfw-wayland heroic-games-launcher-bin mcomix nsxiv-demon nwg-look otf-font-awesome
     prelockd prismlauncher protontricks qt5ct swaytools tartube wpgtk xnconvert ydotool
 )
 
