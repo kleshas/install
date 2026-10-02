@@ -44,7 +44,7 @@ AUR_APPS=(
     catppuccin-gtk-theme-macchiato catppuccin-gtk-theme-mocha catppuccin-qt5ct-git
     downgrade glfw-wayland heroic-games-launcher-bin mcomix nsxiv-demon nwg-look otf-font-awesome
     prelockd prismlauncher protontricks qt5ct swaylock-effects swaytools tartube
-    ttf-jetbrains-mono-nerd xnconvert ydotool
+    ttf-jetbrains-mono-nerd wpgtk xnconvert ydotool
 )
 
 # ==> Synchronize official packages
