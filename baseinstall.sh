@@ -191,7 +191,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 ROOT_UUID=$(blkid -s UUID -o value "$PART_ROOT")
 
 info "8. Configuring System via Chroot"
-arch-chroot /mnt /bin/bash <<'EOF'
+arch-chroot /mnt /bin/bash <<EOF
 set -euo pipefail
 
 ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
@@ -233,15 +233,6 @@ sed -i "s/^#\?MAKEFLAGS=\"-j[0-9]\+\"/MAKEFLAGS=\"-j$(nproc)\"/" /etc/makepkg.co
 sed -i 's/-march=x86-64 -mtune=generic/-march=native/' /etc/makepkg.conf
 # 5. Multi-threaded zstd compression
 sed -i 's/COMPRESSZST=(zstd -c -z -q -)/COMPRESSZST=(zstd -c -z -q -T0 -)/' /etc/makepkg.conf
-# 6. Add chaotic-AUR
-pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-pacman-key --lsign-key 3056513887B78AEB
-pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-cat << 'REPO' >> /etc/pacman.conf
-
-[chaotic-aur]
-Include = /etc/pacman.d/chaotic-mirrorlist
-REPO
 
 sed -i 's/^HOOKS=(.*)/HOOKS=(base systemd microcode autodetect modconf block sd-encrypt filesystems fsck)/' /etc/mkinitcpio.conf
 mkinitcpio -P
@@ -267,4 +258,4 @@ EOF
 
 echo "ibt=off no longer needed for virtualbox functionality"
 
-"System configuration completed successfully."
+echo "System configuration completed successfully."
