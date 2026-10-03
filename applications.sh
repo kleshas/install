@@ -25,13 +25,13 @@ fi
 # --- APP CONFIGURATION LISTS ---
 # (Moved official Arch repo packages out of AUR array and into PACMAN_APPS)
 PACMAN_APPS=(
-    alsa-utils android-file-transfer btrfs-progs calibre conky cups dunst feh
+    alsa-utils android-file-transfer btrfs-progs calibre conky cups feh
     file-roller firefox gammastep geany geany-plugins git gnucash grim grsync gthumb gvfs
     hplip htop hunspell-en_ca hyphen-en imagemagick jdk-openjdk jdk8-openjdk
     keepassxc kitty lib32-gnutls lib32-gtk3 lib32-libva lib32-libva-mesa-driver
     lib32-libxcomposite lib32-libxinerama lib32-mesa lib32-opencl-icd-loader lib32-pipewire lib32-vulkan-icd-loader lib32-vulkan-intel
     lib32-vulkan-radeon libappindicator-gtk3 libreoffice-fresh libva-mesa-driver
-    linux-headers lutris man-db mesa mpg123 mpv ncdu noto-fonts-emoji obsidian opencl-icd-loader otf-montserrat pacman-contrib pavucontrol
+    linux-headers lutris mako man-db mesa mpg123 mpv ncdu noto-fonts-emoji obsidian opencl-icd-loader otf-montserrat pacman-contrib pavucontrol
     pipewire pipewire-alsa pipewire-pulse python-pipx qbittorrent qt5-wayland qt5ct qt6-wayland reflector
     slurp smartmontools steam stow swaybg swayidle swaylock sysstat thunar thunar-archive-plugin
     thunderbird ttf-dejavu ttf-droid ttf-liberation unrar virtualbox vulkan-icd-loader
