@@ -204,7 +204,7 @@ echo "LANG=$LOCALE" > /etc/locale.conf
 echo "$HOSTNAME" > /etc/hostname
 
 echo "%wheel ALL=(ALL:ALL) ALL" >> /etc/sudoers.d/wheel
-echo "bhava ALL=(ALL) NOPASSWD: /usr/sbin/ss, /usr/bin/ss" >> /etc/sudoers.d/wheel
+echo "bhava ALL=(ALL) NOPASSWD: /usr/sbin/ss, /usr/bin/ss, /usr/bin/smartctl" >> /etc/sudoers.d/wheel
 
 systemctl enable systemd-networkd
 systemctl enable systemd-resolved
