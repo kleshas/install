@@ -4,7 +4,7 @@
 set -euo pipefail
 
 # --- LOGGING & COLOR DEFINITIONS (Inspired by amelia.sh) ---
-LOG_FILE="/tmp/arch-install.log"
+LOG_FILE="/home/bhava/arch-install.log"
 exec > >(tee -a "${LOG_FILE}") 2>&1
 
 RED='\033[0;31m'
