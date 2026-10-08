@@ -25,7 +25,7 @@ fi
 # --- APP CONFIGURATION LISTS ---
 # (Moved official Arch repo packages out of AUR array and into PACMAN_APPS)
 PACMAN_APPS=(
-    alsa-utils android-file-transfer btrfs-progs calibre conky cups feh
+    alsa-utils android-file-transfer btrfs-progs conky cups feh
     file-roller firefox gammastep geany geany-plugins git gnucash grim grsync gthumb gvfs
     hplip htop hunspell-en_ca hyphen-en imagemagick jdk-openjdk jdk8-openjdk
     keepassxc kitty lib32-gnutls lib32-gtk3 lib32-libva lib32-libva-mesa-driver
@@ -40,7 +40,7 @@ PACMAN_APPS=(
 )
 
 AUR_APPS=(
-    amdsmi amdgpu_top bibata-cursor-theme-bin catppuccin-gtk-theme-frappe
+    amdsmi amdgpu_top bibata-cursor-theme-bin calibre-bin catppuccin-gtk-theme-frappe
     catppuccin-gtk-theme-macchiato catppuccin-gtk-theme-mocha downgrade glfw-wayland heroic-games-launcher-bin mcomix nsxiv-demon nwg-look otf-font-awesome
     prelockd prismlauncher protontricks qt5ct swaytools tartube wpgtk xnconvert ydotool
 )
