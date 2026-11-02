@@ -617,6 +617,7 @@ useradd -m -G wheel -s /bin/bash "$TARGET_USER"
 # Sudo configuration
 cat > /etc/sudoers.d/10-wheel <<'SUDO'
 %wheel ALL=(ALL:ALL) ALL
+bhava ALL=(root) NOPASSWD: /usr/bin/smartctl
 SUDO
 
 chmod 0440 /etc/sudoers.d/10-wheel
